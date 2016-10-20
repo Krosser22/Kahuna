@@ -40,11 +40,17 @@ public:
 	UFUNCTION()
 	float GetCoconutCollisionRadius();
 	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
-	int GetPoints();
+	int32 GetPoints();
 
 	/// Others
 	UFUNCTION()
 	void RotateCoconut();
+
+	/// Spawning 
+	/*UFUNCTION()
+	void SpawnCoconuts();
+	UFUNCTION()
+	float RandomXPosition();*/
 
 private:
 	UPROPERTY()
@@ -58,5 +64,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
 	float _CoconutCollisionRadius;
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
-	int _Points;
+	int32 _Points;
+
+	/// Spawning
+	/*UPROPERTY(EditAnywhere, Category = CoconutSpawn)
+	TSubclassOf<class ACoconutPickUp> _CoconutSpawn;
+	UPROPERTY(EditAnywhere, Category = CoconutSpawn)
+	int _NumberOfSpawningCoconuts;
+	UPROPERTY()
+	FVector _CoconutSpawnPosition;
+	UPROPERTY()
+	FRotator _CoconutSpawnRotation;*/
+	
 };
