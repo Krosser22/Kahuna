@@ -39,7 +39,7 @@ public:
 	FRotator GetCoconutRotation();
 	UFUNCTION()
 	float GetCoconutCollisionRadius();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
 	int GetPoints();
 
 	/// Others
