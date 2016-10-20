@@ -21,24 +21,29 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/// Unreal
+	/// Events from Unreal.
 	virtual void OnConstruction(const FTransform& Transform) override;
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 	UFUNCTION()
 	void OnOverlapEnd(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {};
 
-	/// Getters
+	/// Get Collision.
 	UFUNCTION()
 	USphereComponent* GetCoconutCollision();
+	/// Get Mesh.
 	UFUNCTION()
 	UStaticMeshComponent* GetCoconutMesh();
+	/// Get Rotation Velocity.
 	UFUNCTION()
 	FVector GetCoconutVelocityRotation();
+	/// Get Rotation Itself.
 	UFUNCTION()
 	FRotator GetCoconutRotation();
+	/// Get Collision Radius.
 	UFUNCTION()
 	float GetCoconutCollisionRadius();
+	/// Get Points.
 	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
 	int32 GetPoints();
 
@@ -53,16 +58,22 @@ public:
 	float RandomXPosition();*/
 
 private:
+	/// Sphere Collision.
 	UPROPERTY()
 	USphereComponent* _CoconutCollision;
+	/// Mesh.
 	UPROPERTY()
 	UStaticMeshComponent* _CoconutMesh;
+	/// Rotation Velocity.
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
 	FVector _CoconutVelocityRotation;
+	/// Rotation itself.
 	UPROPERTY()
 	FRotator _CoconutRotation;
+	/// Radius Sphere Collision.
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
 	float _CoconutCollisionRadius;
+	/// Number of points.
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
 	int32 _Points;
 

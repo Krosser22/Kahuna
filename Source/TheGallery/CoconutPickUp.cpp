@@ -13,20 +13,23 @@ ACoconutPickUp::ACoconutPickUp()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	/// Create Collision
 	_CoconutCollision = CreateDefaultSubobject<USphereComponent>(TEXT("CoconutCollision"));
 	_CoconutCollision->SetCollisionProfileName(TEXT("SphereCollision"));
 	RootComponent = _CoconutCollision;
 	
+	/// Create Mesh
 	_CoconutMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CoconutMesh"));
 	_CoconutMesh->SetupAttachment(RootComponent);
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CoconutMeshAsset(TEXT("/Game/Meshes/SM_Sphere.SM_Sphere"));
 	if (CoconutMeshAsset.Succeeded())
 		_CoconutMesh->SetStaticMesh(CoconutMeshAsset.Object);	
 		
-
+	/// Add Events
 	_CoconutCollision->OnComponentBeginOverlap.AddDynamic(this, &ACoconutPickUp::OnOverlapBegin);
 	_CoconutCollision->OnComponentEndOverlap.AddDynamic(this, &ACoconutPickUp::OnOverlapEnd);
 	
+	/// Initialize
 	_CoconutCollisionRadius = 100.0f;
 	_CoconutCollision->InitSphereRadius(100.0f);
 	_CoconutVelocityRotation = FVector(0.0f,0.0f,0.0f);

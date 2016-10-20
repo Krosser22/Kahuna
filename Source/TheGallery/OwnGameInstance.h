@@ -13,17 +13,18 @@ class THEGALLERY_API UOwnGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 public:	
-	/// Getter
+	/// Get number of points obtained.
 	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
 	int32 GetTotalPointsCoconuts();
-	/// Setter
+	/// Set number of points obtained.
 	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
 	void SetTotalPointsCoconuts(int32 points);
-	/// Other
+	/// Add points.
 	UFUNCTION()
 	void IncreaseTotalPointsCoconuts(int32 points);
 
 private:
+	/// Number of points obtained.
 	UPROPERTY()
 	int32 _TotalPointsCoconuts;
 
