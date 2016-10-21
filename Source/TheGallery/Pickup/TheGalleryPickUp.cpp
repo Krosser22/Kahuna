@@ -20,9 +20,6 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 	/// Create Mesh
 	_CoconutMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CoconutMesh"));
 	_CoconutMesh->SetupAttachment(RootComponent);
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CoconutMeshAsset(TEXT("/Game/Meshes/SM_Sphere.SM_Sphere"));
-	if (CoconutMeshAsset.Succeeded())
-		_CoconutMesh->SetStaticMesh(CoconutMeshAsset.Object);	
 		
 	/// Add Events
 	_CoconutCollision->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryPickUp::OnOverlapBegin);

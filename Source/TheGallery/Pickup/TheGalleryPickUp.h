@@ -62,7 +62,7 @@ private:
 	UPROPERTY()
 	USphereComponent* _CoconutCollision;
 	/// Mesh.
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
 	UStaticMeshComponent* _CoconutMesh;
 	/// Rotation Velocity.
 	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
