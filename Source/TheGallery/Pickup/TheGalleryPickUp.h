@@ -21,70 +21,58 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/// Events from Unreal.
+	// Events from Unreal.
 	virtual void OnConstruction(const FTransform& Transform) override;
-	UFUNCTION()
-	void OnOverlapBegin(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {};
 
-	/// Get Collision.
 	UFUNCTION()
-	USphereComponent* GetCoconutCollision();
-	/// Get Mesh.
-	UFUNCTION()
-	UStaticMeshComponent* GetCoconutMesh();
-	/// Get Rotation Velocity.
-	UFUNCTION()
-	FVector GetCoconutVelocityRotation();
-	/// Get Rotation Itself.
-	UFUNCTION()
-	FRotator GetCoconutRotation();
-	/// Get Collision Radius.
-	UFUNCTION()
-	float GetCoconutCollisionRadius();
-	/// Get Points.
-	UFUNCTION(BlueprintCallable, Category = CoconutPickUp)
+	void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+	// Get Points.
+	UFUNCTION(BlueprintCallable, Category = PickUp)
 	int32 GetPoints();
 
-	/// Others
+	// Others
 	UFUNCTION()
-	void RotateCoconut();
+	void RotatePickup(float DeltaTime);
 
-	/// Spawning 
-	/*UFUNCTION()
+	/*
+	// Spawning
+	UFUNCTION()
 	void SpawnCoconuts();
 	UFUNCTION()
-	float RandomXPosition();*/
+	float RandomXPosition();
+	*/
 
 private:
-	/// Sphere Collision.
-	UPROPERTY()
-	USphereComponent* _CoconutCollision;
-	/// Mesh.
-	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
-	UStaticMeshComponent* _CoconutMesh;
-	/// Rotation Velocity.
-	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
-	FVector _CoconutVelocityRotation;
-	/// Rotation itself.
-	UPROPERTY()
-	FRotator _CoconutRotation;
-	/// Radius Sphere Collision.
-	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
-	float _CoconutCollisionRadius;
-	/// Number of points.
-	UPROPERTY(EditAnywhere, Category = CoconutPickUp)
-	int32 _Points;
+	// Sphere Collision.
+	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* CollisionComponent;
 
-	/// Spawning
-	/*UPROPERTY(EditAnywhere, Category = CoconutSpawn)
+	// Mesh.
+	UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent *Mesh;
+
+	// Rotation Velocity.
+	UPROPERTY(EditAnywhere, Category = PickUp)
+	float RotationSpeed;
+
+	// Radius Sphere Collision.
+	UPROPERTY(EditAnywhere, Category = PickUp)
+	float CollisionRadius;
+
+	// Number of points.
+	UPROPERTY(EditAnywhere, Category = PickUp)
+	int32 Points;
+
+	// Spawning (enemies)
+	/*
+	UPROPERTY(EditAnywhere, Category = CoconutSpawn)
 	TSubclassOf<class ATheGalleryPickUp> _CoconutSpawn;
 	UPROPERTY(EditAnywhere, Category = CoconutSpawn)
 	int _NumberOfSpawningCoconuts;
 	UPROPERTY()
 	FVector _CoconutSpawnPosition;
 	UPROPERTY()
-	FRotator _CoconutSpawnRotation;*/
-	
+	FRotator _CoconutSpawnRotation;
+	*/
 };
