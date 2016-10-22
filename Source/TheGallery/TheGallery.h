@@ -4,5 +4,8 @@
 #define __THEGALLERY_H__
 
 #include "EngineMinimal.h"
+#include <Engine.h>
+
+void DebugLog(FString msg);
 
 #endif

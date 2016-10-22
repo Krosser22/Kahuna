@@ -2,27 +2,53 @@
 
 #include "TheGallery.h"
 #include "GroundSpikeTrap.h"
-
+#include "Character/TheGalleryCharacter.h"
 
 // Sets default values
-AGroundSpikeTrap::AGroundSpikeTrap()
+AGroundSpikeTrap::AGroundSpikeTrap(const class FObjectInitializer& PCIP)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+  // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+  PrimaryActorTick.bCanEverTick = true;
 
+  // Create Scene
+  sceneComp_ = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
+  SetRootComponent(sceneComp_);
+
+  // Create Collision
+  collisionComponent_ = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+  collisionComponent_->SetCollisionProfileName(TEXT("BoxCollision"));
+  collisionComponent_->InitBoxExtent(FVector(10, 10, 1));
+  collisionComponent_->AttachTo(sceneComp_);
+  collisionComponent_->OnComponentBeginOverlap.AddDynamic(this, &AGroundSpikeTrap::OnBeginOverlap);
+
+  // Create Mesh
+  mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+  mesh_->AttachTo(sceneComp_);
 }
 
 // Called when the game starts or when spawned
 void AGroundSpikeTrap::BeginPlay()
 {
-	Super::BeginPlay();
-	
+  Super::BeginPlay();
 }
 
 // Called every frame
-void AGroundSpikeTrap::Tick( float DeltaTime )
+void AGroundSpikeTrap::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
-
+  Super::Tick(DeltaTime);
 }
 
+void AGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+  ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
+
+  if (Character)
+  {
+    // Kill character
+    DebugLog("HIT");
+  }
+  else
+  {
+    // (Cast to enemy), (if it is an enemy) --> kill enemy
+  }
+}

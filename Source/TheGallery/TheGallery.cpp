@@ -4,4 +4,11 @@
 
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, TheGallery, "TheGallery" );
- 
+
+void DebugLog(FString msg)
+{
+  if (GEngine)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, msg);
+  }
+}
