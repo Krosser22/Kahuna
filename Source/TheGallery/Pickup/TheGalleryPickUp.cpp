@@ -3,8 +3,7 @@
 #include "TheGallery.h"
 #include "Pickup/TheGalleryPickUp.h"
 #include "Character/TheGalleryCharacter.h"
-#include "Engine.h"
-
+#include "Game/TheGalleryGameInstance.h"
 
 // Sets default values
 ATheGalleryPickUp::ATheGalleryPickUp()
@@ -20,13 +19,13 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 	CollisionComponent->InitSphereRadius(CollisionRadius);
 	CollisionComponent->SetupAttachment(RootComponent);
 
-
 	// Add Events
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryPickUp::OnBeginOverlap);
 
 	// Create Mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(CollisionComponent);
+	Mesh->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
 	// Initialize
 	RotationSpeed = 0.0f;
@@ -44,6 +43,7 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 void ATheGalleryPickUp::BeginPlay()
 {
 	Super::BeginPlay();
+	CollisionComponent->SetSphereRadius(CollisionRadius);
 	
 }
 
@@ -55,27 +55,17 @@ void ATheGalleryPickUp::Tick(float DeltaTime)
 	RotatePickup(DeltaTime);
 }
 
-void ATheGalleryPickUp::OnConstruction(const FTransform& Transform)
-{
-	CollisionComponent->SetSphereRadius(CollisionRadius);
-}
-
 void ATheGalleryPickUp::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	/*
 	ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
 
 	if (Character){
-		UOwnGameInstance* OGI = Cast<UOwnGameInstance>(GetGameInstance());
 
-		if (OGI){
-			OGI->IncreaseTotalPointsCoconuts(_Points);
 			
-			//SpawnCoconuts();
-			Destroy();
-		}
+		//SpawnCoconuts();*/
+		AddPoints();
+		Destroy();
 	}
-	*/
 }
 
 int32 ATheGalleryPickUp::GetPoints()
@@ -85,11 +75,18 @@ int32 ATheGalleryPickUp::GetPoints()
 
 void ATheGalleryPickUp::RotatePickup(float DeltaTime)
 {
-	/*
-	DeltaTime
-	RotationSpeed
-	Mesh->AddRelativeRotation();
-	*/
+	FRotator Rotation = FRotator(0.0f, RotationSpeed, 0.0f);
+	Mesh->AddRelativeRotation(Rotation * DeltaTime, false);
+}
+
+void ATheGalleryPickUp::AddPoints(){
+	UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+
+	if (GameInstance) {
+		int32 TotalPoints = GameInstance->GetPickUpPoints();
+		TotalPoints += Points;
+		GameInstance->SetPickUpPoints(TotalPoints);
+	}
 }
 
 /* 

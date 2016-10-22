@@ -20,10 +20,8 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
-
-	// Events from Unreal.
-	virtual void OnConstruction(const FTransform& Transform) override;
-
+	
+	// Overlap
 	UFUNCTION()
 	void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
@@ -31,9 +29,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	int32 GetPoints();
 
-	// Others
+	// Rotate
 	UFUNCTION()
 	void RotatePickup(float DeltaTime);
+
+	// Add Points
+	UFUNCTION(BlueprintCallable, Category = PickUp)
+	void AddPoints();
 
 	/*
 	// Spawning
