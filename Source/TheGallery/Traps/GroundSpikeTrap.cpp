@@ -45,7 +45,7 @@ void AGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class 
   if (Character)
   {
     // Kill character
-    DebugLog("HIT");
+    DebugLog("The Player has hit the Ground Spike Trap");
   }
   else
   {
