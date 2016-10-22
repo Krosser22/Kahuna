@@ -26,7 +26,7 @@ public:
 
 private:
   // Scene
-  UPROPERTY(Category = "GroundSpikeTrap", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+  UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     USceneComponent* sceneComp_;
 
   // Box Collision

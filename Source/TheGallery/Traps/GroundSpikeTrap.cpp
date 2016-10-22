@@ -18,12 +18,12 @@ AGroundSpikeTrap::AGroundSpikeTrap(const class FObjectInitializer& PCIP)
   collisionComponent_ = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
   collisionComponent_->SetCollisionProfileName(TEXT("BoxCollision"));
   collisionComponent_->InitBoxExtent(FVector(10, 10, 1));
-  collisionComponent_->AttachTo(sceneComp_);
+  collisionComponent_->SetupAttachment(sceneComp_);
   collisionComponent_->OnComponentBeginOverlap.AddDynamic(this, &AGroundSpikeTrap::OnBeginOverlap);
 
   // Create Mesh
   mesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-  mesh_->AttachTo(sceneComp_);
+  mesh_->SetupAttachment(sceneComp_);
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +49,6 @@ void AGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class 
   }
   else
   {
-    // (Cast to enemy), (if it is an enemy) --> kill enemy
+    // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
   }
 }
