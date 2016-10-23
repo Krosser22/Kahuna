@@ -5,6 +5,16 @@
 #include "GameFramework/Actor.h"
 #include "LilyPadTrap.generated.h"
 
+UENUM(BlueprintType) // "BlueprintType" is essential to include
+enum class ELilyPadState : uint8
+{
+  ELilyPadState_Waiting 	UMETA(DisplayName = "Waiting"),
+  ELilyPadState_PreparingToSink 	UMETA(DisplayName = "PreparingToSink"),
+  ELilyPadState_Sinking 	UMETA(DisplayName = "Sinking"),
+  ELilyPadState_WaitingToSinkOff	UMETA(DisplayName = "WaitingToSinkOff"),
+  ELilyPadState_SinkingOff	UMETA(DisplayName = "SinkingOff")
+};
+
 UCLASS()
 class THEGALLERY_API ALilyPadTrap : public AActor
 {
@@ -28,6 +38,18 @@ public:
   UFUNCTION()
     void Sink();
 
+  // Waiting To Sink Off
+  UFUNCTION()
+    void WaitingToSinkOff();
+
+  // Sink off
+  UFUNCTION()
+    void SinkOff();
+
+  // Finish of sink off
+  UFUNCTION()
+    void FinishOfSinkOff();
+
 private:
   // Scene
   UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -43,11 +65,14 @@ private:
 
   // Time until the lily pad will start sinking
   UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    float timeUntilSinking_;
+    float timeUntilSinking_ = 1;
 
   // Time to be sinked until the lily pad sink off
   UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    float timeToBeSinked_;
+    float timeToBeSinked_ = 1;
+  
+  // State of the lily pad
+  ELilyPadState state_;
 
   // Sink timer
   FTimerHandle sinkTimerHandle_;
