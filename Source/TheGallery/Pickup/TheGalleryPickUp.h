@@ -25,15 +25,18 @@ public:
 	UFUNCTION()
 	void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
-	// Get Points.
+	// Get quantity of points from one pickup.
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	int32 GetPoints();
 
-	// Rotate
+	/**
+	* Rotate a pickup.
+	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	*/
 	UFUNCTION()
 	void RotatePickup(float DeltaTime);
 
-	// Add Points
+	// Incresase player pickup points
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void AddPoints();
 
@@ -62,7 +65,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = PickUp)
 	float CollisionRadius;
 
-	// Number of points.
+	// Number of points from one pickup.
 	UPROPERTY(EditAnywhere, Category = PickUp)
 	int32 Points;
 

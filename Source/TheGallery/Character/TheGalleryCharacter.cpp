@@ -39,6 +39,25 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	bIsAPressed = false;
+	bIsDPressed = false;
+	bIsSPressed = false;
+	bIsWPressed = false;
+
+	D = CreateDefaultSubobject<USceneComponent>(TEXT("CameraD"));
+	D->SetRelativeLocationAndRotation(FVector(100.0f, -140.0f, 0.0f), FRotator(0.0f, 45.0f, 0.0f));
+	D->SetupAttachment(FollowCamera);
+
+	A = CreateDefaultSubobject<USceneComponent>(TEXT("CameraA"));
+	A->SetRelativeLocationAndRotation(FVector(100.0f, 140.0f, 0.0f), FRotator(0.0f, -45.0f, 0.0f));
+	A->SetupAttachment(FollowCamera);
+
+	WS = CreateDefaultSubobject<USceneComponent>(TEXT("CameraWS"));
+	WS->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 0.0f), FRotator(0.0f, 0.0f, 0.0f));
+	WS->SetupAttachment(FollowCamera);
+
+	CameraSpeed = 3;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -57,10 +76,10 @@ void ATheGalleryCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	/*InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	InputComponent->BindAxis("TurnRate", this, &ATheGalleryCharacter::TurnAtRate);
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	InputComponent->BindAxis("LookUpRate", this, &ATheGalleryCharacter::LookUpAtRate);
+	InputComponent->BindAxis("LookUpRate", this, &ATheGalleryCharacter::LookUpAtRate);*/
 
 	// handle touch devices
 	InputComponent->BindTouch(IE_Pressed, this, &ATheGalleryCharacter::TouchStarted);
@@ -101,6 +120,16 @@ void ATheGalleryCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
+		if (Value > 0)
+		{
+			bIsWPressed = true;
+			bIsAPressed = bIsSPressed = bIsDPressed = false;
+		}
+		else 
+		{
+			bIsSPressed = true;
+			bIsAPressed = bIsDPressed = bIsWPressed = false;
+		}
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -115,6 +144,17 @@ void ATheGalleryCharacter::MoveRight(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
+		if (Value > 0)
+		{
+			bIsDPressed = true;
+			bIsAPressed = bIsSPressed = bIsWPressed = false;
+		}
+		else
+		{
+			bIsAPressed = true;
+			bIsSPressed = bIsWPressed = bIsDPressed = false;
+		}
+
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -123,5 +163,42 @@ void ATheGalleryCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void ATheGalleryCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	MoveCamera(DeltaTime);
+}
+
+void ATheGalleryCharacter::MoveCamera(float DeltaTime)
+{
+	if (bIsDPressed) 
+	{
+		if (!bIsWPressed | !bIsAPressed | !bIsSPressed) 
+		{
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, D->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, D->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
+		}
+	}
+	else if (bIsAPressed) 
+	{
+		if (!bIsWPressed | !bIsDPressed | !bIsSPressed)
+		{
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, A->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, A->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
+		}
+	}
+	else if(bIsWPressed | bIsSPressed) {
+
+		if (!bIsAPressed | !bIsDPressed)
+		{
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, WS->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, WS->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
+		}
 	}
 }
