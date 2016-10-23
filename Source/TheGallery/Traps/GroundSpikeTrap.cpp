@@ -15,8 +15,7 @@ AGroundSpikeTrap::AGroundSpikeTrap(const class FObjectInitializer& PCIP)
   SetRootComponent(sceneComp_);
 
   // Create Collision
-  collisionComponent_ = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
-  collisionComponent_->SetCollisionProfileName(TEXT("BoxCollision"));
+  collisionComponent_ = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
   collisionComponent_->InitBoxExtent(FVector(10, 10, 1));
   collisionComponent_->SetupAttachment(sceneComp_);
   collisionComponent_->OnComponentBeginOverlap.AddDynamic(this, &AGroundSpikeTrap::OnBeginOverlap);

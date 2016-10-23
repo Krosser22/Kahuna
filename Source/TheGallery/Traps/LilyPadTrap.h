@@ -76,6 +76,4 @@ private:
 
   // Sink timer
   FTimerHandle sinkTimerHandle_;
-
-  bool isPreparingToSink_;
 };
