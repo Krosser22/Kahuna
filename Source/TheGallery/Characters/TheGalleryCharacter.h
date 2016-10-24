@@ -27,7 +27,6 @@ public:
 	float BaseLookUpRate;
 
 protected:
-
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
@@ -60,10 +59,13 @@ protected:
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
+
 	/**
 	* Move and rotate the camera (FollowCamera)
 	* @param DeltaTime - The time in seconds it took to complete the last frame.
@@ -71,24 +73,30 @@ public:
 	void MoveCamera(float DeltaTime);
 
 private:
-
 	// Check if A is pressed.
 	bool bIsAPressed;
+
 	// Check if D is pressed.
 	bool bIsDPressed;
+
 	// Check if S is pressed.
 	bool bIsSPressed;
+
 	// Check if W is pressed.
 	bool bIsWPressed;
-	//  New position and rotation when D is pressed.
+
+	// New position and rotation when D is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* D;
-	//  New position and rotation when A is pressed.
+
+	// New position and rotation when A is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* A;
-	//  New position and rotation when WS is pressed.
+
+	// New position and rotation when WS is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* WS;
+
 	// Camera Speed
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int32 CameraSpeed;
