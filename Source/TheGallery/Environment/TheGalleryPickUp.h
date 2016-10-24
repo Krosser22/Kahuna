@@ -12,20 +12,37 @@ class THEGALLERY_API ATheGalleryPickUp : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	/**
+	* Sets default values for this actor's properties.
+	*/
 	ATheGalleryPickUp();
 
-	// Called when the game starts or when spawned
+	/**
+	* Called when the game starts or when spawned.
+	*/
 	virtual void BeginPlay() override;
 	
-	// Called every frame
+	/**
+	* Update
+	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	*/
 	virtual void Tick( float DeltaSeconds ) override;
 	
-	// Overlap
+	/**
+	* Called when the object starts to overlap with a specific component.
+	* @param HitComp - Pointer to the Component you are hitting with. 
+	* @param OtherActor -  Pointer to the Actor you are overlapping with.
+	* @param OtherComp -  Pointer to the Component you are overlapping with. 
+	* @param OtherBodyIndex - Body index of the Component you are overlaping with.
+	* @param bFromSweep -  Hitting with another collision unit.
+	* @param SweepResult - Structure containing information about one hit of a trace, such as point of impact and surface normal at that point.
+	*/
 	UFUNCTION()
 	void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
-	// Get quantity of points from one pickup.
+	/**
+	* Get quantity of points from one pickup.
+	*/
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	int32 GetPoints();
 
@@ -36,7 +53,9 @@ public:
 	UFUNCTION()
 	void RotatePickup(float DeltaTime);
 
-	// Incresase player pickup points
+	/**
+	* Incresase player pickup points
+	*/
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void AddPoints();
 
