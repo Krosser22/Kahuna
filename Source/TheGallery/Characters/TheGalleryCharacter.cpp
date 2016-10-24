@@ -198,8 +198,8 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime)
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}
-	else if(bIsBackwardButtonPressed | bIsForwardButtonPressed) {
-
+	else if(bIsBackwardButtonPressed | bIsForwardButtonPressed) 
+	{
 		if (!bIsRightButtonPressed | !bIsLeftButtonPressed)
 		{
 			// Go to a new position and rotation at a specific time when the Backward or Forward button are pressed.
