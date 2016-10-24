@@ -14,11 +14,16 @@ class THEGALLERY_API UTheGalleryGameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 public:
-	// Get player total points from the pickups.
+
+	/**
+	* Get player total points from the pickups.
+	*/
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	int32 GetPickUpPoints();
 
-	// Set player total points from the pickups.
+	/**
+	* Set player total points from the pickups.
+	*/
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void SetPickUpPoints(int32 Points);
 	

@@ -40,23 +40,24 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
-	bIsAPressed = false;
-	bIsDPressed = false;
-	bIsSPressed = false;
-	bIsWPressed = false;
+	// Create Scene Component
+	RightButton = CreateDefaultSubobject<USceneComponent>(TEXT("RightCamera"));
+	RightButton->SetRelativeLocationAndRotation(FVector(100.0f, -140.0f, 0.0f), FRotator(0.0f, 45.0f, 0.0f));
+	RightButton->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
-	D = CreateDefaultSubobject<USceneComponent>(TEXT("CameraD"));
-	D->SetRelativeLocationAndRotation(FVector(100.0f, -140.0f, 0.0f), FRotator(0.0f, 45.0f, 0.0f));
-	D->SetupAttachment(FollowCamera);
+	LeftButton = CreateDefaultSubobject<USceneComponent>(TEXT("LeftCamera"));
+	LeftButton->SetRelativeLocationAndRotation(FVector(100.0f, 140.0f, 0.0f), FRotator(0.0f, -45.0f, 0.0f));
+	LeftButton->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
-	A = CreateDefaultSubobject<USceneComponent>(TEXT("CameraA"));
-	A->SetRelativeLocationAndRotation(FVector(100.0f, 140.0f, 0.0f), FRotator(0.0f, -45.0f, 0.0f));
-	A->SetupAttachment(FollowCamera);
+	ForwardBackwardButton = CreateDefaultSubobject<USceneComponent>(TEXT("ForwardBackwardCamera"));
+	ForwardBackwardButton->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 0.0f), FRotator(0.0f, 0.0f, 0.0f));
+	ForwardBackwardButton->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
-	WS = CreateDefaultSubobject<USceneComponent>(TEXT("CameraWS"));
-	WS->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 0.0f), FRotator(0.0f, 0.0f, 0.0f));
-	WS->SetupAttachment(FollowCamera);
-
+	// Initialize
+	bIsForwardButtonPressed = false;
+	bIsBackwardButtonPressed = false;
+	bIsLeftButtonPressed = false;
+	bIsRightButtonPressed = false;
 	CameraSpeed = 3;
 }
 
@@ -120,15 +121,16 @@ void ATheGalleryCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
+		// Check if it is going Backward or Forward
 		if (Value > 0)
 		{
-			bIsWPressed = true;
-			bIsAPressed = bIsSPressed = bIsDPressed = false;
+			bIsForwardButtonPressed = true;
+			bIsLeftButtonPressed = bIsBackwardButtonPressed = bIsRightButtonPressed = false;
 		}
 		else 
 		{
-			bIsSPressed = true;
-			bIsAPressed = bIsDPressed = bIsWPressed = false;
+			bIsBackwardButtonPressed = true;
+			bIsLeftButtonPressed = bIsRightButtonPressed = bIsForwardButtonPressed = false;
 		}
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -144,15 +146,16 @@ void ATheGalleryCharacter::MoveRight(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
+		// Check if it is going Left or Right
 		if (Value > 0)
 		{
-			bIsDPressed = true;
-			bIsAPressed = bIsSPressed = bIsWPressed = false;
+			bIsRightButtonPressed = true;
+			bIsLeftButtonPressed = bIsBackwardButtonPressed = bIsForwardButtonPressed = false;
 		}
 		else
 		{
-			bIsAPressed = true;
-			bIsSPressed = bIsWPressed = bIsDPressed = false;
+			bIsLeftButtonPressed = true;
+			bIsBackwardButtonPressed = bIsForwardButtonPressed = bIsRightButtonPressed = false;
 		}
 
 		// find out which way is right
@@ -174,30 +177,35 @@ void ATheGalleryCharacter::Tick(float DeltaTime)
 
 void ATheGalleryCharacter::MoveCamera(float DeltaTime)
 {
-	if (bIsDPressed) 
+	if (bIsRightButtonPressed)
 	{
-		if (!bIsWPressed | !bIsAPressed | !bIsSPressed) 
-		{
-			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, D->RelativeLocation, DeltaTime * CameraSpeed);
-			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, D->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+		if (!bIsBackwardButtonPressed | !bIsLeftButtonPressed | !bIsForwardButtonPressed)
+		{	// Go to a new position and rotation at a specific time when the right button is pressed.
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, RightButton->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, RightButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			// Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}
-	else if (bIsAPressed) 
+	else if (bIsLeftButtonPressed)
 	{
-		if (!bIsWPressed | !bIsDPressed | !bIsSPressed)
+		if (!bIsBackwardButtonPressed | !bIsRightButtonPressed | !bIsForwardButtonPressed)
 		{
-			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, A->RelativeLocation, DeltaTime * CameraSpeed);
-			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, A->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			// Go to a new position and rotation at a specific time when the left button is pressed.
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, LeftButton->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, LeftButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			// Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}
-	else if(bIsWPressed | bIsSPressed) {
+	else if(bIsBackwardButtonPressed | bIsForwardButtonPressed) {
 
-		if (!bIsAPressed | !bIsDPressed)
+		if (!bIsRightButtonPressed | !bIsLeftButtonPressed)
 		{
-			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, WS->RelativeLocation, DeltaTime * CameraSpeed);
-			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, WS->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			// Go to a new position and rotation at a specific time when the Backward or Forward button are pressed.
+			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, ForwardBackwardButton->RelativeLocation, DeltaTime * CameraSpeed);
+			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, ForwardBackwardButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
+			// Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}

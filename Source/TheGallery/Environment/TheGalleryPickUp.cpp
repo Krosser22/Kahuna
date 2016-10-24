@@ -18,7 +18,6 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 
 	// Create Collision
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
-	CollisionComponent->SetCollisionProfileName(TEXT("SphereCollision"));
 	CollisionComponent->InitSphereRadius(CollisionRadius);
 	CollisionComponent->SetupAttachment(RootComponent);
 

@@ -63,7 +63,10 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	// Called every frame
+	/**
+	* Called every frame
+	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	*/
 	virtual void Tick(float DeltaSeconds) override;
 
 	/**
@@ -73,29 +76,29 @@ public:
 	void MoveCamera(float DeltaTime);
 
 private:
-	// Check if A is pressed.
-	bool bIsAPressed;
+	// Check if the forward button is pressed.
+	bool bIsForwardButtonPressed;
 
-	// Check if D is pressed.
-	bool bIsDPressed;
+	// Check if the backward button is pressed.
+	bool bIsBackwardButtonPressed;
 
-	// Check if S is pressed.
-	bool bIsSPressed;
+	// Check if the left button is pressed.
+	bool bIsLeftButtonPressed;
 
-	// Check if W is pressed.
-	bool bIsWPressed;
+	// Check if the right button is pressed.
+	bool bIsRightButtonPressed;
 
-	// New position and rotation when D is pressed.
+	// New position and rotation when the right button is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USceneComponent* D;
+	USceneComponent* RightButton;
 
-	// New position and rotation when A is pressed.
+	// New position and rotation when the left button is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USceneComponent* A;
+	USceneComponent* LeftButton;
 
-	// New position and rotation when WS is pressed.
+	// New position and rotation when the forward and backward button are pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USceneComponent* WS;
+	USceneComponent* ForwardBackwardButton;
 
 	// Camera Speed
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
