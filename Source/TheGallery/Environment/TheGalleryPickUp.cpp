@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TheGallery.h"
-#include "Pickup/TheGalleryPickUp.h"
-#include "Character/TheGalleryCharacter.h"
+#include "TheGalleryPickUp.h"
+#include "Characters/TheGalleryCharacter.h"
 #include "Game/TheGalleryGameInstance.h"
 
 // Sets default values
@@ -51,7 +51,6 @@ void ATheGalleryPickUp::BeginPlay()
 void ATheGalleryPickUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 	RotatePickup(DeltaTime);
 }
 
@@ -59,9 +58,8 @@ void ATheGalleryPickUp::OnBeginOverlap(class UPrimitiveComponent* HitComp, class
 {
 	ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
 
-	if (Character){
-
-			
+	if (Character)
+	{
 		//SpawnCoconuts();*/
 		AddPoints();
 		Destroy();
@@ -79,10 +77,12 @@ void ATheGalleryPickUp::RotatePickup(float DeltaTime)
 	Mesh->AddRelativeRotation(Rotation * DeltaTime, false);
 }
 
-void ATheGalleryPickUp::AddPoints(){
+void ATheGalleryPickUp::AddPoints()
+{
 	UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
 
-	if (GameInstance) {
+	if (GameInstance)
+	{
 		int32 TotalPoints = GameInstance->GetPickUpPoints();
 		TotalPoints += Points;
 		GameInstance->SetPickUpPoints(TotalPoints);

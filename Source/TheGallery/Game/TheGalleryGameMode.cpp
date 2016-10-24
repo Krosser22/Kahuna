@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryGameMode.h"
-#include "Character/TheGalleryCharacter.h"
+#include "Characters/TheGalleryCharacter.h"
 
 ATheGalleryGameMode::ATheGalleryGameMode()
 {
