@@ -14,36 +14,36 @@ ADartTrap::ADartTrap(const class FObjectInitializer& PCIP)
   sceneComp_ = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
   SetRootComponent(sceneComp_);
 
+  // Create Tripwire Mesh
+  tripwireMesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TripwireMesh"));
+  tripwireMesh_->SetupAttachment(sceneComp_);
+
   // Create Tripwire Collision
   tripwireCollisionComp_ = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
   tripwireCollisionComp_->InitBoxExtent(FVector(10, 10, 1));
   tripwireCollisionComp_->SetupAttachment(sceneComp_);
   tripwireCollisionComp_->OnComponentBeginOverlap.AddDynamic(this, &ADartTrap::OnBeginOverlap);
 
-  // Create Tripwire Mesh
-  tripwireMesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TripwireMesh"));
-  tripwireMesh_->SetupAttachment(sceneComp_);
+  // Create Dart Mesh
+  dartMesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DartMesh"));
+  dartMesh_->SetupAttachment(sceneComp_);
+  dartMesh_->SetEnableGravity(false);
 
   // Create Dart Collision
   dartCollisionComp_ = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
   dartCollisionComp_->InitSphereRadius(10);
-  dartCollisionComp_->SetupAttachment(sceneComp_);
+  dartCollisionComp_->SetupAttachment(dartMesh_);
   dartCollisionComp_->OnComponentBeginOverlap.AddDynamic(this, &ADartTrap::OnDartHit);
 
-  // Create Dart Mesh
-  dartMesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DartMesh"));
-  dartMesh_->SetupAttachment(dartCollisionComp_);
-
-  //Create Projectile
-  dartProjectileMovement_ = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("Projectile"));
-  dartProjectileMovement_->UpdatedComponent = dartCollisionComp_;
-  dartProjectileMovement_->Deactivate();
+  dartVelocity_ = FVector(300.0f, 0.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
 void ADartTrap::BeginPlay()
 {
 	Super::BeginPlay();
+
+  dartLocation_ = dartMesh_->RelativeLocation;
 }
 
 // Called every frame
@@ -59,9 +59,11 @@ void ADartTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor*
   if (Character)
   {
     // Activate the dart trap
-    DebugLog("The Player has activate the Dart Trap");
-
-    //if (!activated_) ShootDart();
+    if (!activated_)
+    {
+      DebugLog("The Player has activate the Dart Trap");
+      ShootDart();
+    }
   }
   else
   {
@@ -71,16 +73,19 @@ void ADartTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor*
 
 void ADartTrap::OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-  ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
+  if (activated_)
+  {
+    ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
 
-  if (Character)
-  {
-    // Kill character
-    DebugLog("The Player has been hit by the Dart trap");
-  }
-  else
-  {
-    // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
+    if (Character)
+    {
+      // Kill character
+      DebugLog("The Player has been hit by the Dart trap");
+    }
+    else
+    {
+      // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
+    }
   }
 }
 
@@ -88,6 +93,15 @@ void ADartTrap::ShootDart()
 {
   DebugLog("Shoot Dart from the dart trap");
   activated_ = true;
-  dartProjectileMovement_->Activate();
-  dartProjectileMovement_->Velocity = FVector(300.0f, 0.0f, 0.0f);
+  dartMesh_->SetSimulatePhysics(true);
+  dartMesh_->AddImpulse(dartVelocity_);
+  GetWorldTimerManager().SetTimer(resetTimerHandle_, this, &ADartTrap::ResetDart, timeToReset_, false);
+}
+
+void ADartTrap::ResetDart()
+{
+  DebugLog("Reset the dart trap");
+  dartMesh_->SetSimulatePhysics(false);
+  dartMesh_->SetRelativeLocationAndRotation(dartLocation_, FQuat());
+  activated_ = false;
 }

@@ -47,7 +47,7 @@ void ALilyPadTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AAct
     {
       DebugLog("The Player has hit the Lily Pad Trap");
       state_ = ELilyPadState::ELilyPadState_PreparingToSink;
-      GetWorld()->GetTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::Sink, timeUntilSinking_, false);
+      GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::Sink, timeUntilSinking_, false);
     }
   }
   else
@@ -60,7 +60,7 @@ void ALilyPadTrap::Sink()
 {
   DebugLog("LilyPadTrap sinking");
   state_ = ELilyPadState::ELilyPadState_Sinking;
-  GetWorld()->GetTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::WaitingToSinkOff, timeUntilSinking_, false);
+  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::WaitingToSinkOff, timeUntilSinking_, false);
   // TODO: Start the sink animation
 }
 
@@ -68,14 +68,14 @@ void ALilyPadTrap::WaitingToSinkOff()
 {
   DebugLog("LilyPadTrap waiting To Sink off");
   state_ = ELilyPadState::ELilyPadState_WaitingToSinkOff;
-  GetWorld()->GetTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::SinkOff, timeUntilSinking_, false);
+  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::SinkOff, timeToBeSinked_, false);
 }
 
 void ALilyPadTrap::SinkOff()
 {
   DebugLog("LilyPadTrap sinking off");
   state_ = ELilyPadState::ELilyPadState_Sinking;
-  GetWorld()->GetTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::FinishOfSinkOff, timeUntilSinking_, false);
+  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::FinishOfSinkOff, timeToBeSinked_, false);
   // TODO: Start the sink off animation
   // TODO: If the player is inside --> Kill the player
 }

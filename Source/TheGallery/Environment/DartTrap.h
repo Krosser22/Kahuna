@@ -20,15 +20,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
-  // Overlap
+  // Overlap with the tripwire
   UFUNCTION()
     void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
-  // Overlap
+  // Overlap with the dart
   UFUNCTION()
     void OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
-  // Overlap
+  // Shoot the Dart trap
   UFUNCTION()
     void ShootDart();
 
@@ -54,12 +54,22 @@ private:
     UStaticMeshComponent* dartMesh_;
 
   // Projectile movement
-  UPROPERTY(Category = "ProjectileMovement", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UProjectileMovementComponent* dartProjectileMovement_;
-
-  // Projectile movement
   UPROPERTY(Category = "Dart", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    float dartSpeed_;
+    FVector dartVelocity_;
 
+  // Activated / Deactivated
   bool activated_ = false;
+
+  // Initial location of the dart before activate the trap
+  FVector dartLocation_;
+
+  // Reset timer
+  FTimerHandle resetTimerHandle_;
+
+  //Time to reset the trap
+  float timeToReset_ = 1;
+
+  // Reset the dart
+  UFUNCTION()
+    void ResetDart();
 };
