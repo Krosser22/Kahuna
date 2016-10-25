@@ -15,16 +15,35 @@ class ATheGalleryCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
 public:
 	ATheGalleryCharacter();
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseTurnRate;
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseLookUpRate;
+	/** Returns FollowCamera subobject **/
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	/**
+	 * Called every frame
+	 * @param DeltaTime - The time in seconds it took to complete the last frame.
+	 */
+	virtual void Tick(float DeltaSeconds) override;
+
+	void SetTransformationCharacter(ATheGalleryCharacter* Character) { TransformationCharacter = Character; }
+
+private:
+	/**
+	* Move and rotate the camera (FollowCamera)
+	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	* @param InputValue - Detect what button is the player pressing.
+	* @param IsMovingForwardBackward - Know if the camera is going to move right/left or backward/forward.
+	*/
+	void MoveCamera(float DeltaTime, float InputValue, bool IsMovingForwardBackward);
+
+	//Fixed bug with controller rotation when possessing characters
+	void UpdateController();
 
 protected:
 	/** Called for forwards/backward input */
@@ -33,60 +52,11 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void TurnAtRate(float Rate);
+	UFUNCTION(BlueprintCallable, Category = "Transformation")
+	void PossessCharacter(ATheGalleryCharacter* ToPossess, ATheGalleryCharacter* Possessed);
 
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void LookUpAtRate(float Rate);
-
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
-
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-	// End of APawn interface
-
-public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
-	/**
-	* Called every frame
-	* @param DeltaTime - The time in seconds it took to complete the last frame.
-	*/
-	virtual void Tick(float DeltaSeconds) override;
-
-	/**
-	* Move and rotate the camera (FollowCamera)
-	* @param DeltaTime - The time in seconds it took to complete the last frame.
-	*/
-	void MoveCamera(float DeltaTime);
-
-private:
-	// Check if the forward button is pressed.
-	bool bIsForwardButtonPressed;
-
-	// Check if the backward button is pressed.
-	bool bIsBackwardButtonPressed;
-
-	// Check if the left button is pressed.
-	bool bIsLeftButtonPressed;
-
-	// Check if the right button is pressed.
-	bool bIsRightButtonPressed;
 
 	// New position and rotation when the right button is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -103,5 +73,9 @@ private:
 	// Camera Speed
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int32 CameraSpeed;
+
+	ATheGalleryCharacter* TransformationCharacter;
+	
+	bool bPossessedNewCharacter;
 };
 

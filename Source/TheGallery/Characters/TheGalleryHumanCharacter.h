@@ -3,28 +3,29 @@
 #pragma once
 
 #include "TheGalleryCharacter.h"
-#include "TheGalleryAnimalCharacter.generated.h"
+#include "TheGalleryAnimalCharacter.h"
+#include "TheGalleryHumanCharacter.generated.h"
 
 UCLASS()
-class THEGALLERY_API ATheGalleryAnimalCharacter : public ATheGalleryCharacter
+class THEGALLERY_API ATheGalleryHumanCharacter : public ATheGalleryCharacter
 {
 	GENERATED_BODY()
-
+	
 public:
 	// Sets default values for this character's properties
-	ATheGalleryAnimalCharacter();
+	ATheGalleryHumanCharacter();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
-	void TransformToHuman();
+	void TransformToAnimal();
 
 private:
 	/** Called for forwards/backward input */
@@ -33,5 +34,6 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-
+	UPROPERTY(EditAnywhere, Category = "Transformation")
+	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
 };

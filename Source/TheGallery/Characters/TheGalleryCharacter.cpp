@@ -11,10 +11,6 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-	// set our turn rates for input
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
-
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -54,11 +50,8 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 	ForwardBackwardButton->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 	// Initialize
-	bIsForwardButtonPressed = false;
-	bIsBackwardButtonPressed = false;
-	bIsLeftButtonPressed = false;
-	bIsRightButtonPressed = false;
 	CameraSpeed = 3;
+	bPossessedNewCharacter = false;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -73,65 +66,13 @@ void ATheGalleryCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 
 	InputComponent->BindAxis("MoveForward", this, &ATheGalleryCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATheGalleryCharacter::MoveRight);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	/*InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	InputComponent->BindAxis("TurnRate", this, &ATheGalleryCharacter::TurnAtRate);
-	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	InputComponent->BindAxis("LookUpRate", this, &ATheGalleryCharacter::LookUpAtRate);*/
-
-	// handle touch devices
-	InputComponent->BindTouch(IE_Pressed, this, &ATheGalleryCharacter::TouchStarted);
-	InputComponent->BindTouch(IE_Released, this, &ATheGalleryCharacter::TouchStopped);
 }
 
-
-void ATheGalleryCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	// jump, but only on the first touch
-	if (FingerIndex == ETouchIndex::Touch1)
-	{
-		Jump();
-	}
-}
-
-void ATheGalleryCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	if (FingerIndex == ETouchIndex::Touch1)
-	{
-		StopJumping();
-	}
-}
-
-void ATheGalleryCharacter::TurnAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void ATheGalleryCharacter::LookUpAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-}
 
 void ATheGalleryCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
-		// Check if it is going Backward or Forward
-		if (Value > 0)
-		{
-			bIsForwardButtonPressed = true;
-			bIsLeftButtonPressed = bIsBackwardButtonPressed = bIsRightButtonPressed = false;
-		}
-		else 
-		{
-			bIsBackwardButtonPressed = true;
-			bIsLeftButtonPressed = bIsRightButtonPressed = bIsForwardButtonPressed = false;
-		}
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -139,6 +80,8 @@ void ATheGalleryCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
+		// Move Camera Forward / Backward
+		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, true);
 	}
 }
 
@@ -146,18 +89,6 @@ void ATheGalleryCharacter::MoveRight(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
-		// Check if it is going Left or Right
-		if (Value > 0)
-		{
-			bIsRightButtonPressed = true;
-			bIsLeftButtonPressed = bIsBackwardButtonPressed = bIsForwardButtonPressed = false;
-		}
-		else
-		{
-			bIsLeftButtonPressed = true;
-			bIsBackwardButtonPressed = bIsForwardButtonPressed = bIsRightButtonPressed = false;
-		}
-
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -166,30 +97,66 @@ void ATheGalleryCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+		// Move Camera Right / Left
+		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, false);
+	}
+}
+
+void ATheGalleryCharacter::PossessCharacter(ATheGalleryCharacter* ToPossess, ATheGalleryCharacter* Possessed)
+{
+	if (ToPossess && Possessed)
+	{
+		ToPossess->SetActorHiddenInGame(false);
+		ToPossess->SetActorEnableCollision(true);
+		ToPossess->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		FTransform data = Possessed->FollowCamera->GetRelativeTransform();
+		ToPossess->FollowCamera->SetRelativeLocationAndRotation(data.GetLocation(), data.GetRotation());
+
+		Possessed->SetActorEnableCollision(false);
+		Possessed->AttachToActor(ToPossess, FAttachmentTransformRules::KeepWorldTransform, NAME_None);
+		Possessed->SetActorHiddenInGame(true);
+		GetController()->Possess(ToPossess);
+
+		bPossessedNewCharacter = true;
+
+		//To Do: Reset animation to idle on possess
 	}
 }
 
 void ATheGalleryCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	MoveCamera(DeltaTime);
+	UpdateController();
 }
 
-void ATheGalleryCharacter::MoveCamera(float DeltaTime)
+void ATheGalleryCharacter::UpdateController()
 {
-	if (bIsRightButtonPressed)
+	if (bPossessedNewCharacter)
 	{
-		if (!bIsBackwardButtonPressed | !bIsLeftButtonPressed | !bIsForwardButtonPressed)
-		{	// Go to a new position and rotation at a specific time when the right button is pressed.
+		if (Controller != NULL)
+		{
+			GetController()->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
+			bPossessedNewCharacter = false;
+		}
+	}
+}
+
+void ATheGalleryCharacter::MoveCamera(float DeltaTime, float InputValue, bool IsMovingForwardBackward)
+{
+	if (!IsMovingForwardBackward) 
+	{
+		// Moving Right
+		if (InputValue > 0.0f)
+		{
+			// Go to a new position and rotation at a specific time when the right button is pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, RightButton->RelativeLocation, DeltaTime * CameraSpeed);
 			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, RightButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
 			// Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
-	}
-	else if (bIsLeftButtonPressed)
-	{
-		if (!bIsBackwardButtonPressed | !bIsRightButtonPressed | !bIsForwardButtonPressed)
+		// Moving Left
+		else if (InputValue < 0.0f)
 		{
 			// Go to a new position and rotation at a specific time when the left button is pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, LeftButton->RelativeLocation, DeltaTime * CameraSpeed);
@@ -198,9 +165,10 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime)
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}
-	else if(bIsBackwardButtonPressed | bIsForwardButtonPressed) 
+	else
 	{
-		if (!bIsRightButtonPressed | !bIsLeftButtonPressed)
+		// Moving Bakward / Forward
+		if (InputValue > 0.0f || InputValue < 0.0f)
 		{
 			// Go to a new position and rotation at a specific time when the Backward or Forward button are pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, ForwardBackwardButton->RelativeLocation, DeltaTime * CameraSpeed);
@@ -210,3 +178,4 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime)
 		}
 	}
 }
+

@@ -3,7 +3,6 @@
 #include "TheGallery.h"
 #include "TheGalleryAnimalCharacter.h"
 
-
 // Sets default values
 ATheGalleryAnimalCharacter::ATheGalleryAnimalCharacter()
 {
@@ -16,7 +15,7 @@ ATheGalleryAnimalCharacter::ATheGalleryAnimalCharacter()
 void ATheGalleryAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	TransformToHuman();
 }
 
 // Called every frame
@@ -29,7 +28,26 @@ void ATheGalleryAnimalCharacter::Tick( float DeltaTime )
 // Called to bind functionality to input
 void ATheGalleryAnimalCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
-	Super::SetupPlayerInputComponent(InputComponent);
+	check(InputComponent);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	// Use parent movement functions (camera movement also)
+	InputComponent->BindAxis("MoveForward", this, &ATheGalleryAnimalCharacter::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &ATheGalleryAnimalCharacter::MoveRight);
 }
 
+void ATheGalleryAnimalCharacter::TransformToHuman()
+{
+	PossessCharacter(TransformationCharacter, this);
+}
+
+void ATheGalleryAnimalCharacter::MoveForward(float Value)
+{
+	ATheGalleryCharacter::MoveForward(Value);
+}
+
+void ATheGalleryAnimalCharacter::MoveRight(float Value)
+{
+	ATheGalleryCharacter::MoveRight(Value);
+}
