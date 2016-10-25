@@ -32,6 +32,8 @@ void ATheGalleryAnimalCharacter::SetupPlayerInputComponent(class UInputComponent
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	InputComponent->BindAction("Transform", IE_Pressed, this, &ATheGalleryAnimalCharacter::TransformToHuman);
+
 	// Use parent movement functions (camera movement also)
 	InputComponent->BindAxis("MoveForward", this, &ATheGalleryAnimalCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATheGalleryAnimalCharacter::MoveRight);
