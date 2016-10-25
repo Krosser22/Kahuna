@@ -3,16 +3,17 @@
 #pragma once
 
 #include "GameFramework/Character.h"
-#include "TheGalleryCharacterTransform.generated.h"
+#include "TheGalleryCharacter.h"
+#include "TheGalleryAnimalCharacter.generated.h"
 
 UCLASS()
-class THEGALLERY_API ATheGalleryCharacterTransform : public ACharacter
+class THEGALLERY_API ATheGalleryAnimalCharacter : public ATheGalleryCharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	ATheGalleryCharacterTransform();
+	ATheGalleryAnimalCharacter();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

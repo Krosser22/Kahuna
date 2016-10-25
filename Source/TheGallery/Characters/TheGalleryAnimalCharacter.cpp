@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TheGallery.h"
-#include "TheGalleryCharacterTransform.h"
+#include "TheGalleryAnimalCharacter.h"
 
 
 // Sets default values
-ATheGalleryCharacterTransform::ATheGalleryCharacterTransform()
+ATheGalleryAnimalCharacter::ATheGalleryAnimalCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,21 +13,21 @@ ATheGalleryCharacterTransform::ATheGalleryCharacterTransform()
 }
 
 // Called when the game starts or when spawned
-void ATheGalleryCharacterTransform::BeginPlay()
+void ATheGalleryAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ATheGalleryCharacterTransform::Tick( float DeltaTime )
+void ATheGalleryAnimalCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
 }
 
 // Called to bind functionality to input
-void ATheGalleryCharacterTransform::SetupPlayerInputComponent(class UInputComponent* InputComponent)
+void ATheGalleryAnimalCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
