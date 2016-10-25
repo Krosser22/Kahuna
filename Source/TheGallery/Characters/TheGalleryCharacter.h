@@ -72,22 +72,12 @@ public:
 	/**
 	* Move and rotate the camera (FollowCamera)
 	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	* @param InputValue - Detect what button is the player pressing.
+	* @param IsMovingForwardBackward - Know if the camera is going to move right/left or backward/forward.
 	*/
-	void MoveCamera(float DeltaTime);
+	void MoveCamera(float DeltaTime, float InputValue, bool IsMovingForwardBackward);
 
 private:
-	// Check if the forward button is pressed.
-	bool bIsForwardButtonPressed;
-
-	// Check if the backward button is pressed.
-	bool bIsBackwardButtonPressed;
-
-	// Check if the left button is pressed.
-	bool bIsLeftButtonPressed;
-
-	// Check if the right button is pressed.
-	bool bIsRightButtonPressed;
-
 	// New position and rotation when the right button is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* RightButton;
