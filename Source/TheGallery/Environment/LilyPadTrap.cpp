@@ -68,14 +68,14 @@ void ALilyPadTrap::WaitingToSinkOff()
 {
   DebugLog("LilyPadTrap waiting To Sink off");
   state_ = ELilyPadState::ELilyPadState_WaitingToSinkOff;
-  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::SinkOff, timeUntilSinking_, false);
+  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::SinkOff, timeToBeSinked_, false);
 }
 
 void ALilyPadTrap::SinkOff()
 {
   DebugLog("LilyPadTrap sinking off");
   state_ = ELilyPadState::ELilyPadState_Sinking;
-  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::FinishOfSinkOff, timeUntilSinking_, false);
+  GetWorldTimerManager().SetTimer(sinkTimerHandle_, this, &ALilyPadTrap::FinishOfSinkOff, timeToBeSinked_, false);
   // TODO: Start the sink off animation
   // TODO: If the player is inside --> Kill the player
 }
