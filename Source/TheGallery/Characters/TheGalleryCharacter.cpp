@@ -109,6 +109,10 @@ void ATheGalleryCharacter::PossessCharacter(ATheGalleryCharacter* ToPossess, ATh
 		ToPossess->SetActorHiddenInGame(false);
 		ToPossess->SetActorEnableCollision(true);
 		ToPossess->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		ToPossess->bPossessedNewCharacter = true;
+
+		//Spawn particles when changing form (have to delete the old one)
+		//UGameplayStatics::SpawnEmitterAttached(TransformationParticle, ToPossess->GetMesh());
 
 		FTransform data = Possessed->FollowCamera->GetRelativeTransform();
 		ToPossess->FollowCamera->SetRelativeLocationAndRotation(data.GetLocation(), data.GetRotation());
@@ -116,9 +120,8 @@ void ATheGalleryCharacter::PossessCharacter(ATheGalleryCharacter* ToPossess, ATh
 		Possessed->SetActorEnableCollision(false);
 		Possessed->AttachToActor(ToPossess, FAttachmentTransformRules::KeepWorldTransform, NAME_None);
 		Possessed->SetActorHiddenInGame(true);
-		GetController()->Possess(ToPossess);
 
-		bPossessedNewCharacter = true;
+		GetController()->Possess(ToPossess);
 
 		//To Do: Reset animation to idle on possess
 	}

@@ -76,6 +76,10 @@ protected:
 
 	ATheGalleryCharacter* TransformationCharacter;
 	
+	// True when is detected that the character has changed possession
 	bool bPossessedNewCharacter;
+
+	UPROPERTY(EditAnywhere, Category = "Transformation")
+	UParticleSystem* TransformationParticle;
 };
 

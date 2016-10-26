@@ -14,7 +14,6 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 void ATheGalleryHumanCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	TransformToAnimal();
 }
 
 // Called every frame
