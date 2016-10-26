@@ -28,6 +28,7 @@ ADartTrap::ADartTrap(const class FObjectInitializer& PCIP)
   dartMesh_ = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DartMesh"));
   dartMesh_->SetupAttachment(sceneComp_);
   dartMesh_->SetEnableGravity(false);
+  dartMesh_->SetSimulatePhysics(false);
 
   // Create Dart Collision
   dartCollisionComp_ = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
@@ -67,6 +68,7 @@ void ADartTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor*
   }
   else
   {
+    DebugLog("NOT PLAYER");
     // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
   }
 }

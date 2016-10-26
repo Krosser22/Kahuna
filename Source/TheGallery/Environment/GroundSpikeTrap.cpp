@@ -48,6 +48,7 @@ void AGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class 
   }
   else
   {
+    DebugLog("NOT A PLAYER");
     // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
   }
 }
