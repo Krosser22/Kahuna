@@ -32,7 +32,7 @@ ADartTrap::ADartTrap(const class FObjectInitializer& PCIP)
 
   // Create Dart Collision
   dartCollisionComp_ = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
-  dartCollisionComp_->InitSphereRadius(10);
+  dartCollisionComp_->InitSphereRadius(100);
   dartCollisionComp_->SetupAttachment(dartMesh_);
   dartCollisionComp_->OnComponentBeginOverlap.AddDynamic(this, &ADartTrap::OnDartHit);
 
@@ -48,7 +48,7 @@ void ADartTrap::BeginPlay()
 }
 
 // Called every frame
-void ADartTrap::Tick( float DeltaTime )
+void ADartTrap::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
@@ -95,7 +95,9 @@ void ADartTrap::ShootDart()
 {
   DebugLog("Shoot Dart from the dart trap");
   activated_ = true;
+  dartMesh_->Activate();
   dartMesh_->SetSimulatePhysics(true);
+  dartMesh_->SetRelativeLocationAndRotation(dartLocation_, FQuat());
   dartMesh_->AddImpulse(dartVelocity_);
   GetWorldTimerManager().SetTimer(resetTimerHandle_, this, &ADartTrap::ResetDart, timeToReset_, false);
 }
@@ -103,7 +105,16 @@ void ADartTrap::ShootDart()
 void ADartTrap::ResetDart()
 {
   DebugLog("Reset the dart trap");
-  dartMesh_->SetSimulatePhysics(false);
   dartMesh_->SetRelativeLocationAndRotation(dartLocation_, FQuat());
+  dartMesh_->SetSimulatePhysics(false);
+  dartMesh_->Deactivate();
   activated_ = false;
+
+  FString text = "X: ";
+  text.AppendInt(dartLocation_.X);
+  text.Append(", Y:");
+  text.AppendInt(dartLocation_.Y);
+  text.Append(", Z:");
+  text.AppendInt(dartLocation_.Z);
+  DebugLog(text);
 }
