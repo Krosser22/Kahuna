@@ -3,26 +3,26 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "LilyPadTrap.generated.h"
+#include "TheGalleryLilyPadTrap.generated.h"
 
 UENUM(BlueprintType) // "BlueprintType" is essential to include
 enum class ELilyPadState : uint8
 {
-  ELilyPadState_Waiting 	UMETA(DisplayName = "Waiting"),
-  ELilyPadState_PreparingToSink 	UMETA(DisplayName = "PreparingToSink"),
-  ELilyPadState_Sinking 	UMETA(DisplayName = "Sinking"),
-  ELilyPadState_WaitingToSinkOff	UMETA(DisplayName = "WaitingToSinkOff"),
-  ELilyPadState_SinkingOff	UMETA(DisplayName = "SinkingOff")
+  ELilyPadStateWaiting 	UMETA(DisplayName = "Waiting"),
+  ELilyPadStatePreparingToSink 	UMETA(DisplayName = "PreparingToSink"),
+  ELilyPadStateSinking 	UMETA(DisplayName = "Sinking"),
+  ELilyPadStateWaitingToSinkOff	UMETA(DisplayName = "WaitingToSinkOff"),
+  ELilyPadStateSinkingOff	UMETA(DisplayName = "SinkingOff")
 };
 
 UCLASS()
-class THEGALLERY_API ALilyPadTrap : public AActor
+class THEGALLERY_API ATheGalleryLilyPadTrap : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ALilyPadTrap(const class FObjectInitializer& PCIP);
+	ATheGalleryLilyPadTrap(const class FObjectInitializer& PCIP);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,48 +32,48 @@ public:
 
   // Overlap
   UFUNCTION()
-    void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+  void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
   // Sink
   UFUNCTION()
-    void Sink();
+  void Sink();
 
   // Waiting To Sink Off
   UFUNCTION()
-    void WaitingToSinkOff();
+  void WaitingToSinkOff();
 
   // Sink off
   UFUNCTION()
-    void SinkOff();
+  void SinkOff();
 
   // Finish of sink off
   UFUNCTION()
-    void FinishOfSinkOff();
+  void FinishOfSinkOff();
 
 private:
   // Scene
   UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    USceneComponent* sceneComp_;
+  USceneComponent* sceneComp;
 
   // Box Collision
   UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UBoxComponent* collisionComponent_;
+  UBoxComponent* collisionComponent;
 
   // Mesh
   UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UStaticMeshComponent* mesh_;
+  UStaticMeshComponent* mesh;
 
   // Time until the lily pad will start sinking
   UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    float timeUntilSinking_ = 1;
+  float timeUntilSinking = 1;
 
   // Time to be sinked until the lily pad sink off
   UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    float timeToBeSinked_ = 1;
+  float timeToBeSinked = 1;
   
   // State of the lily pad
-  ELilyPadState state_;
+  ELilyPadState state;
 
   // Sink timer
-  FTimerHandle sinkTimerHandle_;
+  FTimerHandle sinkTimerHandle;
 };
