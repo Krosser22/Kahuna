@@ -20,7 +20,7 @@ class THEGALLERY_API ATheGalleryLilyPadTrap : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
 	ATheGalleryLilyPadTrap(const class FObjectInitializer& PCIP);
 
@@ -52,28 +52,35 @@ public:
 
 private:
   // Scene
-  UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  USceneComponent* sceneComp;
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
+  USceneComponent* sceneComponent;
 
   // Box Collision
-  UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
   UBoxComponent* collisionComponent;
 
   // Mesh
-  UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  UStaticMeshComponent* mesh;
-
-  // Time until the lily pad will start sinking
-  UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  float timeUntilSinking = 1;
-
-  // Time to be sinked until the lily pad sink off
-  UPROPERTY(Category = "Time", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  float timeToBeSinked = 1;
-  
-  // State of the lily pad
-  ELilyPadState state;
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
+  UStaticMeshComponent* meshComponent;
 
   // Sink timer
   FTimerHandle sinkTimerHandle;
+
+  // State of the lily pad
+  ELilyPadState state;
+
+  // Time until the lily pad will start sinking
+  UPROPERTY(EditAnywhere, Category = "Time")
+  float timeUntilSinking = 1;
+
+  // Time to be sinked until the lily pad sink off
+  UPROPERTY(EditAnywhere, Category = "Time")
+  float timeToBeSinked = 1;
+
+  //Speed of sink the trap
+  UPROPERTY(EditAnywhere, Category = "Time")
+  float speedOfSink = 0.2f;
+
+  // Alpha of lerp
+  float alpha = 0;
 };

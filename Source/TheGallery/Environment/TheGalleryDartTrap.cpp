@@ -11,30 +11,28 @@ ATheGalleryDartTrap::ATheGalleryDartTrap(const class FObjectInitializer& PCIP)
 	PrimaryActorTick.bCanEverTick = true;
 
   // Create Scene
-  sceneComp = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
-  SetRootComponent(sceneComp);
+  sceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
+  SetRootComponent(sceneComponent);
 
   // Create Tripwire Collision
-  tripwireCollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
-  tripwireCollisionComp->InitBoxExtent(FVector(10, 10, 1));
-  tripwireCollisionComp->SetupAttachment(sceneComp);
-  tripwireCollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryDartTrap::OnBeginOverlap);
+  tripwireCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("TripwireBoxCollision"));
+  tripwireCollisionComponent->InitBoxExtent(FVector(10, 10, 1));
+  tripwireCollisionComponent->SetupAttachment(sceneComponent);
+  tripwireCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryDartTrap::OnBeginOverlap);
 
   // Create Tripwire Mesh
-  tripwireMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TripwireMesh"));
-  tripwireMesh->SetupAttachment(tripwireCollisionComp);
+  tripwireMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TripwireMesh"));
+  tripwireMeshComponent->SetupAttachment(tripwireCollisionComponent);
 
-  // Create Dart Collision
-  dartCollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
-  dartCollisionComp->InitSphereRadius(100);
-  dartCollisionComp->SetupAttachment(sceneComp);
-  dartCollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryDartTrap::OnDartHit);
+  // Create Scene
+  dartsceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("DartScene"));
+  dartsceneComponent->SetupAttachment(sceneComponent);
+  //dartsceneComponent->SetRelativeLocation(tripwireCollisionComponent->RelativeLocation);
 
-  // Create Dart Mesh
-  dartMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DartMesh"));
-  dartMesh->SetupAttachment(dartCollisionComp);
-  dartMesh->SetEnableGravity(false);
-  dartMesh->SetSimulatePhysics(false);
+  // Create Arrow
+  arrowComponent = PCIP.CreateDefaultSubobject<UArrowComponent>(this, TEXT("Arrow"));
+  arrowComponent->SetupAttachment(dartsceneComponent);
+  //arrowComponent->SetRelativeLocation(dartsceneComponent->RelativeLocation);
 
   dartVelocity = FVector(-300.0f, 0.0f, 0.0f);
 }
@@ -44,7 +42,8 @@ void ATheGalleryDartTrap::BeginPlay()
 {
 	Super::BeginPlay();
 
-  dartLocation = dartMesh->GetComponentLocation();
+  dartLocation = arrowComponent->GetComponentLocation();
+  dartRotation = arrowComponent->GetComponentRotation();
 }
 
 // Called every frame
@@ -95,18 +94,24 @@ void ATheGalleryDartTrap::ShootDart()
 {
   DebugLog("Shoot Dart from the dart trap");
   activated = true;
-  dartMesh->Activate();
-  dartMesh->SetSimulatePhysics(true);
-  dartMesh->SetWorldLocationAndRotation(dartLocation, FQuat());
-  dartMesh->AddImpulse(dartVelocity);
   GetWorldTimerManager().SetTimer(resetTimerHandle, this, &ATheGalleryDartTrap::ResetDart, timeToReset, false);
+
+  FActorSpawnParameters SpawnParams;
+  SpawnParams.Owner = this;
+  SpawnParams.Instigator = Instigator;
+  ATheGalleryDart *dart = GetWorld()->SpawnActor<ATheGalleryDart>(dartProjectileTemplate, dartLocation, dartRotation, SpawnParams);
+  if (dart)
+  {
+    DebugLog("Working");
+  }
+  else
+  {
+    DebugLog("NOT Working");
+  }
 }
 
 void ATheGalleryDartTrap::ResetDart()
 {
   DebugLog("Reset the dart trap");
-  dartMesh->SetWorldLocationAndRotation(dartLocation, FQuat());
-  dartMesh->SetSimulatePhysics(false);
-  dartMesh->Deactivate();
   activated = false;
 }

@@ -11,18 +11,18 @@ ATheGalleryGroundSpikeTrap::ATheGalleryGroundSpikeTrap(const class FObjectInitia
   PrimaryActorTick.bCanEverTick = true;
 
   // Create Scene
-  sceneComp = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
-  SetRootComponent(sceneComp);
+  sceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
+  SetRootComponent(sceneComponent);
 
   // Create Collision
   collisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
   collisionComponent->InitBoxExtent(FVector(10, 10, 1));
-  collisionComponent->SetupAttachment(sceneComp);
+  collisionComponent->SetupAttachment(sceneComponent);
   collisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryGroundSpikeTrap::OnBeginOverlap);
 
   // Create Mesh
-  mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-  mesh->SetupAttachment(sceneComp);
+  meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+  meshComponent->SetupAttachment(collisionComponent);
 }
 
 // Called when the game starts or when spawned

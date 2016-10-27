@@ -3,16 +3,16 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "TheGalleryGroundSpikeTrap.generated.h"
+#include "TheGalleryDart.generated.h"
 
 UCLASS()
-class THEGALLERY_API ATheGalleryGroundSpikeTrap : public AActor
+class THEGALLERY_API ATheGalleryDart : public AActor
 {
 	GENERATED_BODY()
 	
-public:
+public:	
 	// Sets default values for this actor's properties
-	ATheGalleryGroundSpikeTrap(const class FObjectInitializer& PCIP);
+	ATheGalleryDart(const class FObjectInitializer& PCIP);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,9 +29,9 @@ private:
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
   USceneComponent* sceneComponent;
 
-  // Box Collision
+  // Sphere Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
-  UBoxComponent* collisionComponent;
+  USphereComponent* collisionComponent;
 
   // Mesh
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")

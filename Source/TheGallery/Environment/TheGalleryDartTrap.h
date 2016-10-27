@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "TheGalleryDart.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheGalleryDartTrap.generated.h"
 
@@ -10,7 +12,7 @@ class THEGALLERY_API ATheGalleryDartTrap : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
 	ATheGalleryDartTrap(const class FObjectInitializer& PCIP);
 
@@ -38,41 +40,46 @@ private:
   void ResetDart();
 
   // Scene
-  UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  USceneComponent* sceneComp;
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
+  USceneComponent* sceneComponent;
 
-  // Tripwire Collision
-  UPROPERTY(Category = "BoxCollision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  UBoxComponent* tripwireCollisionComp;
+  // Box Collision
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
+  UBoxComponent* tripwireCollisionComponent;
 
-  // Dart collision
-  UPROPERTY(Category = "SphereCollision", VisibleDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-  USphereComponent* dartCollisionComp;
+  // Mesh
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
+  UStaticMeshComponent* tripwireMeshComponent;
 
-  // Tripwire Mesh
-  UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  UStaticMeshComponent* tripwireMesh;
+  // Scene
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "DartScene")
+  USceneComponent* dartsceneComponent;
 
-  // Dart Mesh
-  UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-  UStaticMeshComponent* dartMesh;
+  // Scene
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Arrow")
+  UArrowComponent* arrowComponent;
+
+  // Projectile Template
+  UPROPERTY(EditAnywhere, Category = "Projectile")
+  TSubclassOf<ATheGalleryDart> dartProjectileTemplate;
 
   // Projectile movement
-  UPROPERTY(Category = "Dart", EditAnywhere)
+  UPROPERTY(EditAnywhere, Category = "Dart")
   FVector dartVelocity;
 
-  // Activated / Deactivated
-  bool activated = false;
-
-  // Initial location of the dart before activate the trap
-  FVector dartLocation;
+  // Time to reset the trap
+  UPROPERTY(EditAnywhere, Category = "time")
+    float timeToReset = 1;
 
   // Reset timer
   FTimerHandle resetTimerHandle;
 
-  //Time to reset the trap
-  float timeToReset = 1;
+  // Initial location of the dart before activate the trap
+  FVector dartLocation;
 
-  UPROPERTY(EditAnywhere, Category = "Projectile")
-  TSubclassOf<AActor> ProjectileTemplate;
+  // Initial rotation of the dart before activate the trap
+  FRotator dartRotation;
+
+  // Activated / Deactivated
+  bool activated = false;
 };
