@@ -52,7 +52,12 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "Transformation")
+  /**
+   * Possess a new character (and unpossess the current one)
+   * @param ToPossess - The character that is going to be possessed.
+   * @param Possessed - The character that is currently being possessed.
+   */
+  UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void PossessCharacter(ATheGalleryCharacter* ToPossess, ATheGalleryCharacter* Possessed);
 
 	// APawn interface
@@ -74,11 +79,13 @@ protected:
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int32 CameraSpeed;
 
+  // Reference to the character that is going to be possessed
 	ATheGalleryCharacter* TransformationCharacter;
 	
 	// True when is detected that the character has changed possession
 	bool bPossessedNewCharacter;
 
+  // The particle that is going to spawn when a transformation is called
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	UParticleSystem* TransformationParticle;
 };

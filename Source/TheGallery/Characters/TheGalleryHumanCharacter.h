@@ -24,6 +24,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+  // Transform to animal form
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToAnimal();
 
@@ -38,12 +39,14 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+  // Blueprint template that is going to be spawned
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
 
 	bool bIsSpinKickUsed;
 	float SpinKickCDTimer;
 	float SpinKickCheckCDTimer;
+
 	// Sphere Collision.
 	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
