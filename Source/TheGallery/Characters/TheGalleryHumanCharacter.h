@@ -27,6 +27,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToAnimal();
 
+	void StartSpinKickCD();
+	void UpdateCooldowns(float DeltaTime);
+	void SpinKickDamage();
+
 private:
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -36,4 +40,11 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
+
+	bool bIsSpinKickUsed;
+	float SpinKickCDTimer;
+	float SpinKickCheckCDTimer;
+	// Sphere Collision.
+	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	USphereComponent* CollisionComponent;
 };
