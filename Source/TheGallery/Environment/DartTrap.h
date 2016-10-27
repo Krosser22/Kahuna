@@ -22,40 +22,44 @@ public:
 
   // Overlap with the tripwire
   UFUNCTION()
-    void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+  void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
   // Overlap with the dart
   UFUNCTION()
-    void OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+  void OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
   // Shoot the Dart trap
   UFUNCTION()
-    void ShootDart();
+  void ShootDart();
 
 private:
+  // Reset the dart
+  UFUNCTION()
+  void ResetDart();
+
   // Scene
   UPROPERTY(Category = "Scene", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    USceneComponent* sceneComp_;
+  USceneComponent* sceneComp_;
 
   // Tripwire Collision
   UPROPERTY(Category = "BoxCollision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UBoxComponent* tripwireCollisionComp_;
+  UBoxComponent* tripwireCollisionComp_;
 
   // Dart collision
   UPROPERTY(Category = "SphereCollision", VisibleDefaultsOnly, meta = (AllowPrivateAccess = "true"))
-    USphereComponent* dartCollisionComp_;
+  USphereComponent* dartCollisionComp_;
 
   // Tripwire Mesh
   UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UStaticMeshComponent* tripwireMesh_;
+  UStaticMeshComponent* tripwireMesh_;
 
   // Dart Mesh
   UPROPERTY(Category = "Mesh", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UStaticMeshComponent* dartMesh_;
+  UStaticMeshComponent* dartMesh_;
 
   // Projectile movement
-  UPROPERTY(Category = "Dart", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    FVector dartVelocity_;
+  UPROPERTY(Category = "Dart", EditAnywhere)
+  FVector dartVelocity_;
 
   // Activated / Deactivated
   bool activated_ = false;
@@ -69,7 +73,6 @@ private:
   //Time to reset the trap
   float timeToReset_ = 1;
 
-  // Reset the dart
-  UFUNCTION()
-    void ResetDart();
+  UPROPERTY(EditAnywhere, Category = "Projectile")
+  TSubclassOf<AActor> ProjectileTemplate;
 };

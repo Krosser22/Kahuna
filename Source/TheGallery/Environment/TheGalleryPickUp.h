@@ -5,7 +5,6 @@
 #include "GameFramework/Actor.h"
 #include "TheGalleryPickUp.generated.h"
 
-
 UCLASS()
 class THEGALLERY_API ATheGalleryPickUp : public AActor
 {
@@ -54,18 +53,10 @@ public:
 	void RotatePickup(float DeltaTime);
 
 	/**
-	* Incresase player pickup points
-	*/
+	 * Incresase player pickup points
+	 */
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void AddPoints();
-
-	/*
-	// Spawning
-	UFUNCTION()
-	void SpawnCoconuts();
-	UFUNCTION()
-	float RandomXPosition();
-	*/
 
 private:
 	// Sphere Collision.
@@ -87,16 +78,4 @@ private:
 	// Number of points from one pickup.
 	UPROPERTY(EditAnywhere, Category = PickUp)
 	int32 Points;
-
-	// Spawning (enemies)
-	/*
-	UPROPERTY(EditAnywhere, Category = CoconutSpawn)
-	TSubclassOf<class ATheGalleryPickUp> _CoconutSpawn;
-	UPROPERTY(EditAnywhere, Category = CoconutSpawn)
-	int _NumberOfSpawningCoconuts;
-	UPROPERTY()
-	FVector _CoconutSpawnPosition;
-	UPROPERTY()
-	FRotator _CoconutSpawnRotation;
-	*/
 };

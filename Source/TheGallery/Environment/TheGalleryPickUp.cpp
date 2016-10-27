@@ -28,13 +28,6 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(CollisionComponent);
 	Mesh->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
-
-	// Spawn
-	/*
-	_CoconutSpawnPosition = FVector(0.0f,0.0f,0.0f);
-	_CoconutSpawnRotation = FRotator(0.0f,0.0f,0.0f);
-	_NumberOfSpawningCoconuts = 0;
-	*/
 }
 
 
@@ -60,7 +53,6 @@ void ATheGalleryPickUp::OnBeginOverlap(class UPrimitiveComponent* HitComp, class
 
 	if (Character)
 	{
-		//SpawnCoconuts();*/
 		AddPoints();
 		// Destroy Actor.
 		Destroy();
@@ -92,33 +84,3 @@ void ATheGalleryPickUp::AddPoints()
 		GameInstance->SetPickUpPoints(TotalPoints);
 	}
 }
-
-/* 
-ATheGalleryPickUp::SpawnCoconuts() {
-	for (int i = 0; i < _NumberOfSpawningCoconuts; i++) {
-		_CoconutSpawnPosition = FVector(GetActorLocation().X + RandomXPosition(), GetActorLocation().Y, GetActorLocation().Z);
-		ATheGalleryPickUp* Spawn = GetWorld()->SpawnActorDeferred<ATheGalleryPickUp>(_CoconutSpawn, _CoconutSpawnPosition, _CoconutSpawnRotation);
-		if (Spawn)
-		{
-			Spawn->_Points = _Points;
-			Spawn->_CoconutVelocityRotation = _CoconutVelocityRotation;
-			Spawn->_CoconutCollisionRadius = _CoconutCollisionRadius;
-			Spawn->_NumberOfSpawningCoconuts = _NumberOfSpawningCoconuts;
-			UGameplayStatics::FinishSpawningActor(Spawn, FTransform(_CoconutSpawnRotation, _CoconutSpawnPosition));
-		} 
-	}
-}
-
-float ATheGalleryPickUp::RandomXPosition() {
-	float Position = 0.0f;
-	Position = FMath::RandRange(-500.0f, 500.0f);
-	return Position;
-}
-*/
-
-
-
-
-
-
-
