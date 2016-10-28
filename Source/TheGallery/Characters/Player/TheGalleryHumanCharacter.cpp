@@ -82,6 +82,10 @@ void ATheGalleryHumanCharacter::MoveRight(float Value)
 	ATheGalleryCharacter::MoveRight(Value);
 }
 
+void ATheGalleryHumanCharacter::CastIceSpell()
+{
+}
+
 void ATheGalleryHumanCharacter::StartSpinKickCD() {
 
 	if (!bIsSpinKickUsed)

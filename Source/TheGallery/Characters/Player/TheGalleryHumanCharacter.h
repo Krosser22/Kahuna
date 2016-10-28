@@ -4,6 +4,7 @@
 
 #include "TheGalleryCharacter.h"
 #include "TheGalleryAnimalCharacter.h"
+#include "../../Projectiles/TheGalleryIceSpell.h"
 #include "TheGalleryHumanCharacter.generated.h"
 
 UCLASS()
@@ -39,9 +40,15 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-  // Blueprint template that is going to be spawned
+  void CastIceSpell();
+
+  // Animal character template that is going to be spawned
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
+
+  // Blueprint template that is going to be spawned
+  UPROPERTY(EditAnywhere, Category = "Transformation")
+  TSubclassOf<ATheGalleryIceSpell> IceSpellTemplate;
 
 	bool bIsSpinKickUsed;
 	float SpinKickCDTimer;
