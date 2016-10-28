@@ -20,6 +20,10 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+  FORCEINLINE UStaticMeshComponent* GetMesh() { return Mesh; }
+
+  FORCEINLINE USphereComponent* GetCollisionComponent() { return CollisionComponent; }
+
 protected:
   virtual void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 

@@ -50,11 +50,28 @@ private:
   UPROPERTY(EditAnywhere, Category = "Transformation")
   TSubclassOf<ATheGalleryIceSpell> IceSpellTemplate;
 
-	bool bIsSpinKickUsed;
-	float SpinKickCDTimer;
-	float SpinKickCheckCDTimer;
+  float SpinKickCooldown;
+
+  UPROPERTY(EditAnywhere, Category = "Attacks")
+	float SpinKickMaxCooldown;
 
 	// Sphere Collision.
 	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USphereComponent* CollisionComponent;
+
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  float IceProjectileVelocity;
+
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  float IceSpellMaxCooldown;
+
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  float EarthSpellMaxCooldown;
+
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  float FireSpellMaxCooldown;
+
+  float IceSpellCooldown;
+  float EarthSpellCooldown;
+  float FireSpellCooldown;
 };

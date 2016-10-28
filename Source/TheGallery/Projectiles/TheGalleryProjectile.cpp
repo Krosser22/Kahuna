@@ -12,13 +12,19 @@ ATheGalleryProjectile::ATheGalleryProjectile()
   // Create Collision
   CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
   CollisionComponent->InitSphereRadius(1.0f);
+  RootComponent = CollisionComponent;
+
   CollisionComponent->bGenerateOverlapEvents = true;
-  CollisionComponent->SetupAttachment(RootComponent);
   CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryProjectile::OnBeginOverlap);
 
   // Create Mesh
   Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
   Mesh->SetupAttachment(CollisionComponent);
+  Mesh->AttachParent = CollisionComponent;
+
+  CollisionComponent->SetSimulatePhysics(true);
+  //Mesh->SetSimulatePhysics(true);
+
   Lifetime = 2.0f;
 }
 

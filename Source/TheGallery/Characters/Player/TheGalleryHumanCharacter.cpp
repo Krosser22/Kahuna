@@ -15,9 +15,10 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 	CollisionComponent->SetupAttachment(RootComponent);
 
 	// Initialize
-	bIsSpinKickUsed = false;
-	SpinKickCDTimer = 2.0f;
-	SpinKickCheckCDTimer = 0.0f;
+  SpinKickMaxCooldown = 2.0f;
+  IceSpellMaxCooldown = 2.0f;
+
+  IceProjectileVelocity = 100.0f;
 }
 
 // Called when the game starts or when spawned
@@ -43,6 +44,8 @@ void ATheGalleryHumanCharacter::SetupPlayerInputComponent(class UInputComponent*
 	InputComponent->BindAction("Transform", IE_Pressed, this, &ATheGalleryHumanCharacter::TransformToAnimal);
 	InputComponent->BindAction("SpinKick", IE_Pressed, this, &ATheGalleryHumanCharacter::StartSpinKickCD);
 	
+  InputComponent->BindAction("IceSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastIceSpell);
+
 	//InputComponent->BindAction("StaffHit", IE_Released, this, &ATheGalleryCharacter::Jump);
 
 	// Use parent movement functions (camera movement also)
@@ -84,32 +87,50 @@ void ATheGalleryHumanCharacter::MoveRight(float Value)
 
 void ATheGalleryHumanCharacter::CastIceSpell()
 {
+  if (IceSpellCooldown <= 0.0f)
+  {
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+    FVector NewLocation = GetActorLocation() + (GetActorForwardVector() * 50.0f);
+
+    ATheGalleryIceSpell *IceProjectile = GetWorld()->SpawnActor<ATheGalleryIceSpell>(IceSpellTemplate, NewLocation, GetActorRotation(), SpawnParams);
+    if (IceProjectile)
+    {
+      FVector Direction = GetActorForwardVector();
+      Direction.Normalize();
+      IceProjectile->GetMesh()->AddForce(Direction * IceProjectileVelocity * 1000.0f, NAME_None, true);
+
+      IceSpellCooldown = IceSpellMaxCooldown;
+
+      DebugLog("Casted Ice Spell");
+    }
+  }
 }
 
-void ATheGalleryHumanCharacter::StartSpinKickCD() {
-
-	if (!bIsSpinKickUsed)
+void ATheGalleryHumanCharacter::StartSpinKickCD() 
+{
+	if (SpinKickCooldown <= 0.0f)
 	{
-		bIsSpinKickUsed = true;
 		SpinKickDamage();
+    SpinKickCooldown = SpinKickMaxCooldown;
 		DebugLog("Use Spin Kick");
 	}
-	else
-		DebugLog("Spin Kick on CD");
 }
 
-void ATheGalleryHumanCharacter::UpdateCooldowns(float DeltaTime) {
-	if (bIsSpinKickUsed)
-	{
-		if (SpinKickCheckCDTimer <= SpinKickCDTimer)
-			SpinKickCheckCDTimer += DeltaTime;
-		else
-		{
-			SpinKickCheckCDTimer = 0.0f;
-			bIsSpinKickUsed = false;
-			DebugLog("Spin Kick ready again");
-		}
-	}
+void ATheGalleryHumanCharacter::UpdateCooldowns(float DeltaTime) 
+{
+  if (SpinKickCooldown > 0.0f)
+    SpinKickCooldown -= DeltaTime;
+
+  if (IceSpellCooldown > 0.0f)
+    IceSpellCooldown -= DeltaTime;
+
+  if (EarthSpellCooldown > 0.0f)
+    EarthSpellCooldown -= DeltaTime;
+
+  if (FireSpellCooldown > 0.0f)
+    FireSpellCooldown -= DeltaTime;
 }
 
 void ATheGalleryHumanCharacter::SpinKickDamage() 
@@ -128,6 +149,3 @@ void ATheGalleryHumanCharacter::SpinKickDamage()
 		//
 	}
 }
-
-
-
