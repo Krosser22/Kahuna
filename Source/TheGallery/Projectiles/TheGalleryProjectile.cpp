@@ -15,6 +15,8 @@ ATheGalleryProjectile::ATheGalleryProjectile()
   CollisionComponent->bGenerateOverlapEvents = true;
   CollisionComponent->SetupAttachment(RootComponent);
   CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryProjectile::OnBeginOverlap);
+  CollisionComponent->SetSimulatePhysics(true);
+  CollisionComponent->SetEnableGravity(false);
 
   // Create Mesh
   Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
@@ -33,6 +35,14 @@ void ATheGalleryProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
   UpdateLifeTime(DeltaTime);
+}
+
+void ATheGalleryProjectile::AddImpulse(FVector impulse)
+{
+  if (CollisionComponent)
+  {
+    CollisionComponent->AddImpulse(impulse);
+  }
 }
 
 void ATheGalleryProjectile::OnBeginOverlap(UPrimitiveComponent * HitComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
