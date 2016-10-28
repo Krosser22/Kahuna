@@ -31,8 +31,6 @@ ATheGalleryDartTrap::ATheGalleryDartTrap(const class FObjectInitializer& PCIP)
   // Create Arrow
   arrowComponent = PCIP.CreateDefaultSubobject<UArrowComponent>(this, TEXT("Arrow"));
   arrowComponent->SetupAttachment(dartsceneComponent);
-
-  dartVelocity = FVector(-300.0f, 0.0f, 0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -101,7 +99,7 @@ void ATheGalleryDartTrap::ShootDart()
   if (dart)
   {
     dart->SetLifeSpan(1.0f);
-    dart->AddImpulse(dartRotation.Vector() * 100);
+    dart->AddImpulse(dartRotation.Vector() * dartVelocity);
   }
 }
 
