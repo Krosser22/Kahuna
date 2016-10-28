@@ -1,10 +1,10 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
-#include "GameFramework/Character.h"
+#include "../TheGalleryBaseCharacter.h"
 #include "TheGalleryCharacter.generated.h"
 
 UCLASS(config=Game)
-class ATheGalleryCharacter : public ACharacter
+class ATheGalleryCharacter : public ATheGalleryBaseCharacter
 {
 	GENERATED_BODY()
 

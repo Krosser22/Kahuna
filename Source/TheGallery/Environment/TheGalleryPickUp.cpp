@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryPickUp.h"
-#include "Characters/TheGalleryCharacter.h"
+#include "Characters/Player/TheGalleryCharacter.h"
 #include "Game/TheGalleryGameInstance.h"
 
 // Sets default values

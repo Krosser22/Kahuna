@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryLilyPadTrap.h"
-#include "Characters/TheGalleryCharacter.h"
+#include "Characters/Player/TheGalleryCharacter.h"
 
 // Sets default values
 ATheGalleryLilyPadTrap::ATheGalleryLilyPadTrap(const class FObjectInitializer& PCIP)

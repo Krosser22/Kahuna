@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryDart.h"
-#include "Characters/TheGalleryCharacter.h"
+#include "Characters/Player/TheGalleryCharacter.h"
 
 // Sets default values
 ATheGalleryDart::ATheGalleryDart()

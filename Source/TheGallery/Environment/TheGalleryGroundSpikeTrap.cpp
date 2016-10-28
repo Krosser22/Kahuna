@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryGroundSpikeTrap.h"
-#include "Characters/TheGalleryCharacter.h"
+#include "Characters/Player/TheGalleryCharacter.h"
 
 // Sets default values
 ATheGalleryGroundSpikeTrap::ATheGalleryGroundSpikeTrap(const class FObjectInitializer& PCIP)
