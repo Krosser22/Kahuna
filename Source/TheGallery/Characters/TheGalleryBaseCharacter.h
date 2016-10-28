@@ -27,12 +27,14 @@ protected:
   // Called when the character has no life left
   virtual void CharacterDeath();
 
+  // Called when the character receives damage
+  virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
+
   // The current life of the character
   UPROPERTY(EditAnywhere, Category = "Character Stats")
   float Life;
 
-  // To-Do: more generic stats (player and enemies)...
+  bool IsDead;
 
-private:
-  void CheckDeath(float DeltaTime);
+  // To-Do: more generic stats (player and enemies)...
 };
