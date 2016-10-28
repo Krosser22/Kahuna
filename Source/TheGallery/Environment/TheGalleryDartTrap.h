@@ -65,7 +65,7 @@ private:
 
   // Projectile movement
   UPROPERTY(EditAnywhere, Category = "Dart")
-  FVector dartVelocity;
+  float dartVelocity = 500.0f;
 
   // Time to reset the trap
   UPROPERTY(EditAnywhere, Category = "Time")
