@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "TheGalleryDart.h"
+#include "Projectiles/TheGalleryDart.h"
 #include "Components/ArrowComponent.h"
 #include "GameFramework/Actor.h"
 #include "TheGalleryDartTrap.generated.h"

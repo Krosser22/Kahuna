@@ -5,24 +5,9 @@
 #include "Characters/TheGalleryCharacter.h"
 
 // Sets default values
-ATheGalleryDart::ATheGalleryDart(const class FObjectInitializer& PCIP)
+ATheGalleryDart::ATheGalleryDart()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
-  // Create Scene
-  sceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
-  SetRootComponent(sceneComponent);
-
-  // Create Collision
-  collisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
-  collisionComponent->InitSphereRadius(1.0f);
-  collisionComponent->SetupAttachment(sceneComponent);
-  collisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryDart::OnBeginOverlap);
-
-  // Create Mesh
-  meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-  meshComponent->SetupAttachment(collisionComponent);
 }
 
 // Called when the game starts or when spawned
