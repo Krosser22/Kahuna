@@ -68,8 +68,8 @@ private:
   FVector dartVelocity;
 
   // Time to reset the trap
-  UPROPERTY(EditAnywhere, Category = "time")
-    float timeToReset = 1;
+  UPROPERTY(EditAnywhere, Category = "Time")
+  float timeToReset = 1;
 
   // Reset timer
   FTimerHandle resetTimerHandle;

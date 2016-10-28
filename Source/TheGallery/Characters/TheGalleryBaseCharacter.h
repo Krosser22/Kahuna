@@ -18,7 +18,9 @@ public:
 	virtual void BeginPlay() override;
 	
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
+
+  void FreezeCharacter(float Time);
 
 protected:
 	// Called to bind functionality to input
@@ -36,5 +38,13 @@ protected:
 
   bool IsDead;
 
+  // If the character is freezed the tick DeltaTime will return 0 (use GetWorld()->GetDeltaSeconds instead)
+  bool IsFreezed;
+
   // To-Do: more generic stats (player and enemies)...
+
+private:
+  void UpdateStatus();
+
+  float FreezedTime;
 };

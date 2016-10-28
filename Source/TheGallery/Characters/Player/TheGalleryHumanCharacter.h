@@ -4,7 +4,7 @@
 
 #include "TheGalleryCharacter.h"
 #include "TheGalleryAnimalCharacter.h"
-#include "../../Projectiles/TheGalleryIceSpell.h"
+#include "../../Projectiles/TheGallerySpell.h"
 #include "TheGalleryHumanCharacter.generated.h"
 
 UCLASS()
@@ -40,15 +40,15 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+  void CastSpell(FSpellInfo SpellInfo);
+
   void CastIceSpell();
+  void CastFireSpell();
+  void CastEarthSpell();
 
   // Animal character template that is going to be spawned
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
-
-  // Blueprint template that is going to be spawned
-  UPROPERTY(EditAnywhere, Category = "Transformation")
-  TSubclassOf<ATheGalleryIceSpell> IceSpellTemplate;
 
   float SpinKickCooldown;
 
@@ -60,16 +60,13 @@ private:
 	USphereComponent* CollisionComponent;
 
   UPROPERTY(EditAnywhere, Category = "Spells")
-  float IceProjectileVelocity;
+  FSpellInfo IceSpellData;
 
   UPROPERTY(EditAnywhere, Category = "Spells")
-  float IceSpellMaxCooldown;
+  FSpellInfo EarthSpellData;
 
   UPROPERTY(EditAnywhere, Category = "Spells")
-  float EarthSpellMaxCooldown;
-
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  float FireSpellMaxCooldown;
+  FSpellInfo FireSpellData;
 
   float IceSpellCooldown;
   float EarthSpellCooldown;

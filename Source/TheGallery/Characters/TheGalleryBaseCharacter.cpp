@@ -10,10 +10,12 @@ ATheGalleryBaseCharacter::ATheGalleryBaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+  FreezedTime = 0.0f;
   Life = 100.0f;
   bCanBeDamaged = true;
 
   IsDead = false;
+  IsFreezed = false;
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +29,15 @@ void ATheGalleryBaseCharacter::BeginPlay()
 void ATheGalleryBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+  UpdateStatus();
+}
+
+void ATheGalleryBaseCharacter::FreezeCharacter(float Time)
+{
+  FreezedTime = Time;
+  IsFreezed = true;
+  CustomTimeDilation = 0.0f;
+  DebugLog("Character Freezed");
 }
 
 // Called to bind functionality to input
@@ -50,4 +61,20 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
   }
 
   return 0.0f;
+}
+
+void ATheGalleryBaseCharacter::UpdateStatus()
+{
+  // Update Freeze status
+  if (IsFreezed)
+  {
+    if (FreezedTime > 0.0f)
+      FreezedTime -= GetWorld()->GetDeltaSeconds();
+    else
+    {
+      CustomTimeDilation = 1.0f;
+      IsFreezed = false;
+      DebugLog("Character Unfreezed");
+    }
+  }
 }

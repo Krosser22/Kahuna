@@ -27,12 +27,10 @@ ATheGalleryDartTrap::ATheGalleryDartTrap(const class FObjectInitializer& PCIP)
   // Create Scene
   dartsceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("DartScene"));
   dartsceneComponent->SetupAttachment(sceneComponent);
-  //dartsceneComponent->SetRelativeLocation(tripwireCollisionComponent->RelativeLocation);
 
   // Create Arrow
   arrowComponent = PCIP.CreateDefaultSubobject<UArrowComponent>(this, TEXT("Arrow"));
   arrowComponent->SetupAttachment(dartsceneComponent);
-  //arrowComponent->SetRelativeLocation(dartsceneComponent->RelativeLocation);
 
   dartVelocity = FVector(-300.0f, 0.0f, 0.0f);
 }
@@ -102,11 +100,8 @@ void ATheGalleryDartTrap::ShootDart()
   ATheGalleryDart *dart = GetWorld()->SpawnActor<ATheGalleryDart>(dartProjectileTemplate, dartLocation, dartRotation, SpawnParams);
   if (dart)
   {
-    DebugLog("Working");
-  }
-  else
-  {
-    DebugLog("NOT Working");
+    dart->SetLifeSpan(1.0f);
+    dart->AddImpulse(dartRotation.Vector() * 100);
   }
 }
 

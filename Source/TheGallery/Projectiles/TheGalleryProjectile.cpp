@@ -12,17 +12,17 @@ ATheGalleryProjectile::ATheGalleryProjectile()
   // Create Collision
   CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
   CollisionComponent->InitSphereRadius(1.0f);
-  RootComponent = CollisionComponent;
+  CollisionComponent->SetupAttachment(RootComponent);
 
   CollisionComponent->bGenerateOverlapEvents = true;
   CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryProjectile::OnBeginOverlap);
+  CollisionComponent->SetSimulatePhysics(true);
+  CollisionComponent->SetEnableGravity(false);
 
   // Create Mesh
   Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
   Mesh->SetupAttachment(CollisionComponent);
-  Mesh->AttachParent = CollisionComponent;
-
-  CollisionComponent->SetSimulatePhysics(true);
+  //Mesh->AttachParent = CollisionComponent;
   //Mesh->SetSimulatePhysics(true);
 
   Lifetime = 2.0f;
@@ -41,9 +41,15 @@ void ATheGalleryProjectile::Tick(float DeltaTime)
   UpdateLifeTime(DeltaTime);
 }
 
+void ATheGalleryProjectile::AddImpulse(FVector impulse)
+{
+  if (CollisionComponent)
+    CollisionComponent->AddImpulse(impulse);
+}
+
 void ATheGalleryProjectile::OnBeginOverlap(UPrimitiveComponent * HitComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-
+  DebugLog("Parent Hitted Character");
 }
 
 void ATheGalleryProjectile::UpdateLifeTime(float DeltaTime)

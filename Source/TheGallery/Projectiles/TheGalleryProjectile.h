@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "../Characters/TheGalleryBaseCharacter.h"
 #include "TheGalleryProjectile.generated.h"
 
 UCLASS()
@@ -18,13 +19,16 @@ public:
 	virtual void BeginPlay() override;
 	
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
+  void AddImpulse(FVector impulse);
+
+  FORCEINLINE void SetCharacterOwner(ATheGalleryBaseCharacter* Character) { Owner = Character; }
   FORCEINLINE UStaticMeshComponent* GetMesh() { return Mesh; }
-
   FORCEINLINE USphereComponent* GetCollisionComponent() { return CollisionComponent; }
 
 protected:
+  UFUNCTION()
   virtual void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
   // Sphere Collision
@@ -35,9 +39,11 @@ protected:
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
   UStaticMeshComponent* Mesh;
 
-private:
-  void UpdateLifeTime(float DeltaTime);
+  ATheGalleryBaseCharacter* Owner;
 
   UPROPERTY(EditAnywhere, Category = "Spawn")
   float Lifetime;
+
+private:
+  void UpdateLifeTime(float DeltaTime);
 };

@@ -16,9 +16,11 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 
 	// Initialize
   SpinKickMaxCooldown = 2.0f;
-  IceSpellMaxCooldown = 2.0f;
 
-  IceProjectileVelocity = 100.0f;
+  IceSpellData.Damage = FireSpellData.Damage = EarthSpellData.Damage = 1.0f;
+  IceSpellData.Cooldown = FireSpellData.Cooldown = EarthSpellData.Cooldown = 2.0f;
+  IceSpellData.ProjectileSpeed = FireSpellData.ProjectileSpeed = EarthSpellData.ProjectileSpeed = 10.0f;
+  IceSpellData.ProjectileLifeTime = FireSpellData.ProjectileLifeTime = EarthSpellData.ProjectileLifeTime = 5.0f;
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +47,8 @@ void ATheGalleryHumanCharacter::SetupPlayerInputComponent(class UInputComponent*
 	InputComponent->BindAction("SpinKick", IE_Pressed, this, &ATheGalleryHumanCharacter::StartSpinKickCD);
 	
   InputComponent->BindAction("IceSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastIceSpell);
+  InputComponent->BindAction("FireSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastFireSpell);
+  InputComponent->BindAction("EarthSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastEarthSpell);
 
 	//InputComponent->BindAction("StaffHit", IE_Released, this, &ATheGalleryCharacter::Jump);
 
@@ -85,26 +89,54 @@ void ATheGalleryHumanCharacter::MoveRight(float Value)
 	ATheGalleryCharacter::MoveRight(Value);
 }
 
+void ATheGalleryHumanCharacter::CastSpell(FSpellInfo SpellInfo)
+{
+  FActorSpawnParameters SpawnParams;
+  SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+  FVector NewLocation = GetActorLocation() + (GetActorForwardVector() * 50.0f);
+  ATheGallerySpell *SpellProjectile = GetWorld()->SpawnActor<ATheGallerySpell>(SpellInfo.Template, NewLocation, GetActorRotation(), SpawnParams);
+  if (SpellProjectile)
+  {
+    SpellProjectile->SetCharacterOwner(this);
+    SpellProjectile->SetInitialValues(SpellInfo);
+
+    FVector Direction = GetActorForwardVector();
+    Direction.Normalize();
+    SpellProjectile->AddImpulse(Direction * SpellInfo.ProjectileSpeed);
+  }
+}
+
 void ATheGalleryHumanCharacter::CastIceSpell()
 {
   if (IceSpellCooldown <= 0.0f)
   {
-    FActorSpawnParameters SpawnParams;
-    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+    CastSpell(IceSpellData);
 
-    FVector NewLocation = GetActorLocation() + (GetActorForwardVector() * 50.0f);
+    IceSpellCooldown = IceSpellData.Cooldown;
+    DebugLog("Casted Ice Spell");
+  }
+}
 
-    ATheGalleryIceSpell *IceProjectile = GetWorld()->SpawnActor<ATheGalleryIceSpell>(IceSpellTemplate, NewLocation, GetActorRotation(), SpawnParams);
-    if (IceProjectile)
-    {
-      FVector Direction = GetActorForwardVector();
-      Direction.Normalize();
-      IceProjectile->GetMesh()->AddForce(Direction * IceProjectileVelocity * 1000.0f, NAME_None, true);
+void ATheGalleryHumanCharacter::CastFireSpell()
+{
+  if (FireSpellCooldown <= 0.0f)
+  {
+    CastSpell(FireSpellData);
 
-      IceSpellCooldown = IceSpellMaxCooldown;
+    FireSpellCooldown = FireSpellData.Cooldown;
+    DebugLog("Casted Fire Spell");
+  }
+}
 
-      DebugLog("Casted Ice Spell");
-    }
+void ATheGalleryHumanCharacter::CastEarthSpell()
+{
+  if (EarthSpellCooldown <= 0.0f)
+  {
+    CastSpell(EarthSpellData);
+
+    EarthSpellCooldown = EarthSpellData.Cooldown;
+    DebugLog("Casted Earth Spell");
   }
 }
 
