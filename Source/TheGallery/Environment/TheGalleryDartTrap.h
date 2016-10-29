@@ -26,10 +26,6 @@ public:
   UFUNCTION()
   void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
-  // Overlap with the dart
-  UFUNCTION()
-  void OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-
   // Shoot the Dart trap
   UFUNCTION()
   void ShootDart();

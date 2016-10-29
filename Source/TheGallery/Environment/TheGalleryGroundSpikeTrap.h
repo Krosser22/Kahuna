@@ -36,4 +36,8 @@ private:
   // Mesh
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
   UStaticMeshComponent* meshComponent;
+
+  // Damage of the trap
+  UPROPERTY(EditAnywhere, Category = "Damage")
+  float damage = 9999;
 };

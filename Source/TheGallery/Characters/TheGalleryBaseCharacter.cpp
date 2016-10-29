@@ -69,7 +69,9 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
     IsDead = true;
     return 1.0f;
   }
-
+  FString s = "";
+  s.AppendInt(Life);
+  DebugLog(s);
   return 0.0f;
 }
 

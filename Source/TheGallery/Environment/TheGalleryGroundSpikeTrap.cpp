@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryGroundSpikeTrap.h"
-#include "Characters/Player/TheGalleryCharacter.h"
+#include "Characters/TheGalleryBaseCharacter.h"
 
 // Sets default values
 ATheGalleryGroundSpikeTrap::ATheGalleryGroundSpikeTrap(const class FObjectInitializer& PCIP)
@@ -39,16 +39,10 @@ void ATheGalleryGroundSpikeTrap::Tick(float DeltaTime)
 
 void ATheGalleryGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-  ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
+  ATheGalleryBaseCharacter* actor = Cast<ATheGalleryBaseCharacter>(OtherActor);
 
-  if (Character)
+  if (actor)
   {
-    // Kill character
-    DebugLog("The Player has hit the Ground Spike Trap");
-  }
-  else
-  {
-    DebugLog("NOT A PLAYER");
-    // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
+    actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
   }
 }

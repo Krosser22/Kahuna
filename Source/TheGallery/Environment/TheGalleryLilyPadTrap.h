@@ -81,6 +81,14 @@ private:
   UPROPERTY(EditAnywhere, Category = "Time")
   float speedOfSink = 0.2f;
 
+  //Distance to sink the trap
+  UPROPERTY(EditAnywhere, Category = "Distance")
+  float distanceToSink = -5.0f;
+
+  // Damage of the trap
+  UPROPERTY(EditAnywhere, Category = "Damage")
+  float damage = 9999;
+
   // Alpha of lerp
   float alpha = 0;
 };

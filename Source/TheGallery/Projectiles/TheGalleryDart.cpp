@@ -24,16 +24,11 @@ void ATheGalleryDart::Tick(float DeltaTime)
 
 void ATheGalleryDart::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-  ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
+  ATheGalleryBaseCharacter* actor = Cast<ATheGalleryBaseCharacter>(OtherActor);
 
-  if (Character)
+  if (actor)
   {
-    // Kill character
-    DebugLog("The Player has hit the Dart");
-  }
-  else
-  {
-    DebugLog("NOT A PLAYER");
-    // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
+    actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+    Destroy();
   }
 }
