@@ -52,17 +52,28 @@ void ATheGallerySpell::OnBeginOverlap(class UPrimitiveComponent* HitComp, class 
 
 void ATheGallerySpell::Freeze(ATheGalleryBaseCharacter* Target)
 {
-  Target->FreezeCharacter(Data.EffectTime);
+  Target->FreezeCharacter(Data.EffectValue);
   ApplyDamage(Target);
 }
 
 void ATheGallerySpell::RadialDamage(ATheGalleryBaseCharacter* Target)
 {
-  //To-Do
+  for (TActorIterator<ATheGalleryBaseCharacter> Character(GetWorld()); Character; ++Character)
+  {
+    if ((*Character) != Owner)
+    {
+      float distance = GetDistanceTo(*Character);
+      if (distance <= Data.EffectValue)
+      {
+        DebugLog(*Character->GetName());
+        ApplyDamage(*Character);
+      }
+    }
+  }
 }
 
 void ATheGallerySpell::ApplyDamage(ATheGalleryBaseCharacter* Target)
 {
-  //To-Do: TakeDamage Data.Damage
+  //To-Do: Knock Back
   Target->TakeDamage(Data.Damage, FDamageEvent(), Owner->GetController(), Owner);
 }

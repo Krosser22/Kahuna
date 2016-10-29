@@ -61,7 +61,7 @@ void ATheGalleryBaseCharacter::CharacterDeath()
 
 float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
-  DebugLog("TakeDamage");
+  DebugLog("Take Damage");
   Life -= DamageAmount;
   if (Life <= 0.0f)
   {
