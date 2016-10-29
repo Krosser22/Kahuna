@@ -56,7 +56,7 @@ private:
 	/**
 	* Make the damage to the enemies in range.
 	*/
-	void SpinKickDamage();
+	void SpinKickDoDamage();
 
 	/**
 	* Controls the moment when the player uses the Staff Hit button.
@@ -66,7 +66,7 @@ private:
 	/**
 	* Make the damage to the enemies in range.
 	*/
-	void StaffHitDamage();
+	void StaffHitDoDamage();
 
     // Animal character template that is going to be spawned
     UPROPERTY(EditAnywhere, Category = "Transformation")
@@ -80,14 +80,18 @@ private:
     float SpinKickMaxCooldown;
 
     // Sphere Collision.
-    UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     USphereComponent* SpinKickCollisionComponent;
 
     // Radius Sphere Collision.
-    UPROPERTY(EditAnywhere, Category = "Collision")
+    UPROPERTY(EditAnywhere, Category = "Attacks")
     float SpinKickCollisionRadius;
 
-	// Time passed from the moment whe used the Staff Hit ability
+	// Damage from Spin Kick
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float SpinKickDamage;
+
+	// Time passed from the moment whe used the Staff Hit ability.
     float StaffHitCooldown;
 
     // The cooldown of the Staff Hit ability.
@@ -95,12 +99,20 @@ private:
     float StaffHitMaxCooldown;
 
     // Box Collision.
-    UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     UBoxComponent* StaffHitCollisionComponent;
 
-    // Radius Box Collision.
-    UPROPERTY(EditAnywhere, Category = "Collision")
-    float StaffHitCollisionRadius;
+	// Position of the Box Collider.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	FVector StaffHitBoxPosition;
+
+	// Damage from Staff Hit.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float StaffHitDamage;
+
+	// Knock Back Force.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float StaffHitKnockBackForce;
 
     UPROPERTY(EditAnywhere, Category = "Spells")
     FSpellInfo IceSpellData;
