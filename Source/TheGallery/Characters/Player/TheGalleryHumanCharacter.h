@@ -25,13 +25,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-  // Transform to animal form
+    // Transform to animal form
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToAnimal();
 
-	void StartSpinKickCD();
+	/**
+	* Update the cooldowns timers.
+	* @param DeltaTime - The time in seconds it took to complete the last frame.
+	*/
 	void UpdateCooldowns(float DeltaTime);
-	void SpinKickDamage();
 
 private:
 	/** Called for forwards/backward input */
@@ -40,35 +42,76 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-  void CastSpell(FSpellInfo SpellInfo);
+    void CastSpell(FSpellInfo SpellInfo);
 
-  void CastIceSpell();
-  void CastFireSpell();
-  void CastEarthSpell();
+    void CastIceSpell();
+    void CastFireSpell();
+    void CastEarthSpell();
 
-  // Animal character template that is going to be spawned
-	UPROPERTY(EditAnywhere, Category = "Transformation")
-	TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
+	/**
+	* Controls the moment when the player uses the Spink Kick button.
+	*/
+	void StartSpinKickCD();
 
-  float SpinKickCooldown;
+	/**
+	* Make the damage to the enemies in range.
+	*/
+	void SpinKickDamage();
 
-  UPROPERTY(EditAnywhere, Category = "Attacks")
-	float SpinKickMaxCooldown;
+	/**
+	* Controls the moment when the player uses the Staff Hit button.
+	*/
+	void StartStaffHitCD();
 
-	// Sphere Collision.
-	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USphereComponent* CollisionComponent;
+	/**
+	* Make the damage to the enemies in range.
+	*/
+	void StaffHitDamage();
 
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo IceSpellData;
+    // Animal character template that is going to be spawned
+    UPROPERTY(EditAnywhere, Category = "Transformation")
+    TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
 
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo EarthSpellData;
+    // Time passed from the moment whe used the Spin Kick ability
+    float SpinKickCooldown;
 
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo FireSpellData;
+    // The cooldown of the Spin Kick ability.
+    UPROPERTY(EditAnywhere, Category = "Attacks")
+    float SpinKickMaxCooldown;
 
-  float IceSpellCooldown;
-  float EarthSpellCooldown;
-  float FireSpellCooldown;
+    // Sphere Collision.
+    UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    USphereComponent* SpinKickCollisionComponent;
+
+    // Radius Sphere Collision.
+    UPROPERTY(EditAnywhere, Category = "Collision")
+    float SpinKickCollisionRadius;
+
+	// Time passed from the moment whe used the Staff Hit ability
+    float StaffHitCooldown;
+
+    // The cooldown of the Staff Hit ability.
+    UPROPERTY(EditAnywhere, Category = "Attacks")
+    float StaffHitMaxCooldown;
+
+    // Box Collision.
+    UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+    UBoxComponent* StaffHitCollisionComponent;
+
+    // Radius Box Collision.
+    UPROPERTY(EditAnywhere, Category = "Collision")
+    float StaffHitCollisionRadius;
+
+    UPROPERTY(EditAnywhere, Category = "Spells")
+    FSpellInfo IceSpellData;
+
+    UPROPERTY(EditAnywhere, Category = "Spells")
+    FSpellInfo EarthSpellData;
+
+    UPROPERTY(EditAnywhere, Category = "Spells")
+    FSpellInfo FireSpellData;
+
+    float IceSpellCooldown;
+    float EarthSpellCooldown;
+    float FireSpellCooldown;
 };
