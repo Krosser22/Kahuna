@@ -3,6 +3,15 @@
 #include "TheGallery.h"
 #include "TheGalleryBaseEnemy.h"
 
+// Sets default values
+ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
+{
+  // Create Collision
+  attackCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackBoxCollision"));
+  attackCollisionComponent->InitBoxExtent(FVector(10, 10, 1));
+  attackCollisionComponent->AttachTo(GetRootComponent());
+}
+
 void ATheGalleryBaseEnemy::CharacterDeath()
 {
   DebugLog("Enemy killed");
@@ -31,7 +40,21 @@ bool ATheGalleryBaseEnemy::isAttackOnCD()
 
 void ATheGalleryBaseEnemy::attack()
 {
-  DebugLog("Attack");
+  TArray<AActor*> baseCharacter;
+  attackCollisionComponent->GetOverlappingActors(baseCharacter);
+  for (auto actor : baseCharacter)
+  {
+    ATheGalleryBaseCharacter *character = Cast<ATheGalleryBaseCharacter>(actor);
+
+    if (character)
+    {
+      if (character != this)
+      {
+        actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+      }
+    }
+  }
+
   IsAttackOnCD = true;
   GetWorldTimerManager().SetTimer(attackCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDAttack, attackCD, false);
 }

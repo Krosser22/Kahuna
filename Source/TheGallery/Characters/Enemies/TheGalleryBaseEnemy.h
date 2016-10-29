@@ -14,6 +14,9 @@ class THEGALLERY_API ATheGalleryBaseEnemy : public ATheGalleryBaseCharacter
 	GENERATED_BODY()
 
 public:
+  // Sets default values for this actor's properties
+  ATheGalleryBaseEnemy();
+
   // Called when the character has no life left
   void CharacterDeath() override;
 
@@ -38,6 +41,10 @@ public:
   void attack();
 
 private:
+  // Attack Box Collision
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
+  UBoxComponent* attackCollisionComponent;
+
   // Finish CD Attack
   UFUNCTION()
   void FinishCDAttack();
@@ -46,6 +53,11 @@ private:
   UPROPERTY(EditAnywhere, Category = "Attack")
   float attackCD = 2.0f;
 
+  // The Damage when attack
+  UPROPERTY(EditAnywhere, Category = "Attack")
+  float damage = 9999.0f;
+
+  // If is the attack on CD
   bool IsAttackOnCD = false;
 
   // Attack CD timer
