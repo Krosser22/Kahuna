@@ -188,7 +188,7 @@ void ATheGalleryHumanCharacter::SpinKickDamage()
 		// Check if the actor is not the proper Character.
 		if (Actors[a] != this)
 		{
-			ACharacter* Enemies = Cast<ACharacter>(Actors[a]);
+			ACharacter* Enemies = Cast<ATheGalleryBaseCharacter>(Actors[a]);
 			// Check if the enemy capsule is overlapping with the characters collision component.
 			if (Enemies && SpinKickCollisionComponent->IsOverlappingComponent(Enemies->GetCapsuleComponent()))
 			{
@@ -222,17 +222,17 @@ void ATheGalleryHumanCharacter::StaffHitDamage()
 		// Check if the actor is not the proper Character.
 		if (Actors[a] != this)
 		{
-			ACharacter* Enemies = Cast<ACharacter>(Actors[a]);
+			ATheGalleryBaseCharacter* Enemies = Cast<ATheGalleryBaseCharacter>(Actors[a]);
 			// Check if the enemy capsule is overlapping with the characters collision component.
 			if (Enemies && SpinKickCollisionComponent->IsOverlappingComponent(Enemies->GetCapsuleComponent()))
 			{
 				// Direction 
-				FVector Dir =  this->GetActorLocation() - Enemies->GetActorLocation();
+				FVector Dir =  Enemies->GetActorLocation() - this->GetActorLocation();
 				Dir.Normalize();
 				// Backward
-				FVector Force = Dir * -1000.0f;
+				FVector Force = Dir * 5000.0f;
 				Enemies->LaunchCharacter(Force, true, true); 
-
+				Enemies->KnockBackCharacter(1);
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s affected by: Staff Kick"), *Enemies->GetName()));
 			}
 		}
