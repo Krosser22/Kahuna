@@ -34,7 +34,7 @@ protected:
   virtual void CharacterDeath();
 
   // The current life of the character
-  UPROPERTY(EditAnywhere, Category = "Character Stats")
+  UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Stats")
   float Life;
 
   bool IsDead;

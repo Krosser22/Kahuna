@@ -11,7 +11,7 @@ UENUM(BlueprintType)
 enum class ESpellEffect : uint8
 {
   SE_Freeze    UMETA(DisplayName = "Freeze"),
-  SE_AoEDamage UMETA(DisplayName = "AoE Damage"),
+  SE_AoEDamage UMETA(DisplayName = "Radial Damage"),
   SE_None      UMETA(DisplayName = "Basic Damage")
 };
 
@@ -32,8 +32,11 @@ struct FSpellInfo
   UPROPERTY(EditAnywhere, Category = "Spells")
   float ProjectileLifeTime;
 
+  // Ice = Freeze time
+  // Fire = Radius of AoE damage
+  // Earth = KnockBack force
   UPROPERTY(EditAnywhere, Category = "Spells")
-  float EffectTime;
+  float EffectValue;
 
   UPROPERTY(EditAnywhere, Category = "Spells")
   ESpellEffect Effect;
