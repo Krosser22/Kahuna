@@ -76,10 +76,6 @@ private:
     UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     USphereComponent* SpinKickCollisionComponent;
 
-    // Radius Sphere Collision.
-    UPROPERTY(EditAnywhere, Category = "Attacks")
-    float SpinKickCollisionRadius;
-
 	// Damage from Spin Kick
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float SpinKickDamage;
@@ -94,10 +90,6 @@ private:
 	// Box Collision.
 	UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* StaffHitCollisionComponent;
-
-	// Position of the Box Collider.
-	UPROPERTY(EditAnywhere, Category = "Attacks")
-	FVector StaffHitBoxPosition;
 
 	// Damage from Staff Hit.
 	UPROPERTY(EditAnywhere, Category = "Attacks")
