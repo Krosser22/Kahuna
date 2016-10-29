@@ -56,8 +56,7 @@ void ATheGalleryBaseCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ATheGalleryBaseCharacter::CharacterDeath()
 {
-  IsDead = true;
-  Destroy();
+  
 }
 
 float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
@@ -67,6 +66,7 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
   if (Life <= 0.0f)
   {
     CharacterDeath();
+    IsDead = true;
     return 1.0f;
   }
 
