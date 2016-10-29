@@ -151,18 +151,6 @@ void ATheGalleryHumanCharacter::CastEarthSpell()
   }
 }
 
-void ATheGalleryHumanCharacter::StartSpinKickCD() 
-{
-	if (SpinKickCooldown <= 0.0f)
-	{
-		SpinKickDoDamage();
-        SpinKickCooldown = SpinKickMaxCooldown;
-		DebugLog("Use Spin Kick");
-	}
-	else
-		DebugLog("Cooldown Spin Kick");
-}
-
 void ATheGalleryHumanCharacter::UpdateCooldowns(float DeltaTime) 
 {
   if (SpinKickCooldown > 0.0f)
@@ -180,6 +168,19 @@ void ATheGalleryHumanCharacter::UpdateCooldowns(float DeltaTime)
   if (FireSpellCooldown > 0.0f)
     FireSpellCooldown -= DeltaTime;
 }
+
+void ATheGalleryHumanCharacter::StartSpinKickCD()
+{
+	if (SpinKickCooldown <= 0.0f)
+	{
+		SpinKickDoDamage();
+		SpinKickCooldown = SpinKickMaxCooldown;
+		DebugLog("Use Spin Kick");
+	}
+	else
+		DebugLog("Cooldown Spin Kick");
+}
+
 
 void ATheGalleryHumanCharacter::SpinKickDoDamage() 
 {

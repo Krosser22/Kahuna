@@ -72,13 +72,6 @@ private:
     UPROPERTY(EditAnywhere, Category = "Transformation")
     TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
 
-    // Time passed from the moment whe used the Spin Kick ability
-    float SpinKickCooldown;
-
-    // The cooldown of the Spin Kick ability.
-    UPROPERTY(EditAnywhere, Category = "Attacks")
-    float SpinKickMaxCooldown;
-
     // Sphere Collision.
     UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
     USphereComponent* SpinKickCollisionComponent;
@@ -91,16 +84,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float SpinKickDamage;
 
-	// Time passed from the moment whe used the Staff Hit ability.
-    float StaffHitCooldown;
+	// The cooldown of the Spin Kick ability.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float SpinKickMaxCooldown;
 
-    // The cooldown of the Staff Hit ability.
-    UPROPERTY(EditAnywhere, Category = "Attacks")
-    float StaffHitMaxCooldown;
+	// Time passed from the moment whe used the Spin Kick ability
+	float SpinKickCooldown;
 
-    // Box Collision.
-    UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    UBoxComponent* StaffHitCollisionComponent;
+	// Box Collision.
+	UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UBoxComponent* StaffHitCollisionComponent;
 
 	// Position of the Box Collider.
 	UPROPERTY(EditAnywhere, Category = "Attacks")
@@ -110,9 +103,16 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float StaffHitDamage;
 
+    // The cooldown of the Staff Hit ability.
+    UPROPERTY(EditAnywhere, Category = "Attacks")
+    float StaffHitMaxCooldown;
+
 	// Knock Back Force.
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float StaffHitKnockBackForce;
+
+	// Time passed from the moment whe used the Staff Hit ability.
+	float StaffHitCooldown;
 
     UPROPERTY(EditAnywhere, Category = "Spells")
     FSpellInfo IceSpellData;
