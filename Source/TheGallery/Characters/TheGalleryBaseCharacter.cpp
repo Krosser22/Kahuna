@@ -16,6 +16,7 @@ ATheGalleryBaseCharacter::ATheGalleryBaseCharacter()
 
   IsDead = false;
   IsFreezed = false;
+  IsKnockedBack = false;
 }
 
 // Called when the game starts or when spawned
@@ -29,7 +30,7 @@ void ATheGalleryBaseCharacter::BeginPlay()
 void ATheGalleryBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-  UpdateStatus();
+  UpdateStatus(DeltaTime);
 }
 
 void ATheGalleryBaseCharacter::FreezeCharacter(float Time)
@@ -38,6 +39,13 @@ void ATheGalleryBaseCharacter::FreezeCharacter(float Time)
   IsFreezed = true;
   CustomTimeDilation = 0.0f;
   DebugLog("Character Freezed");
+}
+
+void ATheGalleryBaseCharacter::KnockBackCharacter(float Time)
+{
+  KnockBackTime = Time;
+  IsKnockedBack = true;
+  DebugLog("Character Knocked Back");
 }
 
 // Called to bind functionality to input
@@ -63,11 +71,12 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
   return 0.0f;
 }
 
-void ATheGalleryBaseCharacter::UpdateStatus()
+void ATheGalleryBaseCharacter::UpdateStatus(float DeltaTime)
 {
   // Update Freeze status
   if (IsFreezed)
   {
+    //Delta time is 0 when is freezed
     if (FreezedTime > 0.0f)
       FreezedTime -= GetWorld()->GetDeltaSeconds();
     else
@@ -75,6 +84,16 @@ void ATheGalleryBaseCharacter::UpdateStatus()
       CustomTimeDilation = 1.0f;
       IsFreezed = false;
       DebugLog("Character Unfreezed");
+    }
+  }
+  if (IsKnockedBack)
+  {
+    if (KnockBackTime > 0.0f)
+      KnockBackTime -= DeltaTime;
+    else
+    {
+      IsKnockedBack = false;
+      DebugLog("Character Finish Knock Back");
     }
   }
 }
