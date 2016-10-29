@@ -56,15 +56,17 @@ void ATheGalleryBaseCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ATheGalleryBaseCharacter::CharacterDeath()
 {
-  IsDead = true;
+  
 }
 
 float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
+  DebugLog("Take Damage");
   Life -= DamageAmount;
   if (Life <= 0.0f)
   {
     CharacterDeath();
+    IsDead = true;
     return 1.0f;
   }
 
@@ -86,6 +88,7 @@ void ATheGalleryBaseCharacter::UpdateStatus(float DeltaTime)
       DebugLog("Character Unfreezed");
     }
   }
+
   if (IsKnockedBack)
   {
     if (KnockBackTime > 0.0f)
