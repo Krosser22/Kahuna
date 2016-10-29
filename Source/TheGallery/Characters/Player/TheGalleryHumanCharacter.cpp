@@ -226,13 +226,13 @@ void ATheGalleryHumanCharacter::StaffHitDamage()
 			// Check if the enemy capsule is overlapping with the characters collision component.
 			if (Enemies && SpinKickCollisionComponent->IsOverlappingComponent(Enemies->GetCapsuleComponent()))
 			{
-				// View Location
-				FVector Loc = GetPawnViewLocation();
-				// View Rotation
-				FRotator Rot = GetViewRotation().GetNormalized();
-				FVector Force = Loc + Rot.Vector() * 500.0f;
-				// Do Damage
-				Enemies->LaunchPawn(Force, true, true);
+				// Direction 
+				FVector Dir =  this->GetActorLocation() - Enemies->GetActorLocation();
+				Dir.Normalize();
+				// Backward
+				FVector Force = Dir * -1000.0f;
+				Enemies->LaunchCharacter(Force, true, true); 
+
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s affected by: Staff Kick"), *Enemies->GetName()));
 			}
 		}
