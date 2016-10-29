@@ -21,6 +21,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
   void FreezeCharacter(float Time);
+  void KnockBackCharacter(float Time);
 
 protected:
 	// Called to bind functionality to input
@@ -41,10 +42,13 @@ protected:
   // If the character is freezed the tick DeltaTime will return 0 (use GetWorld()->GetDeltaSeconds instead)
   bool IsFreezed;
 
+  bool IsKnockedBack;
+
   // To-Do: more generic stats (player and enemies)...
 
 private:
-  void UpdateStatus();
+  void UpdateStatus(float DeltaTime);
 
   float FreezedTime;
+  float KnockBackTime;
 };
