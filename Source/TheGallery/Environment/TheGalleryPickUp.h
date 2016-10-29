@@ -71,10 +71,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = PickUp)
 	float RotationSpeed;
 
-	// Radius Sphere Collision.
-	UPROPERTY(EditAnywhere, Category = PickUp)
-	float CollisionRadius;
-
 	// Number of points from one pickup.
 	UPROPERTY(EditAnywhere, Category = PickUp)
 	int32 Points;

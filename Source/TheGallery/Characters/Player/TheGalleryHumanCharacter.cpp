@@ -11,11 +11,9 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 
 	// Initialize
 	SpinKickMaxCooldown = StaffHitMaxCooldown = 2.0f;
-	SpinKickCollisionRadius = 100.0f;
 	StaffHitDamage = 5.0f;
 	SpinKickDamage = 10.0f;
 	StaffHitKnockBackForce = 5000.0f;
-	StaffHitBoxPosition = FVector(60.0f, 0.0f, 0.0f);
 
 	IceSpellData.Damage = FireSpellData.Damage = EarthSpellData.Damage = 1.0f;
 	IceSpellData.Cooldown = FireSpellData.Cooldown = EarthSpellData.Cooldown = 2.0f;
@@ -24,11 +22,11 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 
 	// Create Collision
 	SpinKickCollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SpinKickCollisionComponent"));
-	SpinKickCollisionComponent->InitSphereRadius(SpinKickCollisionRadius);
+	SpinKickCollisionComponent->InitSphereRadius(100.0f);
 	SpinKickCollisionComponent->SetupAttachment(RootComponent);
 
 	StaffHitCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("StaffHitCollisionComponent"));
-	StaffHitCollisionComponent->SetRelativeLocation(StaffHitBoxPosition);
+	StaffHitCollisionComponent->SetRelativeLocation(FVector(60.0f, 0.0f, 0.0f));
 	StaffHitCollisionComponent->SetupAttachment(RootComponent);
 }
 
@@ -36,9 +34,6 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 void ATheGalleryHumanCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	// Initialize Sphere Collision Radius.
-	SpinKickCollisionComponent->SetSphereRadius(SpinKickCollisionRadius);
-	StaffHitCollisionComponent->SetRelativeLocation(StaffHitBoxPosition);
 }
 
 // Called every frame

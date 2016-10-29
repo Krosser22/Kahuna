@@ -14,11 +14,10 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 	// Initialize
 	RotationSpeed = 0.0f;
 	Points = 0;
-	CollisionRadius = 100.0f;
 
 	// Create Collision
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
-	CollisionComponent->InitSphereRadius(CollisionRadius);
+	CollisionComponent->InitSphereRadius(60.0f);
 	CollisionComponent->SetupAttachment(RootComponent);
 
 	// Add Events
@@ -34,8 +33,6 @@ ATheGalleryPickUp::ATheGalleryPickUp()
 void ATheGalleryPickUp::BeginPlay()
 {
 	Super::BeginPlay();
-	// Initialize Sphere Collision Radius.
-	CollisionComponent->SetSphereRadius(CollisionRadius);
 	
 }
 
