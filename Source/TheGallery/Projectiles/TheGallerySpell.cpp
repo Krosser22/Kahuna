@@ -64,4 +64,5 @@ void ATheGallerySpell::RadialDamage(ATheGalleryBaseCharacter* Target)
 void ATheGallerySpell::ApplyDamage(ATheGalleryBaseCharacter* Target)
 {
   //To-Do: TakeDamage Data.Damage
+  Target->TakeDamage(Data.Damage, FDamageEvent(), Owner->GetController(), Owner);
 }
