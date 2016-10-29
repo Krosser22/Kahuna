@@ -78,7 +78,7 @@ void ATheGalleryLilyPadTrap::WaitingToSinkOff()
 
 void ATheGalleryLilyPadTrap::SinkOff()
 {
-  DebugLog("TheGalleryLilyPadTrap sinking off");
+  //DebugLog("TheGalleryLilyPadTrap sinking off");
   state = ELilyPadState::ELilyPadStateSinkingOff;
   GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::FinishOfSinkOff, timeToBeSinked, false);
   // TODO: Start the sink off animation

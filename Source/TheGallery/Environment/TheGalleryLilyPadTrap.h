@@ -71,19 +71,19 @@ private:
 
   // Time until the lily pad will start sinking
   UPROPERTY(EditAnywhere, Category = "Time")
-  float timeUntilSinking = 1;
+  float timeUntilSinking = 0.6f;
 
   // Time to be sinked until the lily pad sink off
   UPROPERTY(EditAnywhere, Category = "Time")
-  float timeToBeSinked = 1;
+  float timeToBeSinked = 0.6f;
 
   //Speed of sink the trap
   UPROPERTY(EditAnywhere, Category = "Time")
-  float speedOfSink = 0.2f;
+  float speedOfSink = 0.1f;
 
   //Distance to sink the trap
   UPROPERTY(EditAnywhere, Category = "Distance")
-  float distanceToSink = -5.0f;
+  float distanceToSink = -22.0f;
 
   // Damage of the trap
   UPROPERTY(EditAnywhere, Category = "Damage")
