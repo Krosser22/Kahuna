@@ -5,6 +5,7 @@
 
 void ATheGalleryBaseEnemy::CharacterDeath()
 {
+  DebugLog("DEAD!");
   IsDead = true;
 }
 

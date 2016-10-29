@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryLilyPadTrap.h"
-#include "Characters/Player/TheGalleryCharacter.h"
+#include "Characters/TheGalleryBaseCharacter.h"
 
 // Sets default values
 ATheGalleryLilyPadTrap::ATheGalleryLilyPadTrap(const class FObjectInitializer& PCIP)
@@ -38,19 +38,19 @@ void ATheGalleryLilyPadTrap::Tick(float DeltaTime)
   
   if (state == ELilyPadState::ELilyPadStateSinking)
   {
-    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, -10.0f), alpha));
+    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, distanceToSink), alpha));
     alpha += speedOfSink;
   }
   else if (state == ELilyPadState::ELilyPadStateSinkingOff)
   {
-    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, -10.0f), alpha));
+    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, distanceToSink), alpha));
     alpha -= speedOfSink;
   }
 }
 
 void ATheGalleryLilyPadTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-  ATheGalleryBaseCharacter* baseCharacter = Cast<ATheGalleryCharacter>(OtherActor);
+  ATheGalleryBaseCharacter* baseCharacter = Cast<ATheGalleryBaseCharacter>(OtherActor);
  
   if (baseCharacter && state == ELilyPadState::ELilyPadStateWaiting)
   {
@@ -78,17 +78,22 @@ void ATheGalleryLilyPadTrap::WaitingToSinkOff()
 
 void ATheGalleryLilyPadTrap::SinkOff()
 {
-  //DebugLog("TheGalleryLilyPadTrap sinking off");
+  DebugLog("TheGalleryLilyPadTrap sinking off");
   state = ELilyPadState::ELilyPadStateSinkingOff;
   GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::FinishOfSinkOff, timeToBeSinked, false);
   // TODO: Start the sink off animation
 
-  /*TArray<AActor*> baseCharacter;
-  collisionComponent->GetOverlappingActors(baseCharacter, TSubclassOf<ATheGalleryBaseCharacter>());
+  TArray<AActor*> baseCharacter;
+  collisionComponent->GetOverlappingActors(baseCharacter);
   for (auto actor : baseCharacter)
   {
-    actor->TakeDamage(1);
-  }*/
+    ATheGalleryBaseCharacter *character = Cast<ATheGalleryBaseCharacter>(actor);
+
+    if (character)
+    {
+      actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+    }
+  }
 }
 
 void ATheGalleryLilyPadTrap::FinishOfSinkOff()

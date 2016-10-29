@@ -2,7 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryDartTrap.h"
-#include "Characters/Player/TheGalleryCharacter.h"
+#include "Characters/TheGalleryBaseCharacter.h"
 
 // Sets default values
 ATheGalleryDartTrap::ATheGalleryDartTrap(const class FObjectInitializer& PCIP)
@@ -50,45 +50,18 @@ void ATheGalleryDartTrap::Tick(float DeltaTime)
 
 void ATheGalleryDartTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-  ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
+  ATheGalleryBaseCharacter* Character = Cast<ATheGalleryBaseCharacter>(OtherActor);
 
-  if (Character)
+  if (Character && !activated)
   {
-    // Activate the dart trap
-    if (!activated)
-    {
-      DebugLog("The Player has activate the Dart Trap");
-      ShootDart();
-    }
-  }
-  else
-  {
-    DebugLog("NOT PLAYER");
-    // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
-  }
-}
-
-void ATheGalleryDartTrap::OnDartHit(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-{
-  if (activated)
-  {
-    ATheGalleryCharacter* Character = Cast<ATheGalleryCharacter>(OtherActor);
-
-    if (Character)
-    {
-      // Kill character
-      DebugLog("The Player has been hit by the Dart trap");
-    }
-    else
-    {
-      // TODO: (Cast to enemy), (if it is an enemy) --> kill enemy
-    }
+    //DebugLog("The Player has activate the Dart Trap");
+    ShootDart();
   }
 }
 
 void ATheGalleryDartTrap::ShootDart()
 {
-  DebugLog("Shoot Dart from the dart trap");
+  //DebugLog("Shoot Dart from the dart trap");
   activated = true;
   GetWorldTimerManager().SetTimer(resetTimerHandle, this, &ATheGalleryDartTrap::ResetDart, timeToReset, false);
 
@@ -105,6 +78,6 @@ void ATheGalleryDartTrap::ShootDart()
 
 void ATheGalleryDartTrap::ResetDart()
 {
-  DebugLog("Reset the dart trap");
+  //DebugLog("Reset the dart trap");
   activated = false;
 }
