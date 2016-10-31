@@ -12,3 +12,13 @@ void DebugLog(FString msg)
     GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, msg);
   }
 }
+
+void DebugLog(FString msg, int msgInt)
+{
+  FString realMsg = msg;
+  realMsg.AppendInt(msgInt);
+  if (GEngine)
+  {
+    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, realMsg);
+  }
+}

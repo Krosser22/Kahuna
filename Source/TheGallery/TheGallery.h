@@ -8,4 +8,6 @@
 
 void DebugLog(FString msg);
 
+void DebugLog(FString msg, int msgInt);
+
 #endif
