@@ -43,6 +43,8 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+  /// /// /// /// /// /// /// /// /// ///
+
   // If the AnimalCharacter is sprinting
   bool bIsSprinting = false;
 
@@ -52,14 +54,16 @@ private:
   // The velocity when sprinting
   float sprintingVelocity = 1800.0f;
 
+  /// /// /// /// /// /// /// /// /// ///
+
+  // Actual FOV
+  float actualFOV = 90.0f;
+
   // The standard FOV
   float standardFOV = 90.0f;
 
   // The FOV when sprinting
   float sprintingFOV = 110.0f;
-
-  // Actual FOV
-  float actualFOV = 1.0f;
 
   // The speed of changing the FOV between standard and sprinting velocity
   float FOVSpeed = 5.0f;
