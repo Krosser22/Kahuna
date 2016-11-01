@@ -27,14 +27,27 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToHuman();
 
+  /// /// /// /// /// /// /// /// /// ///
+
   // Start the sprint
   void Sprint();
 
   // Stop the sprint
   void StopSprinting();
 
+  // Return if it is sprinting
   UFUNCTION(BlueprintCallable, Category = "State")
   bool isSprinting();
+
+  /// /// /// /// /// /// /// /// /// ///
+
+  UFUNCTION(BlueprintCallable, Category = "Pawn|Character")
+  void Jump() override;
+
+  UFUNCTION(BlueprintCallable, Category = "Pawn|Character")
+  void StopJumping() override;
+
+  void Landed(const FHitResult& Hit) override;
 
 private:
 	/** Called for forwards/backward input */
@@ -64,4 +77,12 @@ private:
 
   // The speed of changing the FOV between standard and sprinting velocity
   float FOVSpeed = 5.0f;
+
+  /// /// /// /// /// /// /// /// /// ///
+
+  bool bCanDoDoubleJump = false;
+
+  bool bDidDoubleJump = false;
+
+  float doubleJumpVelocity = 600.0f;
 };

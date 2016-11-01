@@ -8,6 +8,7 @@ ATheGalleryAnimalCharacter::ATheGalleryAnimalCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -27,16 +28,16 @@ void ATheGalleryAnimalCharacter::Tick(float DeltaTime)
   float FOVGapPercent = (sprintingFOV - standardFOV) * 0.01f;
   float newFOV = ((standardFOV + (FOVGapPercent * newFOVPercent)) * bIsSprinting) + (standardFOV * !bIsSprinting); // Different if sprinting or not
   GetFollowCamera()->FieldOfView = FMath::Lerp(GetFollowCamera()->FieldOfView, newFOV, FOVSpeed * DeltaTime);
-  DebugLog("", GetFollowCamera()->FieldOfView);
+  //DebugLog("", GetFollowCamera()->FieldOfView);
 }
 
 // Called to bind functionality to input
 void ATheGalleryAnimalCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	check(InputComponent);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ATheGalleryAnimalCharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Released, this, &ATheGalleryAnimalCharacter::StopJumping);
+  
 	InputComponent->BindAction("Transform", IE_Pressed, this, &ATheGalleryAnimalCharacter::TransformToHuman);
 
 	// Use parent movement functions (camera movement also)
@@ -80,4 +81,33 @@ void ATheGalleryAnimalCharacter::MoveForward(float Value)
 void ATheGalleryAnimalCharacter::MoveRight(float Value)
 {
 	ATheGalleryCharacter::MoveRight(Value);
+}
+
+void ATheGalleryAnimalCharacter::Jump()
+{
+  if (bCanDoDoubleJump && !bDidDoubleJump)
+  {
+    GetCharacterMovement()->Velocity += FVector(0, 0, 1) * doubleJumpVelocity;
+    bCanDoDoubleJump = false;
+    bDidDoubleJump = true;
+  }
+  else
+  {
+    bCanDoDoubleJump = true;
+    ACharacter::Jump();
+  }
+}
+
+void ATheGalleryAnimalCharacter::StopJumping()
+{
+  ACharacter::StopJumping();
+  bPressedJump = false;
+  JumpKeyHoldTime = 0.0f;
+}
+
+void ATheGalleryAnimalCharacter::Landed(const FHitResult& Hit)
+{
+  ACharacter::Landed(Hit);
+  bCanDoDoubleJump = false;
+  bDidDoubleJump = false;
 }
