@@ -56,14 +56,11 @@ private:
 
   /// /// /// /// /// /// /// /// /// ///
 
-  // Actual FOV
-  float actualFOV = 90.0f;
-
   // The standard FOV
   float standardFOV = 90.0f;
 
   // The FOV when sprinting
-  float sprintingFOV = 110.0f;
+  float sprintingFOV = 140.0f;
 
   // The speed of changing the FOV between standard and sprinting velocity
   float FOVSpeed = 5.0f;

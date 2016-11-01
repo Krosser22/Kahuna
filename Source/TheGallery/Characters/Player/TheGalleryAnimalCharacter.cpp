@@ -22,15 +22,12 @@ void ATheGalleryAnimalCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
   //Sprint
-  float currentSpeed = GetCharacterMovement()->Velocity.Size();
-  if (currentSpeed > standardVelocity)
-  {
-    float percentage = (currentSpeed - standardVelocity) / (sprintingVelocity - standardVelocity);
-    percentage = FMath::Clamp(percentage, 0.0f, 1.0f);
-    float FOVGap = sprintingFOV - standardFOV;
-    actualFOV = standardFOV + (FOVGap * percentage);
-  }
-  GetFollowCamera()->FieldOfView = FMath::Lerp(GetFollowCamera()->FieldOfView, actualFOV, FOVSpeed * DeltaTime);
+  float currentSpeed = FMath::Max(GetCharacterMovement()->Velocity.Size(), standardVelocity);
+  float newFOVPercent = currentSpeed / (sprintingVelocity * 0.01f);
+  float FOVGapPercent = (sprintingFOV - standardFOV) * 0.01f;
+  float newFOV = ((standardFOV + (FOVGapPercent * newFOVPercent)) * bIsSprinting) + (standardFOV * !bIsSprinting); // Different if sprinting or not
+  GetFollowCamera()->FieldOfView = FMath::Lerp(GetFollowCamera()->FieldOfView, newFOV, FOVSpeed * DeltaTime);
+  DebugLog("", GetFollowCamera()->FieldOfView);
 }
 
 // Called to bind functionality to input
