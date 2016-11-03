@@ -25,7 +25,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-    // Transform to animal form
+  // Transform to animal form
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToAnimal();
 
@@ -42,11 +42,11 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-    void CastSpell(FSpellInfo SpellInfo);
+  void CastSpell(FSpellInfo SpellInfo);
 
-    void CastIceSpell();
-    void CastFireSpell();
-    void CastEarthSpell();
+  void CastIceSpell();
+  void CastFireSpell();
+  void CastEarthSpell();
 
 	/**
 	* Controls the moment when the player uses the Spink Kick button.
@@ -68,13 +68,13 @@ private:
 	*/
 	void StaffHitDoDamage();
 
-    // Animal character template that is going to be spawned
-    UPROPERTY(EditAnywhere, Category = "Transformation")
-    TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
+  // Animal character template that is going to be spawned
+  UPROPERTY(EditAnywhere, Category = "Transformation")
+  TSubclassOf<ATheGalleryAnimalCharacter> AnimalTemplate;
 
-    // Sphere Collision.
-    UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    USphereComponent* SpinKickCollisionComponent;
+  // Sphere Collision.
+  UPROPERTY(Category = "Attacks", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+  USphereComponent* SpinKickCollisionComponent;
 
 	// Damage from Spin Kick
 	UPROPERTY(EditAnywhere, Category = "Attacks")
@@ -95,9 +95,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float StaffHitDamage;
 
-    // The cooldown of the Staff Hit ability.
-    UPROPERTY(EditAnywhere, Category = "Attacks")
-    float StaffHitMaxCooldown;
+  // The cooldown of the Staff Hit ability.
+  UPROPERTY(EditAnywhere, Category = "Attacks")
+  float StaffHitMaxCooldown;
 
 	// Knock Back Force.
 	UPROPERTY(EditAnywhere, Category = "Attacks")
@@ -106,16 +106,16 @@ private:
 	// Time passed from the moment whe used the Staff Hit ability.
 	float StaffHitCooldown;
 
-    UPROPERTY(EditAnywhere, Category = "Spells")
-    FSpellInfo IceSpellData;
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  FSpellInfo IceSpellData;
 
-    UPROPERTY(EditAnywhere, Category = "Spells")
-    FSpellInfo EarthSpellData;
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  FSpellInfo EarthSpellData;
 
-    UPROPERTY(EditAnywhere, Category = "Spells")
-    FSpellInfo FireSpellData;
+  UPROPERTY(EditAnywhere, Category = "Spells")
+  FSpellInfo FireSpellData;
 
-    float IceSpellCooldown;
-    float EarthSpellCooldown;
-    float FireSpellCooldown;
+  float IceSpellCooldown;
+  float EarthSpellCooldown;
+  float FireSpellCooldown;
 };

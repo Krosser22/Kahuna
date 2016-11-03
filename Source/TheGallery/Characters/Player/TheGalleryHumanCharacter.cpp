@@ -54,9 +54,9 @@ void ATheGalleryHumanCharacter::SetupPlayerInputComponent(class UInputComponent*
 	InputComponent->BindAction("SpinKick", IE_Pressed, this, &ATheGalleryHumanCharacter::StartSpinKickCD);
 	InputComponent->BindAction("StaffHit", IE_Released, this, &ATheGalleryHumanCharacter::StartStaffHitCD);
 	
-    InputComponent->BindAction("IceSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastIceSpell);
-    InputComponent->BindAction("FireSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastFireSpell);
-    InputComponent->BindAction("EarthSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastEarthSpell);
+  InputComponent->BindAction("IceSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastIceSpell);
+  InputComponent->BindAction("FireSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastFireSpell);
+  InputComponent->BindAction("EarthSpell", IE_Pressed, this, &ATheGalleryHumanCharacter::CastEarthSpell);
 
 	// Use parent movement functions (camera movement also)
 	InputComponent->BindAxis("MoveForward", this, &ATheGalleryHumanCharacter::MoveForward);
@@ -120,7 +120,6 @@ void ATheGalleryHumanCharacter::CastIceSpell()
     CastSpell(IceSpellData);
 
     IceSpellCooldown = IceSpellData.Cooldown;
-    DebugLog("Casted Ice Spell");
   }
 }
 
@@ -131,7 +130,6 @@ void ATheGalleryHumanCharacter::CastFireSpell()
     CastSpell(FireSpellData);
 
     FireSpellCooldown = FireSpellData.Cooldown;
-    DebugLog("Casted Fire Spell");
   }
 }
 
@@ -142,7 +140,6 @@ void ATheGalleryHumanCharacter::CastEarthSpell()
     CastSpell(EarthSpellData);
 
     EarthSpellCooldown = EarthSpellData.Cooldown;
-    DebugLog("Casted Earth Spell");
   }
 }
 
