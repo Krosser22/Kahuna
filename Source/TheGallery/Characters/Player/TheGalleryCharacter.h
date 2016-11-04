@@ -52,6 +52,10 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Menu")
+	void ActiveMenu();
+	void ActiveMenu_Implementation();
+
   /**
    * Possess a new character (and unpossess the current one)
    * @param ToPossess - The character that is going to be possessed.
