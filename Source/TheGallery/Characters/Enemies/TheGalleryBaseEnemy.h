@@ -5,6 +5,14 @@
 #include "Characters/TheGalleryBaseCharacter.h"
 #include "TheGalleryBaseEnemy.generated.h"
 
+UENUM(BlueprintType)
+enum class EEnemyType : uint8
+{
+  EEnemyType_Basic UMETA(DisplayName = "Basic"),
+  EEnemyType_Elite UMETA(DisplayName = "Elite"),
+  EEnemyType_Boss UMETA(DisplayName = "Boss")
+};
+
 /**
  * 
  */
@@ -56,6 +64,10 @@ private:
   // The Damage when attack
   UPROPERTY(EditAnywhere, Category = "Attack")
   float damage = 9999.0f;
+
+  // The type of enemy
+  UPROPERTY(EditAnywhere, Category = "Type")
+  EEnemyType type;
 
   // If is the attack on CD
   bool IsAttackOnCD = false;

@@ -8,8 +8,8 @@ ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
 {
   // Create Collision
   attackCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackBoxCollision"));
-  attackCollisionComponent->InitBoxExtent(FVector(10, 10, 1));
-  attackCollisionComponent->AttachTo(GetRootComponent());
+  attackCollisionComponent->InitBoxExtent(FVector(10, 10, 10));
+  attackCollisionComponent->SetupAttachment(RootComponent);
 }
 
 void ATheGalleryBaseEnemy::CharacterDeath()
@@ -42,6 +42,7 @@ void ATheGalleryBaseEnemy::attack()
 {
   TArray<AActor*> baseCharacter;
   attackCollisionComponent->GetOverlappingActors(baseCharacter);
+
   for (auto actor : baseCharacter)
   {
     ATheGalleryBaseCharacter *character = Cast<ATheGalleryBaseCharacter>(actor);

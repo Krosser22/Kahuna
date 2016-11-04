@@ -28,7 +28,6 @@ void ATheGalleryAnimalCharacter::Tick(float DeltaTime)
   float FOVGapPercent = (sprintingFOV - standardFOV) * 0.01f;
   float newFOV = ((standardFOV + (FOVGapPercent * newFOVPercent)) * bIsSprinting) + (standardFOV * !bIsSprinting); // Different if sprinting or not
   GetFollowCamera()->FieldOfView = FMath::Lerp(GetFollowCamera()->FieldOfView, newFOV, FOVSpeed * DeltaTime);
-  //DebugLog("", GetFollowCamera()->FieldOfView);
 }
 
 // Called to bind functionality to input
