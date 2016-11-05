@@ -43,9 +43,11 @@ void ATheGalleryAnimalCharacter::SetupPlayerInputComponent(class UInputComponent
 	InputComponent->BindAxis("MoveForward", this, &ATheGalleryAnimalCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATheGalleryAnimalCharacter::MoveRight);
 
-  // Sprint
-  InputComponent->BindAction("Sprint", IE_Pressed, this, &ATheGalleryAnimalCharacter::Sprint);
-  InputComponent->BindAction("Sprint", IE_Released, this, &ATheGalleryAnimalCharacter::StopSprinting);
+    // Sprint
+    InputComponent->BindAction("Sprint", IE_Pressed, this, &ATheGalleryAnimalCharacter::Sprint);
+    InputComponent->BindAction("Sprint", IE_Released, this, &ATheGalleryAnimalCharacter::StopSprinting);
+
+	InputComponent->BindAction("Pause", IE_Pressed, this, &ATheGalleryCharacter::ActivePauseMenu);
 }
 
 void ATheGalleryAnimalCharacter::TransformToHuman()

@@ -64,7 +64,7 @@ void ATheGalleryCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	InputComponent->BindAction("Pause", IE_Pressed, this, &ATheGalleryCharacter::ActiveMenu);
+	InputComponent->BindAction("Pause", IE_Pressed, this, &ATheGalleryCharacter::ActivePauseMenu);
 
 	InputComponent->BindAxis("MoveForward", this, &ATheGalleryCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATheGalleryCharacter::MoveRight);
@@ -104,8 +104,9 @@ void ATheGalleryCharacter::MoveRight(float Value)
 	}
 }
 
-void ATheGalleryCharacter::ActiveMenu_Implementation()
+void ATheGalleryCharacter::ActivePauseMenu_Implementation()
 {
+
 }
 
 void ATheGalleryCharacter::PossessCharacter(ATheGalleryCharacter* ToPossess, ATheGalleryCharacter* Possessed)
