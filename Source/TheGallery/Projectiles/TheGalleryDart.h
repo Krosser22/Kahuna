@@ -27,5 +27,5 @@ private:
 
   // Damage of the trap
   UPROPERTY(EditAnywhere, Category = "Damage")
-  float damage = 9999;
+  float Damage = 9999;
 };

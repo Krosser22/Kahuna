@@ -37,45 +37,45 @@ private:
 
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
-  USceneComponent* sceneComponent;
+  USceneComponent* SceneComponent;
 
   // Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
-  UBoxComponent* tripwireCollisionComponent;
+  UBoxComponent* TripwireCollisionComponent;
 
   // Mesh
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
-  UStaticMeshComponent* tripwireMeshComponent;
+  UStaticMeshComponent* TripwireMeshComponent;
 
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "DartScene")
-  USceneComponent* dartsceneComponent;
+  USceneComponent* DartsceneComponent;
 
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Arrow")
-  UArrowComponent* arrowComponent;
+  UArrowComponent* ArrowComponent;
 
   // Projectile Template
   UPROPERTY(EditAnywhere, Category = "Projectile")
-  TSubclassOf<ATheGalleryDart> dartProjectileTemplate;
+  TSubclassOf<ATheGalleryDart> DartProjectileTemplate;
 
   // Projectile movement
   UPROPERTY(EditAnywhere, Category = "Dart")
-  float dartVelocity = 500.0f;
+  float DartVelocity = 500.0f;
 
   // Time to reset the trap
   UPROPERTY(EditAnywhere, Category = "Time")
-  float timeToReset = 1;
+  float TimeToReset = 1;
 
   // Reset timer
-  FTimerHandle resetTimerHandle;
+  FTimerHandle ResetTimerHandle;
 
   // Initial location of the dart before activate the trap
-  FVector dartLocation;
+  FVector DartLocation;
 
   // Initial rotation of the dart before activate the trap
-  FRotator dartRotation;
+  FRotator DartRotation;
 
   // Activated / Deactivated
-  bool activated = false;
+  bool Activated = false;
 };

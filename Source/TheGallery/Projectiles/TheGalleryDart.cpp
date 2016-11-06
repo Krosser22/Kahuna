@@ -28,7 +28,7 @@ void ATheGalleryDart::OnBeginOverlap(class UPrimitiveComponent* HitComp, class A
 
   if (actor)
   {
-    actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+    actor->TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
     Destroy();
   }
 }

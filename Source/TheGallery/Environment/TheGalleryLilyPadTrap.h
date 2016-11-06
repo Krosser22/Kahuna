@@ -53,42 +53,42 @@ public:
 private:
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
-  USceneComponent* sceneComponent;
+  USceneComponent* SceneComponent;
 
   // Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
-  UBoxComponent* collisionComponent;
+  UBoxComponent* CollisionComponent;
 
   // Mesh
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
-  UStaticMeshComponent* meshComponent;
+  UStaticMeshComponent* MeshComponent;
+  
+  // Scene (Where is going to sink)
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
+  USceneComponent* SceneComponentToSink;
 
   // Sink timer
-  FTimerHandle sinkTimerHandle;
+  FTimerHandle SinkTimerHandle;
 
   // State of the lily pad
-  ELilyPadState state;
+  ELilyPadState State;
 
   // Time until the lily pad will start sinking
   UPROPERTY(EditAnywhere, Category = "Time")
-  float timeUntilSinking = 0.6f;
+  float TimeUntilSinking = 0.6f;
 
   // Time to be sinked until the lily pad sink off
   UPROPERTY(EditAnywhere, Category = "Time")
-  float timeToBeSinked = 0.6f;
+  float TimeToBeSinked = 0.6f;
 
   //Speed of sink the trap
   UPROPERTY(EditAnywhere, Category = "Time")
-  float speedOfSink = 0.1f;
-
-  //Distance to sink the trap
-  UPROPERTY(EditAnywhere, Category = "Distance")
-  float distanceToSink = -22.0f;
+  float SpeedOfSink = 0.1f;
 
   // Damage of the trap
   UPROPERTY(EditAnywhere, Category = "Damage")
-  float damage = 9999;
+  float Damage = 9999;
 
   // Alpha of lerp
-  float alpha = 0;
+  float Alpha = 0;
 };

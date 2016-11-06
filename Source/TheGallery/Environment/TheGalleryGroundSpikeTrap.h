@@ -27,17 +27,17 @@ public:
 private:
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")
-  USceneComponent* sceneComponent;
+  USceneComponent* SceneComponent;
 
   // Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
-  UBoxComponent* collisionComponent;
+  UBoxComponent* CollisionComponent;
 
   // Mesh
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Mesh")
-  UStaticMeshComponent* meshComponent;
+  UStaticMeshComponent* MeshComponent;
 
   // Damage of the trap
   UPROPERTY(EditAnywhere, Category = "Damage")
-  float damage = 9999;
+  float Damage = 9999;
 };

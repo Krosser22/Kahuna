@@ -11,18 +11,23 @@ ATheGalleryLilyPadTrap::ATheGalleryLilyPadTrap(const class FObjectInitializer& P
 	PrimaryActorTick.bCanEverTick = true;
 
   // Create Scene
-  sceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
-  SetRootComponent(sceneComponent);
+  SceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
+  SetRootComponent(SceneComponent);
 
   // Create Collision
-  collisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
-  collisionComponent->InitBoxExtent(FVector(10, 10, 1));
-  collisionComponent->SetupAttachment(sceneComponent);
-  collisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryLilyPadTrap::OnBeginOverlap);
+  CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+  CollisionComponent->InitBoxExtent(FVector(10, 10, 1));
+  CollisionComponent->SetupAttachment(SceneComponent);
+  CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryLilyPadTrap::OnBeginOverlap);
 
   // Create Mesh
-  meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-  meshComponent->SetupAttachment(collisionComponent);
+  MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+  MeshComponent->SetupAttachment(CollisionComponent);
+
+  // Create Scene
+  SceneComponentToSink = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("DistanceToSink"));
+  SceneComponentToSink->SetupAttachment(SceneComponent);
+  SceneComponentToSink->SetRelativeLocation(FVector(0.0f, 0.0f, -22.22f));
 }
 
 // Called when the game starts or when spawned
@@ -36,15 +41,15 @@ void ATheGalleryLilyPadTrap::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
   
-  if (state == ELilyPadState::ELilyPadStateSinking)
+  if (State == ELilyPadState::ELilyPadStateSinking)
   {
-    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, distanceToSink), alpha));
-    alpha += speedOfSink;
+    CollisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, SceneComponentToSink->RelativeLocation, Alpha));
+    Alpha += SpeedOfSink;
   }
-  else if (state == ELilyPadState::ELilyPadStateSinkingOff)
+  else if (State == ELilyPadState::ELilyPadStateSinkingOff)
   {
-    collisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, FVector(0.0f, 0.0f, distanceToSink), alpha));
-    alpha -= speedOfSink;
+    CollisionComponent->SetRelativeLocation(FMath::Lerp(FVector::ZeroVector, SceneComponentToSink->RelativeLocation, Alpha));
+    Alpha -= SpeedOfSink;
   }
 }
 
@@ -52,53 +57,53 @@ void ATheGalleryLilyPadTrap::OnBeginOverlap(class UPrimitiveComponent* HitComp, 
 {
   ATheGalleryBaseCharacter* baseCharacter = Cast<ATheGalleryBaseCharacter>(OtherActor);
  
-  if (baseCharacter && state == ELilyPadState::ELilyPadStateWaiting)
+  if (baseCharacter && State == ELilyPadState::ELilyPadStateWaiting)
   {
-    //DebugLog("A Character has hit the Lily Pad Trap");
-    state = ELilyPadState::ELilyPadStatePreparingToSink;
-    GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::Sink, timeUntilSinking, false);
+    // A Character has hit the Lily Pad Trap
+    State = ELilyPadState::ELilyPadStatePreparingToSink;
+    GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::Sink, TimeUntilSinking, false);
   }
 }
 
 void ATheGalleryLilyPadTrap::Sink()
 {
-  //DebugLog("TheGalleryLilyPadTrap sinking");
-  alpha = 0.0f;
-  state = ELilyPadState::ELilyPadStateSinking;
-  GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::WaitingToSinkOff, timeUntilSinking, false);
+  // TheGalleryLilyPadTrap sinking
+  Alpha = 0.0f;
+  State = ELilyPadState::ELilyPadStateSinking;
+  GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::WaitingToSinkOff, TimeUntilSinking, false);
   // TODO: Start the sink animation
 }
 
 void ATheGalleryLilyPadTrap::WaitingToSinkOff()
 {
-  //DebugLog("TheGalleryLilyPadTrap waiting To Sink off");
-  state = ELilyPadState::ELilyPadStateWaitingToSinkOff;
-  GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::SinkOff, timeToBeSinked, false);
+  // TheGalleryLilyPadTrap waiting To Sink off
+  State = ELilyPadState::ELilyPadStateWaitingToSinkOff;
+  GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::SinkOff, TimeToBeSinked, false);
 }
 
 void ATheGalleryLilyPadTrap::SinkOff()
 {
-  //DebugLog("TheGalleryLilyPadTrap sinking off");
-  state = ELilyPadState::ELilyPadStateSinkingOff;
-  GetWorldTimerManager().SetTimer(sinkTimerHandle, this, &ATheGalleryLilyPadTrap::FinishOfSinkOff, timeToBeSinked, false);
+  // TheGalleryLilyPadTrap sinking off
+  State = ELilyPadState::ELilyPadStateSinkingOff;
+  GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::FinishOfSinkOff, TimeToBeSinked, false);
   // TODO: Start the sink off animation
 
   TArray<AActor*> baseCharacter;
-  collisionComponent->GetOverlappingActors(baseCharacter);
+  CollisionComponent->GetOverlappingActors(baseCharacter);
   for (auto actor : baseCharacter)
   {
     ATheGalleryBaseCharacter *character = Cast<ATheGalleryBaseCharacter>(actor);
 
     if (character)
     {
-      actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+      actor->TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
     }
   }
 }
 
 void ATheGalleryLilyPadTrap::FinishOfSinkOff()
 {
-  //DebugLog("TheGalleryLilyPadTrap ready again");
-  state = ELilyPadState::ELilyPadStateWaiting;
-  collisionComponent->SetRelativeLocation(FVector::ZeroVector);
+  // TheGalleryLilyPadTrap ready again
+  State = ELilyPadState::ELilyPadStateWaiting;
+  CollisionComponent->SetRelativeLocation(FVector::ZeroVector);
 }

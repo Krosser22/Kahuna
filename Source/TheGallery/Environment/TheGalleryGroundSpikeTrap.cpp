@@ -11,18 +11,18 @@ ATheGalleryGroundSpikeTrap::ATheGalleryGroundSpikeTrap(const class FObjectInitia
   PrimaryActorTick.bCanEverTick = true;
 
   // Create Scene
-  sceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
-  SetRootComponent(sceneComponent);
+  SceneComponent = PCIP.CreateDefaultSubobject<USceneComponent>(this, TEXT("Scene"));
+  SetRootComponent(SceneComponent);
 
   // Create Collision
-  collisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
-  collisionComponent->InitBoxExtent(FVector(10, 10, 1));
-  collisionComponent->SetupAttachment(sceneComponent);
-  collisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryGroundSpikeTrap::OnBeginOverlap);
+  CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+  CollisionComponent->InitBoxExtent(FVector(10, 10, 1));
+  CollisionComponent->SetupAttachment(SceneComponent);
+  CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATheGalleryGroundSpikeTrap::OnBeginOverlap);
 
   // Create Mesh
-  meshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-  meshComponent->SetupAttachment(collisionComponent);
+  MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+  MeshComponent->SetupAttachment(CollisionComponent);
 }
 
 // Called when the game starts or when spawned
@@ -43,6 +43,6 @@ void ATheGalleryGroundSpikeTrap::OnBeginOverlap(class UPrimitiveComponent* HitCo
 
   if (actor)
   {
-    actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+    actor->TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
   }
 }
