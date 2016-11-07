@@ -169,10 +169,7 @@ void ATheGalleryHumanCharacter::StartSpinKickCD()
 	{
 		SpinKickDoDamage();
 		SpinKickCooldown = SpinKickMaxCooldown;
-		DebugLog("Use Spin Kick");
 	}
-	else
-		DebugLog("Cooldown Spin Kick");
 }
 
 
@@ -190,10 +187,7 @@ void ATheGalleryHumanCharacter::SpinKickDoDamage()
 			ATheGalleryBaseCharacter* Enemies = Cast<ATheGalleryBaseCharacter>(Actors[a]);
 			// Check if the enemy capsule is overlapping with the characters collision component.
 			if (Enemies && SpinKickCollisionComponent->IsOverlappingComponent(Enemies->GetCapsuleComponent()))
-			{
 				Enemies->TakeDamage(SpinKickDamage, FDamageEvent(), Enemies->GetController(), this);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s affected by: Spin Kick"), *Enemies->GetName()));
-			}
 		}
 	}
 }
@@ -204,10 +198,7 @@ void ATheGalleryHumanCharacter::StartStaffHitCD()
 	{
 		StaffHitDoDamage();
 		StaffHitCooldown = StaffHitMaxCooldown;
-		DebugLog("Use Staff Hit");
 	}
-	else
-		DebugLog("Cooldown Staff Hit");
 }
 
 void ATheGalleryHumanCharacter::StaffHitDoDamage()
@@ -233,7 +224,6 @@ void ATheGalleryHumanCharacter::StaffHitDoDamage()
 				Enemies->LaunchCharacter(Force, true, true); 
 				Enemies->KnockBackCharacter(1);
 				Enemies->TakeDamage(StaffHitDamage, FDamageEvent(), Enemies->GetController(), this);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%s affected by: Staff Kick"), *Enemies->GetName()));
 			}
 		}
 	}
