@@ -1,4 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TheGallery.h"
-#include "MyTheGallerySpitPoison.h"
+#include "TheGallerySpitPoison.h"

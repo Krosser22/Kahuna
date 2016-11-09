@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Projectiles/TheGallerySpitPoison.h"
 #include "Characters/TheGalleryBaseCharacter.h"
 #include "TheGalleryBaseEnemy.generated.h"
 
@@ -48,30 +49,56 @@ public:
   UFUNCTION(BlueprintCallable, Category = "Attack")
   void attack();
 
+  // Return if the spit of poison is on CD
+  UFUNCTION(BlueprintCallable, Category = "States")
+  bool isSpitPoisonOnCD();
+
+  // Spit a poison projectile
+  UFUNCTION(BlueprintCallable, Category = "Attack")
+  void spitPoison();
+
 private:
   // Attack Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
-  UBoxComponent* attackCollisionComponent;
+  UBoxComponent* AttackCollisionComponent;
+
+  // Projectile Template
+  UPROPERTY(EditAnywhere, Category = "Projectile")
+  TSubclassOf<ATheGallerySpitPoison> SpitPoisonProjectileTemplate;
+
+  // The CD of the attack
+  UPROPERTY(EditAnywhere, Category = "Attack")
+  float AttackCD = 2.0f;
+
+  // The CD of the spit of poison
+  UPROPERTY(EditAnywhere, Category = "Attack")
+  float SpitPoisonCD = 4.0f;
+
+  // The Damage when attack
+  UPROPERTY(EditAnywhere, Category = "Attack")
+  float Damage = 9999.0f;
+
+  // The type of enemy
+  UPROPERTY(EditAnywhere, Category = "Type")
+  EEnemyType Type;
+
+  // If the attack is on CD
+  bool IsAttackOnCD = false;
+
+  // If the spit of poison is on CD
+  bool IsSpitPoisonOnCD = false;
+
+  // Attack CD timer
+  FTimerHandle AttackCDTimerHandle;
+
+  // Spit of poison CD timer
+  FTimerHandle SpitPoisonCDTimerHandle;
 
   // Finish CD Attack
   UFUNCTION()
   void FinishCDAttack();
 
-  // The CD of the attack
-  UPROPERTY(EditAnywhere, Category = "Attack")
-  float attackCD = 2.0f;
-
-  // The Damage when attack
-  UPROPERTY(EditAnywhere, Category = "Attack")
-  float damage = 9999.0f;
-
-  // The type of enemy
-  UPROPERTY(EditAnywhere, Category = "Type")
-  EEnemyType type;
-
-  // If is the attack on CD
-  bool IsAttackOnCD = false;
-
-  // Attack CD timer
-  FTimerHandle attackCDTimerHandle;
+  // Finish CD Spit of Poison
+  UFUNCTION()
+  void FinishCDSpitPoison();
 };

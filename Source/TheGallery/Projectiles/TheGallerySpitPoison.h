@@ -3,13 +3,13 @@
 #pragma once
 
 #include "Projectiles/TheGalleryProjectile.h"
-#include "MyTheGallerySpitPoison.generated.h"
+#include "TheGallerySpitPoison.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class THEGALLERY_API AMyTheGallerySpitPoison : public ATheGalleryProjectile
+class THEGALLERY_API ATheGallerySpitPoison : public ATheGalleryProjectile
 {
 	GENERATED_BODY()
 };
