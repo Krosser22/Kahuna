@@ -68,16 +68,23 @@ void ATheGalleryBaseEnemy::attack()
 
 bool ATheGalleryBaseEnemy::isSpitPoisonOnCD()
 {
-  if (IsSpitPoisonOnCD) DebugLog("YES");
-  else DebugLog("NO");
   return IsSpitPoisonOnCD;
 }
 
 void ATheGalleryBaseEnemy::spitPoison()
 {
-  DebugLog("SpitPoison");
   IsSpitPoisonOnCD = true;
   GetWorldTimerManager().SetTimer(SpitPoisonCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDSpitPoison, SpitPoisonCD, false);
+
+  FActorSpawnParameters SpawnParams;
+  SpawnParams.Owner = this;
+  SpawnParams.Instigator = Instigator;
+  ATheGallerySpitPoison *spitPoison = GetWorld()->SpawnActor<ATheGallerySpitPoison>(SpitPoisonProjectileTemplate, GetActorLocation(), GetActorRotation(), SpawnParams);
+  if (spitPoison)
+  {
+    spitPoison->SetLifeSpan(1.0f);
+    spitPoison->AddImpulse(spitPoison->GetActorForwardVector() * SpitPoisonVelocity);
+  }
 }
 
 void ATheGalleryBaseEnemy::FinishCDAttack()

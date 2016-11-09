@@ -100,6 +100,14 @@ private:
   // Spit of poison CD timer
   FTimerHandle SpitPoisonCDTimerHandle;
 
+  // The velocity of the projectile
+  UPROPERTY(EditAnywhere, Category = "SpitPoison")
+  float SpitPoisonVelocity = 80.0f;
+
+  // Number of points from one enemy.
+  UPROPERTY(EditAnywhere, Category = Enemy)
+  int32 Points = 500;
+
   // Finish CD Attack
   UFUNCTION()
   void FinishCDAttack();
@@ -107,8 +115,4 @@ private:
   // Finish CD Spit of Poison
   UFUNCTION()
   void FinishCDSpitPoison();
-
-  // Number of points from one enemy.
-  UPROPERTY(EditAnywhere, Category = Enemy)
-  int32 Points;
 };
