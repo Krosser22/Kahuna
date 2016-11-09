@@ -19,4 +19,13 @@ void UTheGalleryGameInstance::SetEnemiesPoints(int32 Points) {
 	EnemiesPoints = Points;
 }
 
+int32 UTheGalleryGameInstance::GetTotalPoints() {
+	TotalPoints = PickUpPoints + EnemiesPoints;
+	return TotalPoints;
+}
+
+void UTheGalleryGameInstance::SetTotalPoints(int32 Points) {
+	TotalPoints = Points;
+}
+
 
