@@ -11,4 +11,12 @@ void UTheGalleryGameInstance::SetPickUpPoints(int32 Points) {
 	PickUpPoints = Points;
 }
 
+int32 UTheGalleryGameInstance::GetEnemiesPoints() {
+	return EnemiesPoints;
+}
+
+void UTheGalleryGameInstance::SetEnemiesPoints(int32 Points) {
+	EnemiesPoints = Points;
+}
+
 
