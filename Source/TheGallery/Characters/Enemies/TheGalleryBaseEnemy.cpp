@@ -2,10 +2,15 @@
 
 #include "TheGallery.h"
 #include "TheGalleryBaseEnemy.h"
+#include "Game/TheGalleryGameInstance.h"
 
 // Sets default values
 ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
 {
+  // Initialize
+	Points = 0;
+
+
   // Create Collision
   AttackCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackBoxCollision"));
   AttackCollisionComponent->InitBoxExtent(FVector(10, 10, 10));
@@ -15,6 +20,7 @@ ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
 void ATheGalleryBaseEnemy::CharacterDeath()
 {
   DebugLog("Enemy killed");
+  AddPoints();
   Destroy();
 }
 
@@ -82,4 +88,18 @@ void ATheGalleryBaseEnemy::FinishCDAttack()
 void ATheGalleryBaseEnemy::FinishCDSpitPoison()
 {
   IsSpitPoisonOnCD = false;
+}
+
+void ATheGalleryBaseEnemy::AddPoints()
+{
+	// Call To GameInstance.
+	UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+
+	if (GameInstance)
+	{
+		// Increase Points.
+		int32 TotalPoints = GameInstance->GetEnemiesPoints();
+		TotalPoints += Points;
+		GameInstance->SetEnemiesPoints(TotalPoints);
+	}
 }

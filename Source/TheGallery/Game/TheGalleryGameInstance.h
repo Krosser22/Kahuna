@@ -26,10 +26,25 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void SetPickUpPoints(int32 Points);
+
+	/**
+	* Get player total points from the enemies.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Enemy)
+	int32 GetEnemiesPoints();
+
+	/**
+	* Set player total points from the enemies.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Enemy)
+	void SetEnemiesPoints(int32 Points);
+
 	
 private:
-	// Total points that the player has collected from the pickups
+	// Points from the pickups
 	int32 PickUpPoints;
+	// Points from the enemies
+	int32 EnemiesPoints;
 	
 	
 };

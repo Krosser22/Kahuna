@@ -57,6 +57,12 @@ public:
   UFUNCTION(BlueprintCallable, Category = "Attack")
   void spitPoison();
 
+  /**
+  * Incresase player enemy points
+  */
+  UFUNCTION(BlueprintCallable, Category = PickUp)
+  void AddPoints();
+
 private:
   // Attack Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
@@ -101,4 +107,8 @@ private:
   // Finish CD Spit of Poison
   UFUNCTION()
   void FinishCDSpitPoison();
+
+  // Number of points from one enemy.
+  UPROPERTY(EditAnywhere, Category = Enemy)
+  int32 Points;
 };
