@@ -7,9 +7,9 @@
 ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
 {
   // Create Collision
-  attackCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackBoxCollision"));
-  attackCollisionComponent->InitBoxExtent(FVector(10, 10, 10));
-  attackCollisionComponent->SetupAttachment(RootComponent);
+  AttackCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("AttackBoxCollision"));
+  AttackCollisionComponent->InitBoxExtent(FVector(10, 10, 10));
+  AttackCollisionComponent->SetupAttachment(RootComponent);
 }
 
 void ATheGalleryBaseEnemy::CharacterDeath()
@@ -41,7 +41,7 @@ bool ATheGalleryBaseEnemy::isAttackOnCD()
 void ATheGalleryBaseEnemy::attack()
 {
   TArray<AActor*> baseCharacter;
-  attackCollisionComponent->GetOverlappingActors(baseCharacter);
+  AttackCollisionComponent->GetOverlappingActors(baseCharacter);
 
   for (auto actor : baseCharacter)
   {
@@ -51,16 +51,35 @@ void ATheGalleryBaseEnemy::attack()
     {
       if (character != this)
       {
-        actor->TakeDamage(damage, FDamageEvent(), nullptr, nullptr);
+        actor->TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
       }
     }
   }
 
   IsAttackOnCD = true;
-  GetWorldTimerManager().SetTimer(attackCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDAttack, attackCD, false);
+  GetWorldTimerManager().SetTimer(AttackCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDAttack, AttackCD, false);
+}
+
+bool ATheGalleryBaseEnemy::isSpitPoisonOnCD()
+{
+  if (IsSpitPoisonOnCD) DebugLog("YES");
+  else DebugLog("NO");
+  return IsSpitPoisonOnCD;
+}
+
+void ATheGalleryBaseEnemy::spitPoison()
+{
+  DebugLog("SpitPoison");
+  IsSpitPoisonOnCD = true;
+  GetWorldTimerManager().SetTimer(SpitPoisonCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDSpitPoison, SpitPoisonCD, false);
 }
 
 void ATheGalleryBaseEnemy::FinishCDAttack()
 {
   IsAttackOnCD = false;
+}
+
+void ATheGalleryBaseEnemy::FinishCDSpitPoison()
+{
+  IsSpitPoisonOnCD = false;
 }
