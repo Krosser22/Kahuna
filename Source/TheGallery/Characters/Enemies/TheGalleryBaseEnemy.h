@@ -82,7 +82,7 @@ private:
 
   // The Damage when attack
   UPROPERTY(EditAnywhere, Category = "Attack")
-  float Damage = 9999.0f;
+  float Damage = 10.0f;
 
   // The type of enemy
   UPROPERTY(EditAnywhere, Category = "Type")

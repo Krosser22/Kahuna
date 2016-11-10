@@ -74,16 +74,19 @@ bool ATheGalleryBaseEnemy::isSpitPoisonOnCD()
 void ATheGalleryBaseEnemy::spitPoison()
 {
   IsSpitPoisonOnCD = true;
-  GetWorldTimerManager().SetTimer(SpitPoisonCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDSpitPoison, SpitPoisonCD, false);
-
-  FActorSpawnParameters SpawnParams;
-  SpawnParams.Owner = this;
-  SpawnParams.Instigator = Instigator;
-  ATheGallerySpitPoison *spitPoison = GetWorld()->SpawnActor<ATheGallerySpitPoison>(SpitPoisonProjectileTemplate, GetActorLocation(), GetActorRotation(), SpawnParams);
-  if (spitPoison)
+  if (Type == EEnemyType::EEnemyType_Elite)
   {
-    spitPoison->SetLifeSpan(1.0f);
-    spitPoison->AddImpulse(spitPoison->GetActorForwardVector() * SpitPoisonVelocity);
+    GetWorldTimerManager().SetTimer(SpitPoisonCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDSpitPoison, SpitPoisonCD, false);
+
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.Owner = this;
+    SpawnParams.Instigator = Instigator;
+    ATheGallerySpitPoison *spitPoison = GetWorld()->SpawnActor<ATheGallerySpitPoison>(SpitPoisonProjectileTemplate, GetActorLocation(), GetActorRotation(), SpawnParams);
+    if (spitPoison)
+    {
+      spitPoison->SetLifeSpan(1.0f);
+      spitPoison->AddImpulse(spitPoison->GetActorForwardVector() * SpitPoisonVelocity);
+    }
   }
 }
 
