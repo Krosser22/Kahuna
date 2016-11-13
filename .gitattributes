@@ -1,2 +1,15 @@
-Content/Maps filter=lfs diff=lfs merge=lfs -text
-Content/Assets/ filter=lfs diff=lfs merge=lfs -text
+
+*.umap filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Cliff_Pieces/Cliff_02_diffuse.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Cliff_Pieces/Cliff_02_low.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Cliff_Pieces/Cliff_02_normal.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Cliff_Pieces/Cliff_02_roughnessmetallic.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Cliff_Pieces/Cliff_Piece.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/Beach_Sand_01.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/ground_desertSandSmallDunes_2k_d.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/ground_desertSandSmallDunes_2k_g.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/ground_desertSandSmallDunes_2k_n.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/M_Water_Ocean.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/T_Perlin_Noise_M.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/T_Water_M.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/T_Water_N.uasset filter=lfs diff=lfs merge=lfs -text
