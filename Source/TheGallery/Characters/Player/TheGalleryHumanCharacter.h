@@ -95,13 +95,21 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float StaffHitDamage;
 
-  // The cooldown of the Staff Hit ability.
-  UPROPERTY(EditAnywhere, Category = "Attacks")
-  float StaffHitMaxCooldown;
+    // The cooldown of the Staff Hit ability.
+    UPROPERTY(EditAnywhere, Category = "Attacks")
+    float StaffHitMaxCooldown;
 
 	// Knock Back Force.
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	float StaffHitKnockBackForce;
+
+	// Total time the enemy is knocked.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float StaffHitKnockBackTime;
+
+	// Elevation of the enemy when is knocked.
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	float StaffHitKnockBackZ;
 
 	// Time passed from the moment whe used the Staff Hit ability.
 	float StaffHitCooldown;

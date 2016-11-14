@@ -13,7 +13,9 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 	SpinKickMaxCooldown = StaffHitMaxCooldown = 2.0f;
 	StaffHitDamage = 5.0f;
 	SpinKickDamage = 10.0f;
-	StaffHitKnockBackForce = 5000.0f;
+	StaffHitKnockBackForce = 800.0f;
+	StaffHitKnockBackTime = 1.0f;
+	StaffHitKnockBackZ = 30.0f;
 
 	IceSpellData.Damage = FireSpellData.Damage = EarthSpellData.Damage = 1.0f;
 	IceSpellData.Cooldown = FireSpellData.Cooldown = EarthSpellData.Cooldown = 2.0f;
@@ -218,11 +220,15 @@ void ATheGalleryHumanCharacter::StaffHitDoDamage()
 			{
 				// Direction 
 				FVector Dir =  Enemies->GetActorLocation() - this->GetActorLocation();
+				// Elevatation 
+				Dir.Z += StaffHitKnockBackZ;
+				// Normalize
 				Dir.Normalize();
-				// Backward
+				// Force
 				FVector Force = Dir * StaffHitKnockBackForce;
+				// Launch
 				Enemies->LaunchCharacter(Force, true, true); 
-				Enemies->KnockBackCharacter(1);
+				Enemies->KnockBackCharacter(StaffHitKnockBackTime);
 				Enemies->TakeDamage(StaffHitDamage, FDamageEvent(), Enemies->GetController(), this);
 			}
 		}
