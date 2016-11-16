@@ -24,27 +24,27 @@ void ATheGalleryBaseEnemy::CharacterDeath()
   Destroy();
 }
 
-bool ATheGalleryBaseEnemy::isFreezed()
+bool ATheGalleryBaseEnemy::GetIsFreezed()
 {
   return IsFreezed;
 }
 
-bool ATheGalleryBaseEnemy::isKnockedBack()
+bool ATheGalleryBaseEnemy::GetIsKnockedBack()
 {
   return IsKnockedBack;
 }
 
-bool ATheGalleryBaseEnemy::isDead()
+bool ATheGalleryBaseEnemy::GetIsDead()
 {
   return IsDead;
 }
 
-bool ATheGalleryBaseEnemy::isAttackOnCD()
+bool ATheGalleryBaseEnemy::GetIsAttackOnCD()
 {
   return IsAttackOnCD;
 }
 
-void ATheGalleryBaseEnemy::attack()
+void ATheGalleryBaseEnemy::Attack()
 {
   TArray<AActor*> baseCharacter;
   AttackCollisionComponent->GetOverlappingActors(baseCharacter);
@@ -66,12 +66,12 @@ void ATheGalleryBaseEnemy::attack()
   GetWorldTimerManager().SetTimer(AttackCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDAttack, AttackCD, false);
 }
 
-bool ATheGalleryBaseEnemy::isSpitPoisonOnCD()
+bool ATheGalleryBaseEnemy::GetIsSpitPoisonOnCD()
 {
   return IsSpitPoisonOnCD;
 }
 
-void ATheGalleryBaseEnemy::spitPoison()
+void ATheGalleryBaseEnemy::SpitPoison()
 {
   IsSpitPoisonOnCD = true;
   if (Type == EEnemyType::EEnemyType_Elite)

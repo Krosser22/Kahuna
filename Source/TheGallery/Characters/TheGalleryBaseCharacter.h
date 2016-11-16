@@ -20,7 +20,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
+  // 
   void FreezeCharacter(float Time);
+  
+  // 
   void KnockBackCharacter(float Time);
 
   // Called when the character receives damage
@@ -37,18 +40,24 @@ protected:
   UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Stats")
   float Life;
 
+  // 
   bool IsDead;
 
   // If the character is freezed the tick DeltaTime will return 0 (use GetWorld()->GetDeltaSeconds instead)
   bool IsFreezed;
 
+  // 
   bool IsKnockedBack;
 
   // To-Do: more generic stats (player and enemies)...
 
 private:
+  // 
   void UpdateStatus(float DeltaTime);
 
+  // 
   float FreezedTime;
+
+  // 
   float KnockBackTime;
 };

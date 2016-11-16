@@ -19,6 +19,9 @@ class ATheGalleryCharacter : public ATheGalleryBaseCharacter
 public:
 	ATheGalleryCharacter();
 
+  // Called when the game starts or when spawned
+  virtual void BeginPlay() override;
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
@@ -31,10 +34,14 @@ public:
 	 */
 	virtual void Tick(float DeltaSeconds) override;
 
+  // 
 	void SetTransformationCharacter(ATheGalleryCharacter* Character) { TransformationCharacter = Character; }
 
+  // 
 	UFUNCTION(BlueprintNativeEvent, Category = "Menu")
 	void ActivePauseMenu();
+
+  // 
 	void ActivePauseMenu_Implementation();
 
 private:
@@ -67,6 +74,9 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+  // Called when the character has no life left
+  virtual void CharacterDeath() override;
+
 	// New position and rotation when the right button is pressed.
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* RightButton;
@@ -93,4 +103,3 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Transformation")
 	UParticleSystem* TransformationParticle;
 };
-

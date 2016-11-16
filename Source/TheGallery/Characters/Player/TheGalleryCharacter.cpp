@@ -2,6 +2,7 @@
 
 #include "TheGallery.h"
 #include "TheGalleryCharacter.h"
+#include "Game/TheGalleryGameInstance.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATheGalleryCharacter
@@ -54,6 +55,12 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 	bPossessedNewCharacter = false;
 }
 
+// Called when the game starts or when spawned
+void ATheGalleryCharacter::BeginPlay()
+{
+  Super::BeginPlay();
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -70,6 +77,18 @@ void ATheGalleryCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAxis("MoveRight", this, &ATheGalleryCharacter::MoveRight);
 }
 
+void ATheGalleryCharacter::CharacterDeath()
+{
+  DebugLog("Dead");
+  //UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+
+  UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+  if (GameInstance)
+  {
+    SetActorLocation(GameInstance->LastCheckPointLocation());
+    Life = 100.0f; // TODO: maxlife variable
+  }
+}
 
 void ATheGalleryCharacter::MoveForward(float Value)
 {
@@ -82,6 +101,7 @@ void ATheGalleryCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
+
 		// Move Camera Forward / Backward
 		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, true);
 	}
@@ -97,8 +117,10 @@ void ATheGalleryCharacter::MoveRight(float Value)
 	
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+
 		// Move Camera Right / Left
 		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, false);
 	}
@@ -167,7 +189,8 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime, float InputValue, bool Is
 			// Go to a new position and rotation at a specific time when the right button is pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, RightButton->RelativeLocation, DeltaTime * CameraSpeed);
 			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, RightButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
-			// Sets them.
+			
+      // Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 		// Moving Left
@@ -176,7 +199,8 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime, float InputValue, bool Is
 			// Go to a new position and rotation at a specific time when the left button is pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, LeftButton->RelativeLocation, DeltaTime * CameraSpeed);
 			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, LeftButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
-			// Sets them.
+			
+      // Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}
@@ -188,7 +212,8 @@ void ATheGalleryCharacter::MoveCamera(float DeltaTime, float InputValue, bool Is
 			// Go to a new position and rotation at a specific time when the Backward or Forward button are pressed.
 			FVector Translation = FMath::Lerp(FollowCamera->RelativeLocation, ForwardBackwardButton->RelativeLocation, DeltaTime * CameraSpeed);
 			FRotator Rotation = FMath::Lerp(FollowCamera->RelativeRotation, ForwardBackwardButton->RelativeRotation, (DeltaTime * CameraSpeed) / CameraSpeed);
-			// Sets them.
+			
+      // Sets them.
 			FollowCamera->SetRelativeLocationAndRotation(Translation, Rotation);
 		}
 	}

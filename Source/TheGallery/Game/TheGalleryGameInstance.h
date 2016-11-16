@@ -50,15 +50,23 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = Enemy)
 	void SetTotalPoints(int32 Points);
-	
-	
+
+  // Save the location of the last checkpoint touched
+  void SetCheckPoint(FVector location);
+
+  // Return the last CheckPoint location
+  FVector LastCheckPointLocation();
+
 private:
 	// Points from the pickups
 	int32 PickUpPoints;
+
 	// Points from the enemies
 	int32 EnemiesPoints;
+
 	// Points from both
 	int32 TotalPoints;
-	
-	
+
+  // The location of the active's CheckPoint
+  FVector CheckPointLocation;
 };

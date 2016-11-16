@@ -3,7 +3,6 @@
 #include "TheGallery.h"
 #include "TheGalleryBaseCharacter.h"
 
-
 // Sets default values
 ATheGalleryBaseCharacter::ATheGalleryBaseCharacter()
 {
@@ -23,7 +22,6 @@ ATheGalleryBaseCharacter::ATheGalleryBaseCharacter()
 void ATheGalleryBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

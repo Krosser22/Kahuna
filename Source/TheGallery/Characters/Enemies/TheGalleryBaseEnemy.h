@@ -31,31 +31,31 @@ public:
 
   // Return if it is freezed
   UFUNCTION(BlueprintCallable, Category = "States")
-  bool isFreezed();
+  bool GetIsFreezed();
 
   // Return if it is knockedback
   UFUNCTION(BlueprintCallable, Category = "States")
-  bool isKnockedBack();
+  bool GetIsKnockedBack();
 
   // Return if it is dead
   UFUNCTION(BlueprintCallable, Category = "States")
-  bool isDead();
+  bool GetIsDead();
 
   // Return if the attack is on CD
   UFUNCTION(BlueprintCallable, Category = "States")
-  bool isAttackOnCD();
+  bool GetIsAttackOnCD();
 
   // Attack
   UFUNCTION(BlueprintCallable, Category = "Attack")
-  void attack();
+  void Attack();
 
   // Return if the spit of poison is on CD
   UFUNCTION(BlueprintCallable, Category = "States")
-  bool isSpitPoisonOnCD();
+  bool GetIsSpitPoisonOnCD();
 
   // Spit a poison projectile
   UFUNCTION(BlueprintCallable, Category = "Attack")
-  void spitPoison();
+  void SpitPoison();
 
   /**
   * Incresase player enemy points

@@ -174,7 +174,6 @@ void ATheGalleryHumanCharacter::StartSpinKickCD()
 	}
 }
 
-
 void ATheGalleryHumanCharacter::SpinKickDoDamage() 
 {
 	// Get all the actors overlapping with the collision component.
