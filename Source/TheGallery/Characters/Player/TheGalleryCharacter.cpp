@@ -59,6 +59,12 @@ ATheGalleryCharacter::ATheGalleryCharacter()
 void ATheGalleryCharacter::BeginPlay()
 {
   Super::BeginPlay();
+
+  UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+  if (GameInstance)
+  {
+    GameInstance->SetCheckPoint(GetActorLocation());
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////

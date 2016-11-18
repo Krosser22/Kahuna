@@ -130,6 +130,11 @@ bool ATheGalleryBaseEnemy::HasPatrolPoints()
   return (PatrolPoints.Num() > 0);
 }
 
+bool ATheGalleryBaseEnemy::IsActive()
+{
+  return Active;
+}
+
 void ATheGalleryBaseEnemy::FinishCDAttack()
 {
   IsAttackOnCD = false;

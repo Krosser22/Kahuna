@@ -70,7 +70,14 @@ public:
   UFUNCTION(BlueprintCallable, Category = "PatrolPoints")
   bool HasPatrolPoints();
 
+  // Return if the AI is active
+  UFUNCTION(BlueprintCallable, Category = "State")
+  bool IsActive();
+
 private:
+  // If the AI is active or not
+  bool Active = false;
+
   // Attack Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")
   UBoxComponent* AttackCollisionComponent;
