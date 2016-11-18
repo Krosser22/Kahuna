@@ -90,6 +90,46 @@ void ATheGalleryBaseEnemy::SpitPoison()
   }
 }
 
+void ATheGalleryBaseEnemy::AddPoints()
+{
+  // Call To GameInstance.
+  UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+
+  if (GameInstance)
+  {
+    // Increase Points.
+    int32 TotalPoints = GameInstance->GetEnemiesPoints();
+    TotalPoints += Points;
+    GameInstance->SetEnemiesPoints(TotalPoints);
+  }
+}
+
+void ATheGalleryBaseEnemy::GetPatrolPoint(FVector &position, float &delay)
+{
+  if (PatrolPoints.Num() > 0)
+  {
+    position = PatrolPoints[PatrolPointID]->GetActorLocation();
+    delay = PatrolPoints[PatrolPointID]->DelayTime;
+
+    PatrolPointID++;
+
+    if (PatrolPointID > PatrolPoints.Num() - 1)
+    {
+      PatrolPointID = 0;
+    }
+  }
+  else
+  {
+    position = FVector::ZeroVector;
+    delay = 0.0f;
+  }
+}
+
+bool ATheGalleryBaseEnemy::HasPatrolPoints()
+{
+  return (PatrolPoints.Num() > 0);
+}
+
 void ATheGalleryBaseEnemy::FinishCDAttack()
 {
   IsAttackOnCD = false;
@@ -98,18 +138,4 @@ void ATheGalleryBaseEnemy::FinishCDAttack()
 void ATheGalleryBaseEnemy::FinishCDSpitPoison()
 {
   IsSpitPoisonOnCD = false;
-}
-
-void ATheGalleryBaseEnemy::AddPoints()
-{
-	// Call To GameInstance.
-	UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
-
-	if (GameInstance)
-	{
-		// Increase Points.
-		int32 TotalPoints = GameInstance->GetEnemiesPoints();
-		TotalPoints += Points;
-		GameInstance->SetEnemiesPoints(TotalPoints);
-	}
 }
