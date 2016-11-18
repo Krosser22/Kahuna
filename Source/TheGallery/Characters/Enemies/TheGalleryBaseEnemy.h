@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Characters/Enemies/TheGalleryPatrolPoint.h"
 #include "Projectiles/TheGallerySpitPoison.h"
 #include "Characters/TheGalleryBaseCharacter.h"
 #include "TheGalleryBaseEnemy.generated.h"
@@ -57,11 +58,17 @@ public:
   UFUNCTION(BlueprintCallable, Category = "Attack")
   void SpitPoison();
 
-  /**
-  * Incresase player enemy points
-  */
-  UFUNCTION(BlueprintCallable, Category = PickUp)
+  // Incresase player enemy points
+  UFUNCTION(BlueprintCallable, Category = "PickUp")
   void AddPoints();
+
+  // Gets the actual patrol point to move to and the delay that the player should have once arrived to that point
+  UFUNCTION(BlueprintCallable, Category = "PatrolPoints")
+  void GetPatrolPoint(FVector &position, float &delay);
+
+  // Return if it has patrol points to go
+  UFUNCTION(BlueprintCallable, Category = "PatrolPoints")
+  bool HasPatrolPoints();
 
 private:
   // Attack Box Collision
@@ -105,8 +112,15 @@ private:
   float SpitPoisonVelocity = 80.0f;
 
   // Number of points from one enemy.
-  UPROPERTY(EditAnywhere, Category = Enemy)
+  UPROPERTY(EditAnywhere, Category = "Enemy")
   int32 Points = 500;
+
+  // The array of the patrol positions
+  UPROPERTY(EditAnywhere, Category = "Patrol")
+  TArray<ATheGalleryPatrolPoint*> PatrolPoints;
+
+  // The actual point of the patrol that is going to
+  uint8 PatrolPointID = 0;
 
   // Finish CD Attack
   UFUNCTION()
