@@ -51,11 +51,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Enemy)
 	void SetTotalPoints(int32 Points);
 
-  // Save the location of the last checkpoint touched
-  void SetCheckPoint(FVector location);
+	// Save the location of the last checkpoint touched
+	void SetCheckPoint(FVector location);
 
-  // Return the last CheckPoint location
-  FVector LastCheckPointLocation();
+	// Return the last CheckPoint location
+	FVector LastCheckPointLocation();
+
+	/**
+	* Gets the volume value from a specific Sound Class.
+	* @param TargetSoundClass - Sound class.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Sound)
+	float GetSoundClassVolume(USoundClass* TargetSoundClass);
+
+	/**
+	* Sets the volume value from a specific Sound Class.
+	* @param TargetSoundClass - Sound class.
+	* @param NewVolume - Desired volume (minimum is 0 and maximum is 1).
+	*/
+	UFUNCTION(BlueprintCallable, Category = Sound)
+	void SetSoundClassVolume(USoundClass* TargetSoundClass, float NewVolume);
 
 private:
 	// Points from the pickups
@@ -67,6 +82,6 @@ private:
 	// Points from both
 	int32 TotalPoints;
 
-  // The location of the active's CheckPoint
-  FVector CheckPointLocation;
+	// The location of the active's CheckPoint
+	FVector CheckPointLocation;
 };

@@ -44,3 +44,17 @@ FVector UTheGalleryGameInstance::LastCheckPointLocation()
 {
   return CheckPointLocation;
 }
+
+float UTheGalleryGameInstance::GetSoundClassVolume(USoundClass * TargetSoundClass)
+{
+	if (TargetSoundClass)
+		return TargetSoundClass->Properties.Volume;
+
+	return 0.0f;
+}
+
+void UTheGalleryGameInstance::SetSoundClassVolume(USoundClass * TargetSoundClass, float NewVolume)
+{
+	if (TargetSoundClass)
+		TargetSoundClass->Properties.Volume = NewVolume;
+}
