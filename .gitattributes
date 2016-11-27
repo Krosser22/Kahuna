@@ -13,3 +13,4 @@ Content/Assets/Materials/M_Water_Ocean.uasset filter=lfs diff=lfs merge=lfs -tex
 Content/Assets/Materials/T_Perlin_Noise_M.uasset filter=lfs diff=lfs merge=lfs -text
 Content/Assets/Materials/T_Water_M.uasset filter=lfs diff=lfs merge=lfs -text
 Content/Assets/Materials/T_Water_N.uasset filter=lfs diff=lfs merge=lfs -text
+Content/Assets/Materials/Deep_Water.uasset filter=lfs diff=lfs merge=lfs -text
