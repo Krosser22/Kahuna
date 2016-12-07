@@ -38,13 +38,13 @@ private:
 
   // The distance from the center
   UPROPERTY(EditAnywhere, Category = "Distance")
-  float DistanceFromCenter = 2.0f;
+  float DistanceFromCenter = 322.22f;
 
-  // The velocity of the lilypads
+  // The velocity of rotation of the lilypads
   UPROPERTY(EditAnywhere, Category = "Velocity")
-  float VelocityOfLilyPads = 2.0f;
+    float VelocityOfRotationOfLilyPads = 0.5f;
 
   // The velocity of the lilypads
   UPROPERTY(EditAnywhere, Category = "Amount")
-  int32 AmountOfLilyPads = 5;
+  int32 AmountOfLilyPads = 22;
 };

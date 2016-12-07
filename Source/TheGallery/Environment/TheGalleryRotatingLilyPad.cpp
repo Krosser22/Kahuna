@@ -24,20 +24,39 @@ void ATheGalleryRotatingLilyPad::BeginPlay()
 {
 	Super::BeginPlay();
 
-  /*FActorSpawnParameters SpawnParams;
+  FActorSpawnParameters SpawnParams;
   SpawnParams.Owner = this;
   SpawnParams.Instigator = Instigator;
+
+  FQuat rotation = FQuat(Center->GetComponentRotation());
+  rotation.Z += VelocityOfRotationOfLilyPads;
+  Center->SetRelativeRotation(rotation);
+  FVector loctaion = Center->GetComponentLocation();
+
+  float xFinal, yFinal;
+  int32 xInicial = loctaion.X + DistanceFromCenter * cos(2 * 3.14f / AmountOfLilyPads);
+  int32 yInicial = loctaion.Y + DistanceFromCenter * sin(2 * 3.14f / AmountOfLilyPads);
+  
   ATheGalleryLilyPadTrap *lilyPadTrap = nullptr;
-  FVector lilyPadLocation;
-  FRotator lilyPadRotation;
   for (int32 i = 0; i < AmountOfLilyPads; ++i)
   {
-    lilyPadTrap = GetWorld()->SpawnActor<ATheGalleryLilyPadTrap>(LilyPadTrapTemplate, lilyPadLocation, lilyPadRotation, SpawnParams);
+    lilyPadTrap = GetWorld()->SpawnActor<ATheGalleryLilyPadTrap>(LilyPadTrapTemplate, loctaion, Center->GetComponentRotation(), SpawnParams);
+
     if (lilyPadTrap)
     {
+      lilyPadTrap->AttachToActor(Center->GetAttachmentRootActor(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+      xFinal = loctaion.X + DistanceFromCenter * cos(2 * 3.14f / AmountOfLilyPads * i);
+      yFinal = loctaion.Y + DistanceFromCenter * sin(2 * 3.14f / AmountOfLilyPads * i);
+
+      lilyPadTrap->SetActorRotation(rotation);
+      lilyPadTrap->SetActorLocation(FVector(xFinal, yFinal, loctaion.Z));
+
+      xInicial = xFinal;
+      yInicial = yFinal;
+
       LilyPadsList.Push(lilyPadTrap);
     }
-  }*/
+  }
 }
 
 // Called every frame
@@ -45,23 +64,5 @@ void ATheGalleryRotatingLilyPad::Tick(float DeltaTime)
 {
   Super::Tick(DeltaTime);
 
-  /*FQuat rotation = FQuat(Center->GetComponentRotation());
-  rotation.X += VelocityOfLilyPads;
-  Center->SetRelativeRotation(rotation);
-  FVector loctaion = Center->GetComponentLocation();
-
-  float xFinal, yFinal;
-  int32 xInicial = loctaion.X + DistanceFromCenter * cos(2 * 3.14f / AmountOfLilyPads);
-  int32 yInicial = loctaion.Y + DistanceFromCenter * sin(2 * 3.14f / AmountOfLilyPads);
-  for (int32 i = 0; i <= AmountOfLilyPads; i++)
-  {
-    xFinal = loctaion.X + DistanceFromCenter * cos(2 * 3.14f / AmountOfLilyPads * i);
-    yFinal = loctaion.Y + DistanceFromCenter * sin(2 * 3.14f / AmountOfLilyPads * i);
-
-    //SDL_RenderDrawLine(xInicial, yInicial, xFinal, yFinal);
-    LilyPadsList[i]->SetActorLocation(FVector(xFinal, yFinal, loctaion.Z));
-
-    xInicial = xFinal;
-    yInicial = yFinal;
-  }*/
+  this->AddActorWorldRotation(FQuat(FVector(0.0f, 0.0f, 1.0f), VelocityOfRotationOfLilyPads * DeltaTime));
 }
