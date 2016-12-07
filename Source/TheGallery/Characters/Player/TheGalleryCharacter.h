@@ -44,6 +44,12 @@ public:
   // 
 	void ActivePauseMenu_Implementation();
 
+  UPROPERTY(BlueprintReadWrite, Category = "Level")
+  bool IsBossLevel = false;
+
+  UPROPERTY(BlueprintReadWrite, Category = "Level")
+  FVector ForwardDirection;
+
 private:
 	/**
 	* Move and rotate the camera (FollowCamera)

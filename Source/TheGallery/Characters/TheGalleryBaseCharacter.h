@@ -29,6 +29,9 @@ public:
   // Called when the character receives damage
   virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
 
+  //
+  virtual void FellOutOfWorld(const class UDamageType& dmgType) override;
+
 protected:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;

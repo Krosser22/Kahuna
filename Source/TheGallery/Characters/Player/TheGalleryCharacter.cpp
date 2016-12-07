@@ -100,36 +100,49 @@ void ATheGalleryCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+    if (!IsBossLevel)
+    {
+      // find out which way is forward
+      const FRotator Rotation = Controller->GetControlRotation();
+      const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+      // get forward vector
+      const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+      AddMovementInput(Direction, Value);
 
-		// Move Camera Forward / Backward
-		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, true);
-	}
+      // Move Camera Forward / Backward
+      MoveCamera(GetWorld()->DeltaTimeSeconds, Value, true);
+    }
+    else
+      AddMovementInput(ForwardDirection, Value);
+  }
 }
 
 void ATheGalleryCharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+  if ((Controller != NULL) && (Value != 0.0f))
+  {
+    if (!IsBossLevel)
+    {
+      // find out which way is right
+      const FRotator Rotation = Controller->GetControlRotation();
+      const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
+      // get right vector 
+      const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-		// Move Camera Right / Left
-		MoveCamera(GetWorld()->DeltaTimeSeconds, Value, false);
-	}
+      // add movement in that direction
+      AddMovementInput(Direction, Value);
+
+      // Move Camera Right / Left
+      MoveCamera(GetWorld()->DeltaTimeSeconds, Value, false);
+    }
+    else
+    {
+      FVector RightDirection = FVector(-ForwardDirection.Y, ForwardDirection.X, ForwardDirection.Z);
+      AddMovementInput(RightDirection, Value);
+    }
+  }
 }
 
 void ATheGalleryCharacter::ActivePauseMenu_Implementation()

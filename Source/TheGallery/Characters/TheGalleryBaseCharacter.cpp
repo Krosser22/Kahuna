@@ -73,6 +73,11 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
   return 0.0f;
 }
 
+void ATheGalleryBaseCharacter::FellOutOfWorld(const UDamageType & dmgType)
+{
+  TakeDamage(Life, FDamageEvent(), nullptr, nullptr);
+}
+
 void ATheGalleryBaseCharacter::UpdateStatus(float DeltaTime)
 {
   // Update Freeze status
