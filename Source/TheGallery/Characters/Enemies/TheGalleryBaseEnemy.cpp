@@ -135,6 +135,11 @@ bool ATheGalleryBaseEnemy::IsActive()
   return Active;
 }
 
+void ATheGalleryBaseEnemy::SetActive(bool active)
+{
+  Active = active;
+}
+
 void ATheGalleryBaseEnemy::FinishCDAttack()
 {
   IsAttackOnCD = false;
