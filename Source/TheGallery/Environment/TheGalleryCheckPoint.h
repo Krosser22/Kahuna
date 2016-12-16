@@ -24,6 +24,10 @@ public:
   UFUNCTION()
   void OnBeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
+	// Play Sound
+	UFUNCTION(BlueprintNativeEvent, Category = "Sound")
+	void PlaySound();
+
 private:
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")

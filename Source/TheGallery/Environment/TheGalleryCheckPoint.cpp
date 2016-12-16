@@ -46,5 +46,11 @@ void ATheGalleryCheckPoint::OnBeginOverlap(class UPrimitiveComponent* HitComp, c
   {
     DebugLog("CheckPoint saved");
     GameInstance->SetCheckPoint(GetActorLocation());
+		PlaySound();
   }
+}
+
+void ATheGalleryCheckPoint::PlaySound_Implementation()
+{
+
 }

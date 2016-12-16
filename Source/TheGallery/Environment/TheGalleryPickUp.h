@@ -58,6 +58,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = PickUp)
 	void AddPoints();
 
+	// Play Sound
+	UFUNCTION(BlueprintNativeEvent, Category = "Sound")
+	void PlaySound();
+
 private:
 	// Sphere Collision.
 	UPROPERTY(Category = "Collision", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

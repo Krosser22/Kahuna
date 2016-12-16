@@ -50,6 +50,10 @@ public:
   UFUNCTION()
   void FinishOfSinkOff();
 
+	// Play Sound
+	UFUNCTION(BlueprintNativeEvent, Category = "Sound")
+	void PlaySound();
+
 private:
   // Scene
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Scene")

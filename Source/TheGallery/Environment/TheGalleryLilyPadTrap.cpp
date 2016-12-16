@@ -72,6 +72,7 @@ void ATheGalleryLilyPadTrap::Sink()
   State = ELilyPadState::ELilyPadStateSinking;
   GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::WaitingToSinkOff, TimeUntilSinking, false);
   // TODO: Start the sink animation
+	PlaySound();
 }
 
 void ATheGalleryLilyPadTrap::WaitingToSinkOff()
@@ -106,4 +107,9 @@ void ATheGalleryLilyPadTrap::FinishOfSinkOff()
   // TheGalleryLilyPadTrap ready again
   State = ELilyPadState::ELilyPadStateWaiting;
   CollisionComponent->SetRelativeLocation(FVector::ZeroVector);
+}
+
+void ATheGalleryLilyPadTrap::PlaySound_Implementation()
+{
+	
 }

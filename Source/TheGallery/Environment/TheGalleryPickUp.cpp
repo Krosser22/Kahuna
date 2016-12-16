@@ -51,6 +51,7 @@ void ATheGalleryPickUp::OnBeginOverlap(class UPrimitiveComponent* HitComp, class
 	if (Character)
 	{
 		AddPoints();
+		PlaySound();
 		// Destroy Actor.
 		Destroy();
 	}
@@ -80,4 +81,9 @@ void ATheGalleryPickUp::AddPoints()
 		TotalPoints += Points;
 		GameInstance->SetPickUpPoints(TotalPoints);
 	}
+}
+
+void ATheGalleryPickUp::PlaySound_Implementation()
+{
+
 }
