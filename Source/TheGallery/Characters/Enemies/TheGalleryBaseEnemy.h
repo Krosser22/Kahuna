@@ -72,11 +72,11 @@ public:
 
   // Return if the AI is active
   UFUNCTION(BlueprintCallable, Category = "State")
-  bool IsActive();
+  bool IsActiveStatus();
 
   // Return if the AI is active
   UFUNCTION(BlueprintCallable, Category = "State")
-  void SetActive(bool active);
+  void SetActiveStatus(bool active);
 
 private:
   // If the AI is active or not

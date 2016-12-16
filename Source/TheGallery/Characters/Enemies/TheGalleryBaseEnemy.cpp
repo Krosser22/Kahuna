@@ -130,12 +130,12 @@ bool ATheGalleryBaseEnemy::HasPatrolPoints()
   return (PatrolPoints.Num() > 0);
 }
 
-bool ATheGalleryBaseEnemy::IsActive()
+bool ATheGalleryBaseEnemy::IsActiveStatus()
 {
   return Active;
 }
 
-void ATheGalleryBaseEnemy::SetActive(bool active)
+void ATheGalleryBaseEnemy::SetActiveStatus(bool active)
 {
   Active = active;
 }
