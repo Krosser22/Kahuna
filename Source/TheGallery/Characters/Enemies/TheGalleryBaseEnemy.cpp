@@ -81,9 +81,8 @@ bool ATheGalleryBaseEnemy::GetIsSpitPoisonOnCD()
 
 void ATheGalleryBaseEnemy::SpitPoison()
 {
-  DebugLog("Shooooooooooooooot spit poison");
   IsSpitPoisonOnCD = true;
-  if (Type == EEnemyType::EEnemyType_Elite)
+  if (Type == EEnemyType::EEnemyType_Ranged)
   {
     GetWorldTimerManager().SetTimer(SpitPoisonCDTimerHandle, this, &ATheGalleryBaseEnemy::FinishCDSpitPoison, SpitPoisonCD, false);
 

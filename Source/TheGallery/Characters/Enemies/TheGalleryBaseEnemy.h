@@ -10,9 +10,8 @@
 UENUM(BlueprintType)
 enum class EEnemyType : uint8
 {
-  EEnemyType_Basic UMETA(DisplayName = "Basic"),
-  EEnemyType_Elite UMETA(DisplayName = "Elite"),
-  EEnemyType_Boss UMETA(DisplayName = "Boss")
+  EEnemyType_Melee UMETA(DisplayName = "Melee"),
+  EEnemyType_Ranged UMETA(DisplayName = "Ranged")
 };
 
 /**
