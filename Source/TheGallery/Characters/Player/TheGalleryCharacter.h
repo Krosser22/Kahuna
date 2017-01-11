@@ -22,6 +22,10 @@ public:
   // Called when the game starts or when spawned
   virtual void BeginPlay() override;
 
+	// Play Sound
+	UFUNCTION(BlueprintNativeEvent, Category = "Death")
+	void OnDeathDetected();
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 

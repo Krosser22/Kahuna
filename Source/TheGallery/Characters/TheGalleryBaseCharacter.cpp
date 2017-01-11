@@ -54,7 +54,6 @@ void ATheGalleryBaseCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ATheGalleryBaseCharacter::CharacterDeath()
 {
-  
 }
 
 float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)

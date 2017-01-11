@@ -3,6 +3,7 @@
 #include "TheGallery.h"
 #include "TheGalleryCharacter.h"
 #include "Game/TheGalleryGameInstance.h"
+#include "Characters/Enemies/TheGalleryBaseEnemy.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATheGalleryCharacter
@@ -67,6 +68,12 @@ void ATheGalleryCharacter::BeginPlay()
   }
 }
 
+void ATheGalleryCharacter::OnDeathDetected_Implementation()
+{
+
+}
+
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -85,6 +92,18 @@ void ATheGalleryCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 
 void ATheGalleryCharacter::CharacterDeath()
 {
+  //Reset AI
+  /*TSubclassOf<ATheGalleryBaseEnemy> ClassToFind; // Needs to be populated somehow (e.g. by exposing to blueprints as uproperty and setting it there
+  TArray<AActor*> FoundActors;
+  UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+  DebugLog("Actors: ", FoundActors.Num());
+  for (int i = 0; i < FoundActors.Num(); i++)
+  {
+    DebugLog("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    FoundActors[i]->GetInstigatorController()->Reset();
+  }*/
+  OnDeathDetected();
+
   DebugLog("Dead");
   //UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 

@@ -27,6 +27,9 @@ public:
   // Sets default values for this actor's properties
   ATheGalleryBaseEnemy();
 
+  // Called when the game starts or when spawned
+  virtual void BeginPlay() override;
+
   // Called when the character has no life left
   void CharacterDeath() override;
 
@@ -78,9 +81,15 @@ public:
   UFUNCTION(BlueprintCallable, Category = "State")
   void SetActiveStatus(bool active);
 
+  //Reset the AI to the start position
+  UFUNCTION(BlueprintCallable, Category = "Reset")
+  void Reset();
+
 private:
   // If the AI is active or not
   bool Active = false;
+
+  FVector HomeLocation;
 
   // Attack Box Collision
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Collision")

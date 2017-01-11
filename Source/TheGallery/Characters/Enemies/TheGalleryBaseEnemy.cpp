@@ -17,6 +17,14 @@ ATheGalleryBaseEnemy::ATheGalleryBaseEnemy()
   AttackCollisionComponent->SetupAttachment(RootComponent);
 }
 
+// Called when the game starts or when spawned
+void ATheGalleryBaseEnemy::BeginPlay()
+{
+  Super::BeginPlay();
+
+  HomeLocation = GetActorLocation();
+}
+
 void ATheGalleryBaseEnemy::CharacterDeath()
 {
   DebugLog("Enemy killed");
@@ -73,6 +81,7 @@ bool ATheGalleryBaseEnemy::GetIsSpitPoisonOnCD()
 
 void ATheGalleryBaseEnemy::SpitPoison()
 {
+  DebugLog("Shooooooooooooooot spit poison");
   IsSpitPoisonOnCD = true;
   if (Type == EEnemyType::EEnemyType_Elite)
   {
@@ -138,6 +147,14 @@ bool ATheGalleryBaseEnemy::IsActiveStatus()
 void ATheGalleryBaseEnemy::SetActiveStatus(bool active)
 {
   Active = active;
+}
+
+void ATheGalleryBaseEnemy::Reset()
+{
+  SetActorLocation(HomeLocation);
+  Active = false;
+  IsSpitPoisonOnCD = false;
+  IsAttackOnCD = false;
 }
 
 void ATheGalleryBaseEnemy::FinishCDAttack()
