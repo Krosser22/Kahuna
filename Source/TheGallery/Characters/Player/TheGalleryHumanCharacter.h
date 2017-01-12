@@ -25,6 +25,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+
   // Transform to animal form
 	UFUNCTION(BlueprintCallable, Category = "Transformation")
 	void TransformToAnimal();
@@ -35,6 +36,35 @@ public:
 	*/
 	void UpdateCooldowns(float DeltaTime);
 
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    void MeleeAttackAnimation();
+
+    void MeleeAttackAnimation_Implementation();
+
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+    void CastFireSpellAnimation();
+
+    void CastFireSpellAnimation_Implementation();
+
+    UFUNCTION(BlueprintNativeEvent, Category = "Animation")
+        void CastIceSpellAnimation();
+
+    void CastIceSpellAnimation_Implementation();
+
+    UFUNCTION(BlueprintCallable, Category = "Spells")
+    void CastSpell(FSpellInfo SpellInfo);
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spells")
+        FSpellInfo IceSpellData;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spells")
+        FSpellInfo EarthSpellData;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spells")
+        FSpellInfo FireSpellData;
+
+
+     
 private:
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -42,7 +72,7 @@ private:
 	/** Called for side to side input */
 	void MoveRight(float Value);
 
-  void CastSpell(FSpellInfo SpellInfo);
+    void CharacterJump();
 
   void CastIceSpell();
   void CastFireSpell();
@@ -113,15 +143,6 @@ private:
 
 	// Time passed from the moment whe used the Staff Hit ability.
 	float StaffHitCooldown;
-
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo IceSpellData;
-
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo EarthSpellData;
-
-  UPROPERTY(EditAnywhere, Category = "Spells")
-  FSpellInfo FireSpellData;
 
   float IceSpellCooldown;
   float EarthSpellCooldown;

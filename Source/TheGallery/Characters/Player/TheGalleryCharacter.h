@@ -18,9 +18,14 @@ class ATheGalleryCharacter : public ATheGalleryBaseCharacter
 
 public:
 	ATheGalleryCharacter();
+    UPROPERTY(BluePrintReadWrite, category = "AIDS")
+    bool IsDead;
 
   // Called when the game starts or when spawned
   virtual void BeginPlay() override;
+
+    UFUNCTION(BlueprintCallable, Category = "Death")
+    void OnFinishedDeathAnim();
 
 	// Play Sound
 	UFUNCTION(BlueprintNativeEvent, Category = "Death")
