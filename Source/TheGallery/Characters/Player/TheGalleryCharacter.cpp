@@ -68,6 +68,19 @@ void ATheGalleryCharacter::BeginPlay()
   }
 }
 
+void ATheGalleryCharacter::OnFinishedDeathAnim()
+{
+    DebugLog("Dead");
+    //UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+
+    UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
+    if (GameInstance)
+    {
+        SetActorLocation(GameInstance->LastCheckPointLocation());
+        Life = 100.0f; // TODO: maxlife variable
+    }
+}
+
 void ATheGalleryCharacter::OnDeathDetected_Implementation()
 {
 
@@ -102,17 +115,11 @@ void ATheGalleryCharacter::CharacterDeath()
     DebugLog("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
     FoundActors[i]->GetInstigatorController()->Reset();
   }*/
+
+  IsDead = true;
   OnDeathDetected();
 
-  DebugLog("Dead");
-  //UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
-
-  UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());
-  if (GameInstance)
-  {
-    SetActorLocation(GameInstance->LastCheckPointLocation());
-    Life = 100.0f; // TODO: maxlife variable
-  }
+  
 }
 
 void ATheGalleryCharacter::MoveForward(float Value)

@@ -49,7 +49,7 @@ void ATheGalleryHumanCharacter::Tick(float DeltaTime)
 void ATheGalleryHumanCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	check(InputComponent);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ATheGalleryHumanCharacter::CharacterJump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	InputComponent->BindAction("Transform", IE_Pressed, this, &ATheGalleryHumanCharacter::TransformToAnimal);
@@ -89,14 +89,34 @@ void ATheGalleryHumanCharacter::TransformToAnimal()
 	PossessCharacter(TransformationCharacter, this);
 }
 
+void ATheGalleryHumanCharacter::MeleeAttackAnimation_Implementation()
+{
+}
+
 void ATheGalleryHumanCharacter::MoveForward(float Value)
 {
-	ATheGalleryCharacter::MoveForward(Value);
+    if(!IsDead)
+	    ATheGalleryCharacter::MoveForward(Value);
 }
 
 void ATheGalleryHumanCharacter::MoveRight(float Value)
 {
-	ATheGalleryCharacter::MoveRight(Value);
+    if (!IsDead)
+	    ATheGalleryCharacter::MoveRight(Value);
+}
+
+void ATheGalleryHumanCharacter::CharacterJump()
+{
+    if(!IsDead)
+        ACharacter::Jump();
+}
+
+void ATheGalleryHumanCharacter::CastFireSpellAnimation_Implementation()
+{
+}
+
+void ATheGalleryHumanCharacter::CastIceSpellAnimation_Implementation()
+{
 }
 
 void ATheGalleryHumanCharacter::CastSpell(FSpellInfo SpellInfo)
@@ -119,32 +139,36 @@ void ATheGalleryHumanCharacter::CastSpell(FSpellInfo SpellInfo)
 
 void ATheGalleryHumanCharacter::CastIceSpell()
 {
-  if (IceSpellCooldown <= 0.0f)
-  {
-    CastSpell(IceSpellData);
-
-    IceSpellCooldown = IceSpellData.Cooldown;
-  }
+    if (!IsDead) 
+    {
+        if (IceSpellCooldown <= 0.0f)
+        {
+            CastIceSpellAnimation();
+            IceSpellCooldown = IceSpellData.Cooldown;
+        }
+    }
+ 
 }
 
 void ATheGalleryHumanCharacter::CastFireSpell()
 {
-  if (FireSpellCooldown <= 0.0f)
-  {
-    CastSpell(FireSpellData);
-
-    FireSpellCooldown = FireSpellData.Cooldown;
-  }
+    if (!IsDead)
+    {
+        if (FireSpellCooldown <= 0.0f)
+        {
+            CastFireSpellAnimation();
+            FireSpellCooldown = FireSpellData.Cooldown;
+        }
+    }
 }
 
 void ATheGalleryHumanCharacter::CastEarthSpell()
 {
-  if (EarthSpellCooldown <= 0.0f)
-  {
-    CastSpell(EarthSpellData);
-
-    EarthSpellCooldown = EarthSpellData.Cooldown;
-  }
+    if (!IsDead) 
+    {
+        if (EarthSpellCooldown <= 0.0f)
+            EarthSpellCooldown = EarthSpellData.Cooldown;
+    }
 }
 
 void ATheGalleryHumanCharacter::UpdateCooldowns(float DeltaTime) 
@@ -195,11 +219,15 @@ void ATheGalleryHumanCharacter::SpinKickDoDamage()
 
 void ATheGalleryHumanCharacter::StartStaffHitCD()
 {
-	if (StaffHitCooldown <= 0.0f)
-	{
-		StaffHitDoDamage();
-		StaffHitCooldown = StaffHitMaxCooldown;
-	}
+    if (!IsDead)
+    {
+        if (StaffHitCooldown <= 0.0f)
+        {
+            MeleeAttackAnimation();
+            StaffHitDoDamage();
+            StaffHitCooldown = StaffHitMaxCooldown;
+        }
+    }
 }
 
 void ATheGalleryHumanCharacter::StaffHitDoDamage()
