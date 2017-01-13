@@ -79,6 +79,8 @@ void ATheGalleryLilyPadTrap::WaitingToSinkOff()
 {
   // TheGalleryLilyPadTrap waiting To Sink off
   State = ELilyPadState::ELilyPadStateWaitingToSinkOff;
+  CollisionComponent->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+  MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
   GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::SinkOff, TimeToBeSinked, false);
 }
 
@@ -89,7 +91,7 @@ void ATheGalleryLilyPadTrap::SinkOff()
   GetWorldTimerManager().SetTimer(SinkTimerHandle, this, &ATheGalleryLilyPadTrap::FinishOfSinkOff, TimeToBeSinked, false);
   // TODO: Start the sink off animation
 
-  TArray<AActor*> baseCharacter;
+  /*TArray<AActor*> baseCharacter;
   CollisionComponent->GetOverlappingActors(baseCharacter);
   for (auto actor : baseCharacter)
   {
@@ -99,13 +101,15 @@ void ATheGalleryLilyPadTrap::SinkOff()
     {
       actor->TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
     }
-  }
+  }*/
 }
 
 void ATheGalleryLilyPadTrap::FinishOfSinkOff()
 {
   // TheGalleryLilyPadTrap ready again
   State = ELilyPadState::ELilyPadStateWaiting;
+  CollisionComponent->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
+  MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::QueryAndPhysics);
   CollisionComponent->SetRelativeLocation(FVector::ZeroVector);
 }
 
