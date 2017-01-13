@@ -30,6 +30,9 @@ ATheGalleryHumanCharacter::ATheGalleryHumanCharacter()
 	StaffHitCollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("StaffHitCollisionComponent"));
 	StaffHitCollisionComponent->SetRelativeLocation(FVector(60.0f, 0.0f, 0.0f));
 	StaffHitCollisionComponent->SetupAttachment(RootComponent);
+
+	CanUseFireSpell = false;
+	CanUseIceSpell = false;
 }
 
 // Called when the game starts or when spawned
@@ -139,7 +142,7 @@ void ATheGalleryHumanCharacter::CastSpell(FSpellInfo SpellInfo)
 
 void ATheGalleryHumanCharacter::CastIceSpell()
 {
-    if (!IsDead) 
+    if (!IsDead && CanUseIceSpell)
     {
         if (IceSpellCooldown <= 0.0f)
         {
@@ -152,7 +155,7 @@ void ATheGalleryHumanCharacter::CastIceSpell()
 
 void ATheGalleryHumanCharacter::CastFireSpell()
 {
-    if (!IsDead)
+    if (!IsDead && CanUseFireSpell)
     {
         if (FireSpellCooldown <= 0.0f)
         {
