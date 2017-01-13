@@ -50,7 +50,7 @@ void ATheGalleryPickUp::OnBeginOverlap(class UPrimitiveComponent* HitComp, class
 
 	if (Character)
 	{
-    Character->CoconutsLocation.Push(CollisionComponent->GetRelativeTransform().GetLocation());
+    Character->CoconutsLocation.Push(GetActorLocation());
     Character->CoconutsPoints.Push(Points);
 		AddPoints();
 		PlaySound();
