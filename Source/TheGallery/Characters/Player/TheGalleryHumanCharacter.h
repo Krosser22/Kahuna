@@ -63,7 +63,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spells")
         FSpellInfo FireSpellData;
 
-
+		UPROPERTY(BlueprintReadWrite, Category = "Spells")
+			bool CanUseFireSpell;
+		UPROPERTY(BlueprintReadWrite, Category = "Spells")
+			bool CanUseIceSpell;
      
 private:
 	/** Called for forwards/backward input */
