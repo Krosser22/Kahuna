@@ -27,7 +27,6 @@ void ATheGalleryBaseEnemy::BeginPlay()
 
 void ATheGalleryBaseEnemy::CharacterDeath()
 {
-  DebugLog("Enemy killed");
   AddPoints();
   Destroy();
 }

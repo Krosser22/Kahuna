@@ -36,14 +36,12 @@ void ATheGalleryBaseCharacter::FreezeCharacter(float Time)
   FreezedTime = Time;
   IsFreezed = true;
   CustomTimeDilation = 0.0f;
-  DebugLog("Character Freezed");
 }
 
 void ATheGalleryBaseCharacter::KnockBackCharacter(float Time)
 {
   KnockBackTime = Time;
   IsKnockedBack = true;
-  DebugLog("Character Knocked Back");
 }
 
 // Called to bind functionality to input
@@ -58,7 +56,6 @@ void ATheGalleryBaseCharacter::CharacterDeath()
 
 float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
-  DebugLog("Take Damage");
   Life -= DamageAmount;
   if (Life <= 0.0f)
   {
@@ -68,7 +65,6 @@ float ATheGalleryBaseCharacter::TakeDamage(float DamageAmount, FDamageEvent cons
   }
   FString s = "";
   s.AppendInt(Life);
-  DebugLog(s);
   return 0.0f;
 }
 
@@ -89,7 +85,6 @@ void ATheGalleryBaseCharacter::UpdateStatus(float DeltaTime)
     {
       CustomTimeDilation = 1.0f;
       IsFreezed = false;
-      DebugLog("Character Unfreezed");
     }
   }
 
@@ -100,7 +95,6 @@ void ATheGalleryBaseCharacter::UpdateStatus(float DeltaTime)
     else
     {
       IsKnockedBack = false;
-      DebugLog("Character Finish Knock Back");
     }
   }
 }

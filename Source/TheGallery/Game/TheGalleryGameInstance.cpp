@@ -58,3 +58,23 @@ void UTheGalleryGameInstance::SetSoundClassVolume(USoundClass * TargetSoundClass
 	if (TargetSoundClass)
 		TargetSoundClass->Properties.Volume = NewVolume;
 }
+
+void UTheGalleryGameInstance::SetNumberOfPickUps(int32 Points)
+{
+	TotalPickUps = Points;
+}
+
+int32 UTheGalleryGameInstance::GetNumberOfPickUps()
+{
+	return TotalPickUps;
+}
+
+void UTheGalleryGameInstance::SetNumberOfEnemies(int32 Points)
+{
+	TotalEnemies = Points;
+}
+
+int32 UTheGalleryGameInstance::GetNumberOfEnemies()
+{
+	return TotalEnemies;
+}

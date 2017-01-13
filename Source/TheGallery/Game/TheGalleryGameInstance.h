@@ -72,6 +72,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Sound)
 	void SetSoundClassVolume(USoundClass* TargetSoundClass, float NewVolume);
 
+	/**
+	* Set player total points from enemies.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Score)
+	void SetNumberOfPickUps(int32 Points);
+
+	/**
+	* Get player total points from enemies + pickups.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Score)
+	int32 GetNumberOfPickUps();
+
+	/**
+	* Set player total points from enemies.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Score)
+	void SetNumberOfEnemies(int32 Points);
+
+	/**
+	* Get player total points from enemies + pickups.
+	*/
+	UFUNCTION(BlueprintCallable, Category = Score)
+	int32 GetNumberOfEnemies();
+
+
 private:
 	// Points from the pickups
 	int32 PickUpPoints;
@@ -84,4 +109,10 @@ private:
 
 	// The location of the active's CheckPoint
 	FVector CheckPointLocation;
+
+	// Points from both
+	int32 TotalPickUps;
+
+	// Points from both
+	int32 TotalEnemies;
 };

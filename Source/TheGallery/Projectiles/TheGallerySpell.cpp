@@ -65,7 +65,6 @@ void ATheGallerySpell::RadialDamage(ATheGalleryBaseCharacter* Target)
       float distance = GetDistanceTo(*Character);
       if (distance <= Data.EffectValue)
       {
-        DebugLog(*Character->GetName());
         ApplyDamage(*Character);
       }
     }

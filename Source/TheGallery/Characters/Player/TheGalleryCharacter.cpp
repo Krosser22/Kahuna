@@ -70,7 +70,7 @@ void ATheGalleryCharacter::BeginPlay()
 
 void ATheGalleryCharacter::OnFinishedDeathAnim()
 {
-    DebugLog("Dead");
+
     //UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 
     UTheGalleryGameInstance* GameInstance = Cast<UTheGalleryGameInstance>(GetGameInstance());

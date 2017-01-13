@@ -9,7 +9,7 @@ void DebugLog(FString msg)
 {
   if (GEngine)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, msg);
+    //GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, msg);
   }
 }
 
@@ -19,6 +19,6 @@ void DebugLog(FString msg, int msgInt)
   realMsg.AppendInt(msgInt);
   if (GEngine)
   {
-    GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, realMsg);
+    //GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, realMsg);
   }
 }
