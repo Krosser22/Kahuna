@@ -20,5 +20,5 @@ Animators:
 * Andrew Scott William Robinson
 
 More info:
-* Gameplay video: https://www.youtube.com/watch?v=0oh27pb-h5U
+* Gameplay video: https://www.youtube.com/watch?v=J6i4EUWZREc
 * Dev blogs: http://programmingreferences.com/wiki/Blog/Kahuna
